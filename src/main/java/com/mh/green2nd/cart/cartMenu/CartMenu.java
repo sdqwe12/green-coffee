@@ -31,6 +31,18 @@ public class CartMenu {
     private Menu menu;
 
     private int quantity;
+
+    @Column(name = "sub_cart_price")
+    private double subCartPrice;
+
+    @PostLoad
+    @PostPersist
+    public void calculateSubCartPrice() {
+        double menuPrice = menu.getMenu_price();
+        int optionPrice = ice * 200 + shot * 500 + cream * 500;
+        this.subCartPrice = (menuPrice + optionPrice) * quantity;
+    }
+
     private int ice;
     private int shot;
     private int cream;

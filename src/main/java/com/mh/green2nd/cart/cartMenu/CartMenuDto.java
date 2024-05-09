@@ -1,6 +1,8 @@
 package com.mh.green2nd.cart.cartMenu;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,11 +16,12 @@ public class CartMenuDto {
     private String cartId;
     @Schema(title = "메뉴 ID", description = "주문 항목으로 추가할 메뉴의 ID")
     private String menuId;
-
     @Schema(title = "주문 수량", description = "주문할 메뉴의 수량")
     private int quantity;
-    private String ice;
-    private String shot;
-    private String whippingCream;
+
+    private int ice;
+    private int shot;
+    private int cream;
+    private double subCartPrice;
 
 }

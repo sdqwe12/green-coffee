@@ -1,4 +1,4 @@
-package com.mh.green2nd.order.orderitem;
+package com.mh.green2nd.orders.orderitem;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

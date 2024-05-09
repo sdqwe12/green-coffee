@@ -1,4 +1,4 @@
-package com.mh.green2nd.order.dto;
+package com.mh.green2nd.orders.dto;
 
 import lombok.Data;
 

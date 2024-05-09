@@ -25,6 +25,7 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     @Schema(title = "이메일",description = "이메일 입력")
     private String email;
+
     @Column(name = "password", nullable = false)
     @Schema(title = "패스워드",description = "패스워드 입력부분입니다")
     private String password;
@@ -67,5 +68,8 @@ public class User {
 
     @Schema(title = "토큰")
     private String token;
+
+//    @OneToMany
+//    private List<Order> orderlist;
 
 }

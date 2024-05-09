@@ -28,5 +28,5 @@ public class MenuDto {
     private String menu_imgurl;
     private String menu_bannerimgurl;
 
-    private int menu_price;
+    private double menu_price;
 }

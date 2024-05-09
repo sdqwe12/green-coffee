@@ -2,6 +2,7 @@ package com.mh.green2nd.cart;
 
 import com.mh.green2nd.cart.cartMenu.CartMenu;
 import com.mh.green2nd.cart.cartMenu.CartMenuRepository;
+import com.mh.green2nd.cart.cartMenu.CartMenuService;
 import com.mh.green2nd.jwt.TokenManager;
 import com.mh.green2nd.menu.Menu;
 import com.mh.green2nd.menu.MenuRepository;
@@ -32,6 +33,8 @@ public class CartService {
     private final MenuRepository menuRepository;
 
     private final CartMenuRepository cartMenuRepository;
+
+    private final CartMenuService cartMenuService;
 
     private final TokenManager tokenManager;
 
@@ -68,8 +71,17 @@ public class CartService {
             cartMenu.setMenu(menu);
             cartMenu.setQuantity(cartReqDTO.getQuantity());
             cartMenu.setCart(cart);
+            //
+            cartMenu.setIce(cartReqDTO.getIce());
+            cartMenu.setShot(cartReqDTO.getShot());
+            cartMenu.setCream(cartReqDTO.getCream());
+            //
             cart.getCartMenusList().add(cartMenu);
         }
+
+        // totalPrice 업데이트
+        double extraPrice = cartReqDTO.getIce() * 200 + cartReqDTO.getShot() * 500 + cartReqDTO.getCream() * 500;
+        cart.addToTotalCartPrice((menu.getMenu_price() + extraPrice) * cartReqDTO.getQuantity());
 
         // 카트 저장
         cartRepository.save(cart);
@@ -111,8 +123,6 @@ public class CartService {
 
     @Transactional
     public void removeFromCart(CartReqDto cartReqDto, User user) {
-
-//        System.out.println(user);
         User dbUser = userRepository.findById(user.getUser_id())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + user.getUser_id()));
 
@@ -121,36 +131,50 @@ public class CartService {
         Cart cart = cartRepository.findByUser(dbUser)
                 .orElseThrow(() -> new EntityNotFoundException("Cart not found for user: " + dbUser.getUser_id()));
 
+        // 카트에서 해당 메뉴를 찾습니다.
         System.out.println("삭제전 " + cart.getCartMenusList().size());
-
+        // 카트에서 해당 메뉴를 찾습니다.
         cart.getCartMenusList().forEach(cartMenu -> {
             System.out.println("cartMenu.getMenu().getMenu_id() " + cartMenu.getMenu().getMenu_id());
             System.out.println("cartReqDto.getMenuId() " + cartReqDto.getMenuId());
+            // 메뉴 아이디가 같다면 삭제합니다.
             if (cartMenu.getMenu().getMenu_id().equals(cartReqDto.getMenuId())) {
                 System.out.println("삭제하러와쌴");
                 System.out.println(cartMenu.getCartmenu_id());
+                // 카트에서 해당 메뉴를 삭제합니다.
                 cartMenuRepository.deleteById(cartMenu.getCartmenu_id());
             }
         });
-
+        // 카트에서 해당 메뉴를 찾습니다.
         cart.getCartMenusList().removeIf(
+                // 메뉴 아이디가 같다면 삭제합니다.
                 cartMenu -> cartMenu.getMenu().getMenu_id().equals(cartReqDto.getMenuId()));
 
+        // 카트에서 해당 메뉴를 찾습니다.
         System.out.println("삭제후 " + cart.getCartMenusList().size());
+        // 장바구니의 총 가격을 다시 계산합니다.
+        int total = cart.getCartMenusList().stream().mapToInt(
+                // 장바구니에 담긴 메뉴의 가격을 계산합니다.
+                cartMenu ->{
+                    // 메뉴의 가격과 수량을 곱한 값을 반환합니다.
+                        return (cartMenu.getQuantity()+ cartMenu.getIce()*200+cartMenu.getShot()*500+ cartMenu.getCream()*500);
+                }
+                // 모든 메뉴의 가격을 더합니다.
+        ).sum();
+        cart.setTotalCartPrice(total);
 //        // 장바구니를 저장합니다.
         cartRepository.save(cart);
     }
 
+    // 카트에서 해당 메뉴의 수량을 증가시킵니다.
     public void quantityplus(CartReqDto cartReqDTO, User user) {
+        // 사용자의 ID, 메뉴의 ID, dbUser를 기반으로 사용자, 메뉴 정보를 가져옵니다.
         User dbUser = userRepository.findById(user.getUser_id())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + user.getUser_id()));
         Menu menu = menuRepository.findById(cartReqDTO.getMenuId())
-                .orElseThrow(
-                        () -> new EntityNotFoundException("그런메뉴 id 없습니다: "
-                                + cartReqDTO.getMenuId()));
+                .orElseThrow(() -> new EntityNotFoundException("그런메뉴 id 없습니다: " + cartReqDTO.getMenuId()));
         Cart cart = cartRepository.findByUser(dbUser)
                 .orElseThrow(() -> new EntityNotFoundException("Cart not found for user: " + dbUser.getUser_id()));
-
         // 카트에서 해당 메뉴를 찾습니다.
         CartMenu cartMenu = cart.getCartMenusList().stream()
                 .filter(cm -> cm.getMenu().getMenu_id().equals(menu.getMenu_id()))
@@ -159,25 +183,18 @@ public class CartService {
         if (cartMenu.getQuantity() >= 20) {
             throw new IllegalArgumentException("20개 이상 담아서 더 이상 담을 수 없습니다");
         }
-
-        // 해당 메뉴의 수량을 증가시킵니다.
         cartMenu.setQuantity(cartMenu.getQuantity() + 1);
-
-        // 변경된 카트를 저장합니다.
         cartRepository.save(cart);
-
     }
 
+    // 카트에서 해당 메뉴의 수량을 감소시킵니다.
     public void quantityminus(CartReqDto cartReqDTO, User user) {
         User dbUser = userRepository.findById(user.getUser_id())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + user.getUser_id()));
         Menu menu = menuRepository.findById(cartReqDTO.getMenuId())
-                .orElseThrow(
-                        () -> new EntityNotFoundException("그런메뉴 id 없습니다: "
-                                + cartReqDTO.getMenuId()));
+                .orElseThrow(() -> new EntityNotFoundException("그런메뉴 id 없습니다: " + cartReqDTO.getMenuId()));
         Cart cart = cartRepository.findByUser(dbUser)
                 .orElseThrow(() -> new EntityNotFoundException("Cart not found for user: " + dbUser.getUser_id()));
-
         // 카트에서 해당 메뉴를 찾습니다.
         CartMenu cartMenu = cart.getCartMenusList().stream()
                 .filter(cm -> cm.getMenu().getMenu_id().equals(menu.getMenu_id()))
@@ -186,29 +203,34 @@ public class CartService {
         if (cartMenu.getQuantity() <= 0) {
             throw new IllegalArgumentException("0개 밑으로 뺄 수 없습니다.");
         }
-
-        // 해당 메뉴의 수량을 증가시킵니다.
         cartMenu.setQuantity(cartMenu.getQuantity() - 1);
-
-        // 변경된 카트를 저장합니다.
         cartRepository.save(cart);
     }
 
+    public void clearCart(User user) {
+        Cart cart = getCartByUser(user);
+        cart.clearItems(); // assuming Cart has a clearItems method
+        saveCart(cart); // assuming CartService has a saveCart method
+    }
+    public void saveCart(Cart cart) {
+        cartRepository.save(cart);
+    }
+
+    // 현재 인증된 사용자의 카트를 가져옵니다.
     public Cart getCartByUser(User user) {
         User dbUser = userRepository.findByEmail(user.getEmail());
         Cart cart = cartRepository.findByUser(dbUser)
                 .orElseThrow(() -> new EntityNotFoundException("Cart not found for user: " + dbUser.getUser_id()));
         return cart;
     }
-    public double calculateTotalPrice(Cart cart) {
+    public double calculateTotalCartPrice(Cart cart) {
         double totalPrice = 0.0;
         for (CartMenu cartMenu : cart.getCartMenusList()) {
-            double menuPrice = cartMenu.getMenu().getMenu_price();
-            int quantity = cartMenu.getQuantity();
-            int option = cartMenu.getIce()* 200 + cartMenu.getShot() * 500 + cartMenu.getCream() * 500;
-            totalPrice += menuPrice * quantity;
-            totalPrice += option;
+            double subPrice = cartMenuService.calculateSubCartPrice(cartMenu);
+            totalPrice += subPrice;
         }
         return totalPrice;
     }
+
+
 }

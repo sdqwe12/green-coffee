@@ -1,6 +1,7 @@
-package com.mh.green2nd.order;
+package com.mh.green2nd.orders;
 
-import com.mh.green2nd.order.dto.OrderReqDto;
+import com.mh.green2nd.cart.CartService;
+import com.mh.green2nd.orders.dto.OrderReqDto;
 import com.mh.green2nd.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,8 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
+    private final CartService cartService;
+
 
     @Operation(summary = "주문 테이블에 담기")
     @PostMapping("/neworder")
@@ -26,15 +29,15 @@ public class OrderController {
         return null;
     }
 
-    // 2. 장바구니메뉴 삭제시 장바구니 총가격 수정
-
-
-    // 주문내역 보여주기
+    // 1. 주문내역 보여주기
     @GetMapping("/list")
-    public ResponseEntity<List<OrderDetail>> list() {
-        List<OrderDetail> result = orderService.viewmenu();
-        return ResponseEntity.status(HttpStatus.OK).body(result);
+    public ResponseEntity<List<Order>> orderlist(Authentication authentication){
+        User jwtUser = (User) authentication.getPrincipal();
+        List<Order> orderList = orderService.orderList(jwtUser);
+        return ResponseEntity.status(HttpStatus.OK).body(orderList);
     }
+
+    // 2. 장바구니메뉴 삭제시 장바구니 총가격 수정
 
 //    @Operation(summary = "안씀")
 //    @GetMapping("/order2")

@@ -1,7 +1,7 @@
-package com.mh.green2nd.order;
+package com.mh.green2nd.orders;
 
 
-import com.mh.green2nd.order.orderitem.OrderMenu;
+import com.mh.green2nd.orders.orderitem.OrderMenu;
 import com.mh.green2nd.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -34,11 +34,17 @@ public class Order {
     private List<OrderMenu> orderItems = new ArrayList<>();
     private LocalDateTime create_date = LocalDateTime.now();
 
-    private double totalPrice;
+    @Column(name = "total_order_price")
+    private double totalOrderPrice;
+    public void addToTotalCartPrice(double price) {
+        this.totalOrderPrice += price;
+    }
+
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
+
 
 
 

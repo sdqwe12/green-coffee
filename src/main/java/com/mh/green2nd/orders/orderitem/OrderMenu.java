@@ -1,8 +1,8 @@
-package com.mh.green2nd.order.orderitem;
+package com.mh.green2nd.orders.orderitem;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mh.green2nd.menu.Menu;
-import com.mh.green2nd.order.Order;
+import com.mh.green2nd.orders.Order;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -28,7 +28,8 @@ public class OrderMenu {
     @JoinColumn(name = "menu_id")
     private Menu menu;
 
-    private int price;
+    @Column(name = "sub_price")
+    private double subPrice;
 
     private int quantity;
 }
