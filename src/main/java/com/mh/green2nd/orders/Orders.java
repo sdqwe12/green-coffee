@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-@Table(name = "orders")
+@Table(name = "orderss")
 @Entity
 @Getter
 @Setter

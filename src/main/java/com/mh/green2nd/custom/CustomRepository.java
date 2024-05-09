@@ -1,4 +1,6 @@
 package com.mh.green2nd.custom;
 
-public class CustomRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CustomRepository extends JpaRepository<Custom, Long> {
 }
