@@ -41,9 +41,9 @@ public class Menu {
     private String menu_origin;
 
     @Schema(title = "가격",description = "가격")
-//    @Column(name = "menu_price", columnDefinition = "varchar(255) default '5,000'")
+    @Column(name = "menu_price")
 //    @Column(name = "menu_price" ,columnDefinition = "integer default 5,000")
-    private int menu_price;
+    private double menu_price;
 
     @Column(name = "menu_imgurl", nullable = true)
     @Schema(title = "이미지url주소",description = "이미지url주소")

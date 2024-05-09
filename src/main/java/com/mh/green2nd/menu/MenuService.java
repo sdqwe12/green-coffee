@@ -12,7 +12,7 @@ public class MenuService {
     private final MenuRepository menuRepository;
 
     public List<Menu> coffee() {
-        return menuRepository.findByCategory("coffee");
+        return menuRepository.findByCategory("1");
     }
     public List<Menu> beverage() {
         return menuRepository.findByCategory("beverage");

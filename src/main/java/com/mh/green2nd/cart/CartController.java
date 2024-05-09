@@ -25,7 +25,7 @@ public class CartController {
     private final CartService cartService;
 
     @Operation(summary = "카트에 물건 담기 작동 o"
-            ,description = "menu_id=몇번메뉴 quantity=몇개 담을지 cartid=자동생성 입력x 나머지는 옵션")
+            ,description = "menu_id= 몇번메뉴 quantity= 몇개 담을지 cartid = 자동생성 입력x 나머지는 옵션")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "정상적으로 담겼을 때 나오는 코드"),
             @ApiResponse(responseCode = "500",description = "없는 메뉴아이디 들어간 경우에 나오는 코드")
@@ -51,10 +51,8 @@ public class CartController {
     public ResponseEntity<String> removeFromCart(@RequestBody CartReqDto cartReqDTO, Authentication authentication) {
         // 현재 인증된 사용자의 정보를 가져옵니다.
         User user = (User) authentication.getPrincipal();
-
         // 해당 사용자의 카트에서 항목을 삭제합니다.
         cartService.removeFromCart(cartReqDTO, user);
-
         return ResponseEntity.ok("상품이 장바구니에서 삭제되었습니다");
     }
 
@@ -68,12 +66,10 @@ public class CartController {
     })
     @GetMapping("/search")
     public ResponseEntity<List<CartMenu>> getCartItems(Authentication authentication) {
-
         System.out.println(authentication);
         // 현재 인증된 사용자의 정보를 가져옵니다.
         User user = (User) authentication.getPrincipal();
         System.out.println(user);
-
         // 현재 사용자의 장바구니 아이템을 조회합니다.
         List<CartMenu> cartItems = cartService.getCartItems(user);
 
@@ -92,8 +88,6 @@ public class CartController {
         User user = (User) authentication.getPrincipal();
         cartService.quantityplus(cartReqDTO, user);
         return ResponseEntity.ok("카트 수량 증가 완료");
-
-
     }
 
     //     장바구니 아이템 수량 minus
@@ -110,35 +104,25 @@ public class CartController {
         return ResponseEntity.ok("카트 수량 빼기 완료");
     }
 
-    @GetMapping("/total")
-    public ResponseEntity<Double> getTotalPrice(Authentication authentication) {
-        User user = (User) authentication.getPrincipal();
-        // 해당 사용자의 카트를 가져옵니다.
-        Cart cart = cartService.getCartByUser(user);
-        // 카트의 총 가격을 계산합니다.
-        double totalPrice = cartService.calculateTotalPrice(cart);
-
-        return ResponseEntity.ok(totalPrice);
-    }
-
-//      장바구니 총 결제 금액 조회
-    @Operation(summary = "총 결제 금액 나오기 작동x"
-            ,description = "x")
-    @GetMapping("/cart/total-pay")
-    public ResponseEntity<String> getTotalPay() {
-//        return ResponseEntity.ok(cartService.getTotalPay());
-        return null;
-    }
-
     //     장바구니 전체 비우기 <- 일단 이건 2차에 안할듯
     @Operation(summary = "장바구니 전체 비우기 작동x"
             ,description = "x")
-    @DeleteMapping("/cart/clear")
+    @DeleteMapping("/cartclear")
     public ResponseEntity<String> clearCart() {
 //        cartService.clearCart();
 //        return ResponseEntity.ok("Cart cleared successfully");
         return null;
     }
 
+    @GetMapping("/cart/total")
+    public ResponseEntity<Double> getTotalPrice(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        // 해당 사용자의 카트를 가져옵니다.
+        Cart cart = cartService.getCartByUser(user);
+        // 카트의 총 가격을 계산합니다.
+        double totalPrice = cartService.calculateTotalCartPrice(cart);
+
+        return ResponseEntity.ok(totalPrice);
+    }
 
 }
