@@ -25,7 +25,7 @@ public class UserController {
     private final UserService userService;
     private final TokenManager tokenManager;
 
-    @Operation(summary = "회원가입",description = "회원가입할 때 입력값은 email, password, nickname, phone, birthdate")
+    @Operation(summary = "회원가입",description = "회원가입할 때 입력값은 email = 이메일 형식 맞춰해야함, password = 영문자 숫자 하나씩은 필수 특수문자도 들어가고 6자 이상, nickname = 중복 불가능입니다, phone = 숫자11자리, birthdate = 숫자6자리")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "회원가입 완료 되었을 때 나오는코드"),
             @ApiResponse(responseCode = "400",description = "회원가입 실패했을 때 나오는코드"),
