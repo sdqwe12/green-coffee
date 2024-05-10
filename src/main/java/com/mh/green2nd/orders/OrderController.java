@@ -18,21 +18,18 @@ import java.util.List;
 public class OrderController {
 
     private final OrderService orderService;
-    private final CartService cartService;
 
-
-    @Operation(summary = "주문 테이블에 담기",description = "주문 테이블에 담기")
+    @Operation(summary = "주문 테이블에 담기")
     @PostMapping("/neworder")
-    public ResponseEntity neworder(@RequestBody OrderReqDto[] orderReqDto,Authentication authentication){
-        User jwtUser = (User)authentication.getPrincipal();
-        orderService.createNewOrder(orderReqDto,jwtUser);
+    public ResponseEntity neworder(@RequestBody OrderReqDto[] orderReqDto, Authentication authentication) {
+        User jwtUser = (User) authentication.getPrincipal();
+        orderService.createNewOrder(orderReqDto, jwtUser);
         return null;
     }
 
     // 1. 주문내역 보여주기
-    @Operation(summary = "주문 내역 보기 = 조회",description = "주문내역을 보여줍니다.")
     @GetMapping("/list")
-    public ResponseEntity<List<Order>> orderlist(Authentication authentication){
+    public ResponseEntity<List<Order>> orderlist(Authentication authentication) {
         User jwtUser = (User) authentication.getPrincipal();
         List<Order> orderList = orderService.orderList(jwtUser);
         return ResponseEntity.status(HttpStatus.OK).body(orderList);

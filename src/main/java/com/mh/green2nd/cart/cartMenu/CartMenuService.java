@@ -29,4 +29,5 @@ public class CartMenuService {
         int optionPrice = ice * 200 + shot * 500 + cream * 500;
         return (menuPrice + optionPrice) * quantity;
     }
+
 }

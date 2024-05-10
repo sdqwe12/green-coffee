@@ -16,7 +16,7 @@ import java.util.Arrays;
 
 @OpenAPIDefinition(
         info = @Info(title = "그린컴2차 그린커피 프로젝트",
-                description = " :･ﾟ✧(=✪ ᆺ ✪=)*:･ﾟ✧ 마지막으로 수정한 날짜20240510 00:30 ♡(ᐢ ᴥ ᐢし)",
+                description = " :･ﾟ✧(=✪ ᆺ ✪=)*:･ﾟ✧ 마지막으로 수정한 날짜20240508 00:30 ♡(ᐢ ᴥ ᐢし)",
                 version = "v1.0.0")
 )
 
