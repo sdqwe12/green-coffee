@@ -27,15 +27,10 @@ public class CartService {
 
     // 카트 레포지토리와 유저 레포지토리를 주입합니다.
     private final CartRepository cartRepository;
-
     private final UserRepository userRepository;
-
     private final MenuRepository menuRepository;
-
     private final CartMenuRepository cartMenuRepository;
-
     private final CartMenuService cartMenuService;
-
     private final TokenManager tokenManager;
 
     @Transactional
@@ -231,6 +226,5 @@ public class CartService {
         }
         return totalPrice;
     }
-
 
 }

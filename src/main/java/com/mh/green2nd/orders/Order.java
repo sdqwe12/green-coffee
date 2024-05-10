@@ -40,7 +40,6 @@ public class Order {
         this.totalOrderPrice += price;
     }
 
-
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;

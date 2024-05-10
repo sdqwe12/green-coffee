@@ -1,7 +1,11 @@
 package com.mh.green2nd.user;
 
+import com.mh.green2nd.jwt.TokenManager;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +18,7 @@ import java.util.regex.Pattern;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final TokenManager tokenManager;
 
     public User login(String email, String password) {
         Optional<User> loginuser = userRepository.findByEmailAndPassword(email,password);
@@ -26,11 +31,9 @@ public class UserService {
         else {
             return loginuser.get();
         }
-
     }
 
     public User signup(User user) {
-
         User duemail = userRepository.findByEmail(user.getEmail());
         User dunickname = userRepository.findByNickname(user.getNickname());
 
@@ -44,12 +47,9 @@ public class UserService {
         }
         else {
             User signupUser = userRepository.save(user);
-
             return signupUser;
-    }
         }
-
-
+    }
 
     public String resignuser(String email) {
         User user = userRepository.findByEmail(email);
@@ -88,12 +88,9 @@ public class UserService {
         if (updateDto.getPhone() != null)
             updateuser.setPhone(updateDto.getPhone());
 
-
         User dbuser = userRepository.save(updateuser);
         return dbuser;
     }
-
-
 
     public String findemail(String nickname, String phone) {
         User user = userRepository.findByNicknameAndPhone(nickname,phone);
@@ -102,14 +99,6 @@ public class UserService {
         }
         return user.getEmail();
     }
-
-    // order add/new
-    //
-    // 주문정보 jwt item
-
-
-    // member
-    // item
 
     @Transactional  // entitymanager.clear();
     public String findpw(String nickname, String phone) {
@@ -121,7 +110,6 @@ public class UserService {
         return user.getPassword();
     }
 
-
     public String checkpw(String email, String password) {
         User user = userRepository.findByEmail(email);
         if (user == null) {
@@ -130,7 +118,6 @@ public class UserService {
         if (!user.getPassword().equals(password)) {
             throw new RuntimeException("비밀번호가 틀렸습니다.");
         }
-
     return "ʕง•ᴥ•ʔง 비밀번호 인증되었습니다. ʕง•ᴥ•ʔง";
     }
 }
