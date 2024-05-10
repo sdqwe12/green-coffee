@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -35,7 +36,6 @@ public class CartController {
         User jwtuser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         System.out.println(jwtuser);
         System.out.println(cartReqDTO);
-
         cartService.addToCart(cartReqDTO, (User) authentication.getPrincipal()); // 토큰과 함께 addToCart 메서드 호출
         return ResponseEntity.ok("장바구니에 담겼습니다. 확인해보세요");
     }
@@ -55,8 +55,6 @@ public class CartController {
         cartService.removeFromCart(cartReqDTO, user);
         return ResponseEntity.ok("상품이 장바구니에서 삭제되었습니다");
     }
-
-
 
     @Operation(summary = "카트 물건 조회하기 작동 o"
             ,description = "토큰에서 해당 회원의 카트 가져오기 때문에 값 입력할 필요 없음 그냥 나옴")
@@ -124,5 +122,4 @@ public class CartController {
 
         return ResponseEntity.ok(totalPrice);
     }
-
 }

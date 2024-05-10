@@ -17,7 +17,6 @@ public class HomeAdDTO {
     private String imageUrl; // 이미지 URL 추가
     private LocalDateTime adUploadTime;
     private LocalDateTime adDueDate;
-    private String email;
 
     // Other fields as needed
 }

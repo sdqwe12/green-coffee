@@ -1,6 +1,7 @@
 package com.mh.green2nd.orders;
 
 import com.mh.green2nd.cart.Cart;
+import com.mh.green2nd.cart.CartRepository;
 import com.mh.green2nd.cart.cartMenu.CartMenu;
 import com.mh.green2nd.cart.cartMenu.CartMenuRepository;
 import com.mh.green2nd.menu.Menu;
@@ -15,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -25,11 +27,12 @@ public class OrderService {
     private final CartMenuRepository cartMenuRepository;
     private final UserRepository userRepository;
     private final OrderMenuService orderMenuService;
+    private final CartRepository cartRepository;
 
     @Transactional
     public void createNewOrder(OrderReqDto[] orderReqDtoArray, User jwtUser) {
 
-        User dbUser = userRepository.findById(jwtUser.getUser_id()).orElseThrow(()->{
+        User dbUser = userRepository.findById(jwtUser.getUser_id()).orElseThrow(() -> {
             return new IllegalArgumentException("해당 유저가 없습니다.");
         });
 
@@ -37,39 +40,52 @@ public class OrderService {
         order.setUser(dbUser);
         // 주문한메뉴  order 테이블추가
         int total = 0;
-        for(OrderReqDto orderReqDto : orderReqDtoArray){
+        for (OrderReqDto orderReqDto : orderReqDtoArray) {
             OrderMenu orderMenu = new OrderMenu();
             orderMenu.setOrder(order);
 
             Menu menu = cartMenuRepository.findById(
-                                        orderReqDto.getCartmenu_id())
-                                        .get().getMenu();
+                            orderReqDto.getCartmenu_id())
+                    .get().getMenu();
+
             orderMenu.setMenu(menu);
             orderMenu.setQuantity(orderReqDto.getQuantity());
-            total += menu.getMenu_price() * orderReqDto.getQuantity();
-            orderMenu.setSubPrice(menu.getMenu_price() * orderReqDto.getQuantity() );
+
+            orderMenu.setIce(orderReqDto.getIce());
+            orderMenu.setShot(orderReqDto.getShot());
+            orderMenu.setCream(orderReqDto.getCream());
+
+            double extraPrice = orderReqDto.getIce() * 200 + orderReqDto.getShot() * 500 + orderReqDto.getCream() * 500;
+            total += (extraPrice + menu.getMenu_price()) * orderReqDto.getQuantity();
+
+            orderMenu.setSubPrice((extraPrice + menu.getMenu_price()) * orderReqDto.getQuantity());
             orderMenuRepository.save(orderMenu);
         }
 
         order.setTotalOrderPrice(total);
         orderRepository.save(order);
 
+        int subTotal = 0;
         for (OrderReqDto orderReqDto : orderReqDtoArray) {
             CartMenu cartMenu = cartMenuRepository.findById(orderReqDto.getCartmenu_id())
                     .orElseThrow(() -> new IllegalArgumentException("해당 상품이 존재하지 않습니다."));
-            System.out.println("장바구니안에 있는 메뉴 "+cartMenu.getMenu());
-            System.out.println("장바구니안에 있는 수량"+cartMenu.getQuantity());
-            System.out.println("주문한 수량"+orderReqDto.getQuantity());
-            System.out.println("장바구니메뉴id"+orderReqDto.getCartmenu_id());
-            // 장바구니안에 있는 메뉴 삭제
-            cartMenuRepository.deleteById(orderReqDto.getCartmenu_id());
+
+            subTotal = subTotal + (int) (cartMenu.getSubCartPrice());
+            cartMenuRepository.deleteById(cartMenu.getCartmenu_id());
+        }
+
+        Optional<Cart> DBcart = cartRepository.findById(1l);
+        if(DBcart.isPresent()){
+            Cart cart = DBcart.get();
+            cart.setTotalCartPrice(cart.getTotalCartPrice() - subTotal);
+            cartRepository.save(cart);
         }
     }
 
     // 주문내역 보여주기
     @Transactional
     public List<Order> orderList(User jwtUser) {
-        User dbUser = userRepository.findById(jwtUser.getUser_id()).orElseThrow(()->{
+        User dbUser = userRepository.findById(jwtUser.getUser_id()).orElseThrow(() -> {
             return new IllegalArgumentException("해당 유저가 없습니다.");
         });
         return orderRepository.findByUser(dbUser);

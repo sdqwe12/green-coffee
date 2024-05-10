@@ -1,10 +1,8 @@
 package com.mh.green2nd.cart;
 
 import jakarta.persistence.Column;
-import jakarta.validation.constraints.Max;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Builder
 @Data
