@@ -49,3 +49,4 @@ INSERT INTO home_ad (ad_head, ad_content, ad_upload_time, ad_due_date, category,
 ('회원가입안내', '회원가입안내 내용', NOW(), DATE_ADD(NOW(), INTERVAL 10 DAY), 1, 'image/HomeSigninAd/2024-09-11.jpeg'),
 ('이벤트1', '혜택1', NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY), 2, 'image/HomeEvent/2024-03-28 4월 프로모션.jpg'),
 ('이벤트2', '혜택2', NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY), 2, 'image/HomeEvent/2024-04-18 제주 지역 리유저블 컵 이벤트.jpg');
+
