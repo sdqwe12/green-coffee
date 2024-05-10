@@ -103,7 +103,6 @@ public class CartController {
     }
 
     //     장바구니 전체 비우기 <- 일단 이건 2차에 안할듯
-    
     @Operation(summary = "장바구니 전체 비우기 작동x"
             ,description = "x")
     @DeleteMapping("/cartclear")
@@ -113,8 +112,6 @@ public class CartController {
         return null;
     }
 
-    @Operation(summary = "장바구니에 들어간 총금액 보여주는 api"
-            ,description = "그렇습니다")
     @GetMapping("/cart/total")
     public ResponseEntity<Double> getTotalPrice(Authentication authentication) {
         User user = (User) authentication.getPrincipal();

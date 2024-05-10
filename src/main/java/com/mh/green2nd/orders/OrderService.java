@@ -31,12 +31,13 @@ public class OrderService {
 
     @Transactional
     public void createNewOrder(OrderReqDto[] orderReqDtoArray, User jwtUser) {
-
+        // jwt 토큰안에 해당하는 유저가 없으면 에러...
         User dbUser = userRepository.findById(jwtUser.getUser_id()).orElseThrow(() -> {
             return new IllegalArgumentException("해당 유저가 없습니다.");
         });
-
+        // order 부모
         Order order = new Order();
+        // db 유저를
         order.setUser(dbUser);
         // 주문한메뉴  order 테이블추가
         int total = 0;
@@ -74,9 +75,9 @@ public class OrderService {
             cartMenuRepository.deleteById(cartMenu.getCartmenu_id());
         }
 
-        Optional<Cart> DBcart = cartRepository.findById(1l);
-        if(DBcart.isPresent()){
-            Cart cart = DBcart.get();
+        Optional<Cart> dbCart = cartRepository.findById(1L);
+        if(dbCart.isPresent()){
+            Cart cart = dbCart.get();
             cart.setTotalCartPrice(cart.getTotalCartPrice() - subTotal);
             cartRepository.save(cart);
         }
