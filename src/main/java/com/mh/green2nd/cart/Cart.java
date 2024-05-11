@@ -29,12 +29,10 @@ public class Cart {
     public void addToTotalCartPrice(double price) {
         this.totalCartPrice += price;
     }
-    public void subtractFromTotalPrice(double price) {
-        this.totalCartPrice -= price;
-    }
 
     public void clearItems() {
         this.cartMenusList.clear();
     }
+
 
 }

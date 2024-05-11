@@ -47,4 +47,6 @@ public class CartMenu {
     private int shot;
     private int cream;
 
+
+
 }
