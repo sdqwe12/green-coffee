@@ -27,16 +27,17 @@ public class TokenManager {
                 .claim("nickname", user.getNickname())
                 .claim("email", user.getEmail())
                 .claim("role", Role.USER)
-                //패스워드는 일부러 안넣음 클레임이 토큰에 담을 민감하지 않은 정보인듯?
-
-                // 유효시간은 1000 * 60 * 60 * 10 10시간
-//                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10))
-                // 유효시간은 1000 * 60 * 15 15분
-//                .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 15))
-                // 유효시간 60초..
-//                .expiration(new Date(System.currentTimeMillis() + 1000 * 60))
-                // 유효시간은 -> 24시간
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
+                .signWith(hmacShaKeyFor(mykey.getBytes()))
+                .compact();
+    }
+
+    // 리프레시 토큰 발급해주는 함수
+    public String generateRefreshToken(Long userId) {
+        return Jwts.builder()
+                .setId(Long.toString(userId))
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7)) // 7 days
                 .signWith(hmacShaKeyFor(mykey.getBytes()))
                 .compact();
     }
