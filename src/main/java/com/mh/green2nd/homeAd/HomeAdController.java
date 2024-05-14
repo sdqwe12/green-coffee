@@ -1,5 +1,3 @@
-// HomeAdController.java
-
 package com.mh.green2nd.homeAd;
 
 import com.mh.green2nd.user.User;
@@ -29,13 +27,6 @@ public class HomeAdController {
         String nickname = jwtUser.getNickname();
         return ResponseEntity.ok(nickname + "님 환영합니다!");
     }
-
-//    @GetMapping("/signupAd")
-//    public ResponseEntity<List<HomeAdDTO>> getSignupAdvertisements() {
-//        // 로그인 안 한 사용자에게만 보여주는 광고 가져오기
-//        List<HomeAdDTO> advertisements = homeAdService.getAdvertisementsByCategory(HomeAdCategory.signupad);
-//        return ResponseEntity.ok(advertisements);
-//    }
 
     @GetMapping("/event")
     public ResponseEntity<List<HomeAdDTO>> getEventAdvertisements() {

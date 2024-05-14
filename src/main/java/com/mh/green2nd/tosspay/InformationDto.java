@@ -1,4 +1,4 @@
-package com.mh.green2nd.paydomain;
+package com.mh.green2nd.tosspay;
 
 import lombok.Data;
 

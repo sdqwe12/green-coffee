@@ -1,4 +1,4 @@
-package com.mh.green2nd.paydomain;
+package com.mh.green2nd.tosspay;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

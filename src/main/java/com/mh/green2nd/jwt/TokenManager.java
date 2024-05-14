@@ -44,14 +44,11 @@ public class TokenManager {
 
     // 토큰 검증해주는 함수.
     public Jws<Claims> validateToken(String token) {
-
         Jws<Claims> jws = Jwts.parser()// 번역해라
                 .setSigningKey(hmacShaKeyFor(mykey.getBytes()))// 비밀번호로...
                 .build()
                 .parseClaimsJws(token); // claim 들을 번역해라 컬렉션타입으로 만들어줘
-
         System.out.println(jws);
-
         return jws;
     }
 

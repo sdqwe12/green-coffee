@@ -1,7 +1,9 @@
-package com.mh.green2nd.paydomain;
+package com.mh.green2nd.tosspay;
 
+import com.mh.green2nd.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -18,6 +20,17 @@ import java.util.Collections;
 public class PayService {
 
     private final PayRepository payRepository;
+    private final UserRepository userRepository;
+    private final InformationRepository informationRepository;
+
+    @Value("${toss.apikey}")
+    private String apiKey;
+
+    @Value("${toss.secretkey}")
+    private String secretKey;
+
+    @Value("${toss.url}")
+    private String tossUrl;
 
     public void saveInformation(InformationDto informationDto){
         Information information = Information.builder()
@@ -26,7 +39,7 @@ public class PayService {
                 .orderId(informationDto.getOrderId())
                 .paymentType(informationDto.getPaymentType())
                 .build();
-        payRepository.save(information);
+        informationRepository.save(information);
     }
 
     @Transactional
@@ -34,7 +47,7 @@ public class PayService {
         RestTemplate rest = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
 
-        String key = "test_sk_P9BRQmyarYG51vMnDLX3J07KzLNk:";
+        String key = apiKey + ":" + secretKey;
 
         String encode = new String(Base64.getEncoder().encode(key.getBytes(StandardCharsets.UTF_8)));
 
@@ -52,8 +65,23 @@ public class PayService {
                 PayDto.class
         ).getBody();
 
-
         return body;
+    }
+
+    @Transactional
+    public PaymentResHandleFailDto requestFail(String errorCode, String errorMsg, String orderId) {
+        Pay pay = payRepository.findByOrderId(orderId)
+                .orElseThrow(() -> new RuntimeException("주문아이디 없음"));
+
+        pay.setPaySuccessYn("N");
+        pay.setPayFailReason(errorMsg);
+
+        payRepository.save(pay);
+        return PaymentResHandleFailDto.builder()
+                .orderId(orderId)
+                .errorCode(errorCode)
+                .errorMsg(errorMsg)
+                .build();
     }
 
 }

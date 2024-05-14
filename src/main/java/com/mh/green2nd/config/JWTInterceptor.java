@@ -36,8 +36,9 @@ public class JWTInterceptor implements HandlerInterceptor {
         } else {
             try {// 토크이 유효하면
                 Jws<Claims> jws = tokenManager.validateToken(token.substring("Bearer ".length()));
-
+                // 권한을 가져와서
                 List<SimpleGrantedAuthority> roles =
+                        // role이라는 키값을 가져와서
                         Stream.of(jws.getBody().get("role").toString())
                                 .map(SimpleGrantedAuthority::new)
                                 .toList();
@@ -45,6 +46,7 @@ public class JWTInterceptor implements HandlerInterceptor {
 
                 // 로그인한 사람 정보를 Authentication에 저장해라..
                 Authentication authentication = UsernamePasswordAuthenticationToken.authenticated(
+                        // 로그인한 사람 정보를 저장해라
                         User.builder()
                                 .user_id(Long.parseLong(jws.getPayload().get("user_id").toString()))
                                 .email(jws.getPayload().get("email").toString())

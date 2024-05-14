@@ -34,4 +34,11 @@ jasypt:
 mh:
   jwt:
     secret: mh1234mh1234mh1234mh1234mh1234mh1234mh1234mh1234
-
+toss:
+    apikey: test_ck_6BYq7GWPVvvw6bWZz20mVNE5vbo1
+    secretkey: test_sk_P9BRQmyarYPORJwq5bL2VJ07KzLN
+    url: https://api.tosspayments.com/v1/payments
+kakao:
+    restapi:
+      key: 0cf975c17c99981156fd74102e25d6bc
+      code: 5tV9WxlynlrKlOlpFQZlY8tF4uEXblSc
