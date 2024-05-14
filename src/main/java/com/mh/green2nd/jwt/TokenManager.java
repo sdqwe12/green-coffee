@@ -15,9 +15,11 @@ import static io.jsonwebtoken.security.Keys.hmacShaKeyFor;
 @Component
 public class TokenManager {
 
-    @Value("${mh.jwt.secret}")
-    private String mykey;
+    @Value("${mh.jwt.accessToken}")
+    private String accessToken;
 
+    @Value("${mh.jwt.refreshToken}")
+    private String refreshToken;
 
     // 토큰 발급해주는 함수
     public String generateToken(User user) {
@@ -28,7 +30,7 @@ public class TokenManager {
                 .claim("email", user.getEmail())
                 .claim("role", Role.USER)
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
-                .signWith(hmacShaKeyFor(mykey.getBytes()))
+                .signWith(hmacShaKeyFor(accessToken.getBytes()))
                 .compact();
     }
 
@@ -38,14 +40,14 @@ public class TokenManager {
                 .setId(Long.toString(userId))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24 * 7)) // 7 days
-                .signWith(hmacShaKeyFor(mykey.getBytes()))
+                .signWith(hmacShaKeyFor(refreshToken.getBytes()))
                 .compact();
     }
 
     // 토큰 검증해주는 함수.
     public Jws<Claims> validateToken(String token) {
         Jws<Claims> jws = Jwts.parser()// 번역해라
-                .setSigningKey(hmacShaKeyFor(mykey.getBytes()))// 비밀번호로...
+                .setSigningKey(hmacShaKeyFor(accessToken.getBytes()))// 비밀번호로...
                 .build()
                 .parseClaimsJws(token); // claim 들을 번역해라 컬렉션타입으로 만들어줘
         System.out.println(jws);

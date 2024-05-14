@@ -6,14 +6,6 @@ spring:
     url: jdbc:mysql://localhost:3306/mh?useSSL=false&allowPublicKeyRetrieval=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: root
     password: 1234
-  thymeleaf:
-    prefix: classpath:templates/
-    check-template-location: true
-    suffix: .html
-    mode: HTML5
-    cache: false
-    order: 0
-
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQLDialect
@@ -25,6 +17,25 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  security:
+    oauth2:
+      client:
+        registration:
+          kakao:
+            client-id: 0cf975c17c99981156fd74102e25d6bc
+            redirect-uri: http://localhost:8080/oauth2/kakao/callback
+            authorization-grant-type: authorization_code
+            client-authentication-method: POST
+            client-name: Kakao
+            scope:
+              - profile_nickname
+              - jungjc1117@naver.com
+        provider:
+          kakao:
+            authorization-uri: https://kauth.kakao.com/oauth/authorize
+            token-uri: https://kauth.kakao.com/oauth/token
+            user-info-uri: https://kapi.kakao.com/v2/user/me
+            user-name-attribute: jungjc1117
   sql:
     init:
       mode: always
@@ -33,12 +44,13 @@ jasypt:
     password: mh1234
 mh:
   jwt:
-    secret: mh1234mh1234mh1234mh1234mh1234mh1234mh1234mh1234
+    accessToken: mh1234mh1234mh1234mh1234mh1234mh1234mh1234
+    refreshToken: mh1234mh1234mh1234mh1234mh1234mh1234mh1234
 toss:
     apikey: test_ck_6BYq7GWPVvvw6bWZz20mVNE5vbo1
     secretkey: test_sk_P9BRQmyarYPORJwq5bL2VJ07KzLN
     url: https://api.tosspayments.com/v1/payments
-kakao:
-    restapi:
-      key: 0cf975c17c99981156fd74102e25d6bc
-      code: 5tV9WxlynlrKlOlpFQZlY8tF4uEXblSc
+#kakao:
+#    restapi:
+#      key: 0cf975c17c99981156fd74102e25d6bc
+#      code: 5tV9WxlynlrKlOlpFQZlY8tF4uEXblSc
