@@ -42,7 +42,6 @@ public class Menu {
 
     @Schema(title = "가격",description = "가격")
     @Column(name = "menu_price")
-//    @Column(name = "menu_price" ,columnDefinition = "integer default 5,000")
     private double menu_price;
 
     @Column(name = "menu_imgurl", nullable = true)
@@ -52,5 +51,9 @@ public class Menu {
     @Column(name = "menu_bannerimgurl", nullable = true)
     @Schema(title = "menu_bannerimgurl",description = "배너이미지url주소")
     private String menu_bannerimgurl;
+
+    @Column(name = "status", nullable = false)
+    @Schema(title = "status",description = "품절 여부", defaultValue = "재고있음")
+    private boolean status;
 
 }

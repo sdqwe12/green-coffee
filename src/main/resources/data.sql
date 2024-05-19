@@ -126,3 +126,16 @@ INSERT into recommend (menu_category,menu_name,menu_ename,menu_price,menu_explai
 ('food', '꿀 고구마 생크림 케이크', 'Honey Sweet Potato Fresh Cream Cake', 5000, '고구마 생크림 케이크','image/푸드/케이크/꿀 고구마 생크림 케이크.jpg'),
 ('food', '딸기 생크림 케이크', 'Strawberry Fresh Cream Cake', 5000, '딸기가 들어간 생크림 케이크','image/푸드/케이크/딸기 생크림 케이크.jpg'),
 ('food', '딸기 초코 쏙 생크림 케이크', 'Strawberry Chocolate Fresh Cream Cake', 5000, '딸기와 초코 생크림 케이크','image/푸드/케이크/딸기 초코 쏙 생크림 케이크.jpg');
+
+INSERT INTO store (name, address, phone, open, close, holiday, status)
+VALUES
+    ('Store 1', 'Address 1', '1234567890', '09:00', '18:00', 'Sunday', 'Open'),
+    ('Store 2', 'Address 2', '1234567891', '09:00', '18:00', 'Sunday', 'Open'),
+    ('Store 3', 'Address 3', '1234567892', '09:00', '18:00', 'Sunday', 'Open'),
+    ('Store 4', 'Address 4', '1234567893', '09:00', '18:00', 'Sunday', 'Open'),
+    ('Store 5', 'Address 5', '1234567894', '09:00', '18:00', 'Sunday', 'Open'),
+    ('Store 6', 'Address 6', '1234567895', '09:00', '18:00', 'Sunday', 'Open'),
+    ('Store 7', 'Address 7', '1234567896', '09:00', '18:00', 'Sunday', 'Open'),
+    ('Store 8', 'Address 8', '1234567897', '09:00', '18:00', 'Sunday', 'Open'),
+    ('Store 9', 'Address 9', '1234567898', '09:00', '18:00', 'Sunday', 'Open'),
+    ('Store 10', 'Address 10', '1234567899', '09:00', '18:00', 'Sunday', 'Open');
