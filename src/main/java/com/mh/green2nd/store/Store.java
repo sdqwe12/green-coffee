@@ -33,8 +33,8 @@ public class Store {
     @Column(name = "holiday")
     private String holiday;
 
-    @Column(name = "status", nullable = false, columnDefinition = "영업중")
-    @Schema(title = "status",description = "영업중, 휴무중, 영업종료", defaultValue = "영업중")
+    @Column(name = "status", nullable = false)
+    @Schema(title = "status",description = "영업중, 휴무중, 영업종료", defaultValue = "Open")
     private String status;
 
 }

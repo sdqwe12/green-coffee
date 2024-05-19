@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Table(name = "menu")
 @Entity
 @Getter
 @Setter
@@ -12,6 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 @Builder
+@Table(name = "menu")
 public class Menu {
 
     @Id
@@ -53,7 +53,7 @@ public class Menu {
     private String menu_bannerimgurl;
 
     @Column(name = "status", nullable = false)
-    @Schema(title = "status",description = "품절 여부", defaultValue = "재고있음")
+    @Schema(title = "status",description = "품절 여부")
     private boolean status;
 
 }
