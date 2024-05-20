@@ -21,11 +21,10 @@ public class UserDto {
     @NotBlank(message = "이메일은 필수 입력 사항입니다. 최소2 최대20")
     private String email;
 
-
     @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{6,20}")
     @Schema(title = "패스워드",description = "패스워드 입력부분입니다")
     @NotBlank(message = "비밀번호는 필수 입력 사항입니다. 최소6 최대20")
-//    @Size(min = 6,max = 20)
+
     private String password;
 
     @Column()
@@ -36,7 +35,6 @@ public class UserDto {
     @Schema(title = "휴대폰",description = "휴대폰 입력부분입니다")
     private String phone;
 
-//    @Pattern(regexp = "(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01])", message = "생년월일은 YYMMDD 형식이어야 합니다.")
     @Pattern(regexp = "\\d{2}(0?[1-9]|1[012])(0?[1-9]|[12]\\d|3[01])", message = "생년월일은 YYMMDD 형식이어야 합니다.")
     @Schema(title = "생년월일",description = "생년월일 입력부분입니다")
     private String birthdate;

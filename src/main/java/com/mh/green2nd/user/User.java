@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.time.LocalDateTime;
+
 
 @Table(name = "user")
 @Entity
@@ -47,6 +49,8 @@ public class User {
     @JsonIgnore
     @Builder.Default
     private Resign resign = Resign.N;
+
+    private LocalDateTime resignDate;
 
     @Enumerated(EnumType.STRING)
     @Schema(title = "로그인상태")

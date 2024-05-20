@@ -2,10 +2,13 @@ package com.mh.green2nd.user;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
 
@@ -54,6 +57,7 @@ public class UserService {
     public String resignuser(String email) {
         User user = userRepository.findByEmail(email);
         user.setResign(Resign.Y);
+        user.setResignDate(LocalDateTime.now());
         userRepository.save(user);
         return "ʕ •ᴥ•ʔ ━☆ﾟ 탈퇴 완료되었습니다. ʕ •ᴥ•ʔ ━☆ﾟ";
     }
@@ -61,18 +65,11 @@ public class UserService {
 //    public User update(UpdateDto updateDto) {
     public User updateUserByEmail(UpdateDto updateDto) {
         User updateuser = userRepository.findByEmail(updateDto.getEmail());
-        System.out.println("여기오나 서비스까지?");
         
         if (updateuser == null) {
             throw new UsernameNotFoundException("그런 이메일의 유저는 없습니다: " + updateDto.getEmail());
         }
-//        if (updateDto.getPassword() != null && !updateDto.getPassword().isEmpty()) {
-//        @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{6,20}")
-//        @NotBlank(message = "비밀번호는 필수 입력 사항입니다. 최소6 최대20")
-//        updateuser.setPassword(updateDto.getPassword());
-//        }
-//        if (updateDto.getPassword() != null)
-//            updateuser.setPassword(updateDto.getPassword());
+
         if (updateDto.getPassword() != null && !updateDto.getPassword().isEmpty()) {
             String passwordPattern = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{6,20}";
             if (Pattern.matches(passwordPattern, updateDto.getPassword())) {
@@ -114,7 +111,7 @@ public class UserService {
     @Transactional  // entitymanager.clear();
     public String findpw(String nickname, String phone) {
         User user = userRepository.findByNicknameAndPhone(nickname,phone);
-        user.setPassword("임시비밀번호");
+        user.setPassword("1q2w3e4r!");
         if (user == null){
             throw new RuntimeException("입력하신 정보에 맞는 비밀번호가 없습니다.");
         }
@@ -133,4 +130,11 @@ public class UserService {
 
     return "ʕง•ᴥ•ʔง 비밀번호 인증되었습니다. ʕง•ᴥ•ʔง";
     }
+
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void resigndelete() {
+    LocalDateTime oneMonthAgo = LocalDateTime.now().minusMonths(1);
+    List<User> users = userRepository.findAllByResignAndResignDateBefore(Resign.Y, oneMonthAgo);
+    userRepository.deleteAll(users);
+}
 }
