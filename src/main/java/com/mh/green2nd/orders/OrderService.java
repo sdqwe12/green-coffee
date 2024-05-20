@@ -9,6 +9,7 @@ import com.mh.green2nd.orders.dto.OrderReqDto;
 import com.mh.green2nd.orders.orderitem.OrderMenu;
 import com.mh.green2nd.orders.orderitem.OrderMenuRepository;
 import com.mh.green2nd.orders.orderitem.OrderMenuService;
+import com.mh.green2nd.user.Role;
 import com.mh.green2nd.user.User;
 import com.mh.green2nd.user.UserRepository;
 import jakarta.transaction.Transactional;
@@ -31,15 +32,11 @@ public class OrderService {
 
     @Transactional
     public void createNewOrder(OrderReqDto[] orderReqDtoArray, User jwtUser) {
-        // jwt 토큰안에 해당하는 유저가 없으면 에러...
         User dbUser = userRepository.findById(jwtUser.getUser_id()).orElseThrow(() -> {
             return new IllegalArgumentException("해당 유저가 없습니다.");
         });
-        // order 부모
         Order order = new Order();
-        // db 유저를
         order.setUser(dbUser);
-        // 주문한메뉴  order 테이블추가
         int total = 0;
         for (OrderReqDto orderReqDto : orderReqDtoArray) {
             OrderMenu orderMenu = new OrderMenu();
@@ -94,23 +91,10 @@ public class OrderService {
 
     public double calculateTotalOrderPrice(Cart cart) {
         double totalOrderPrice = 0.0;
-//        for (OrderMenu orderMenu : cart.getOrderMenusList()) {
-//            double subOrderPrice = orderMenuService.calculateSubOrderPrice(orderMenu);
-//            totalOrderPrice += subOrderPrice;
-//        }
         return totalOrderPrice;
     }
 
-//    private Order convertToEntity(OrderDto orderDto) {
-//        // 여기에서 OrdersDto를 Orders 엔티티로 변환하는 코드 작성
-//    }
-//
-//    private OrderDto convertToDto(com.mh.green2nd.order.Order order) {
-//        // 여기에서 Orders 엔티티를 OrdersDto로 변환하는 코드 작성
-//    }
-//
-//
-//    public static Optional<OrderDto> neworder(Long ordersId) {
-//    }
+
+
 }
 

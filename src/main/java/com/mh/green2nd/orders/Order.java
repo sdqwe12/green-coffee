@@ -44,6 +44,8 @@ public class Order {
     @JoinColumn(name = "user_id")
     private User user;
 
+    @Enumerated(EnumType.STRING)
+    private OrderState state;
 
 
 
