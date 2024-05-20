@@ -23,8 +23,6 @@ public class MenuDto {
 
     private String menu_explain;
 
-    private String menu_origin;
-
     private String menu_imgurl;
     private String menu_bannerimgurl;
 

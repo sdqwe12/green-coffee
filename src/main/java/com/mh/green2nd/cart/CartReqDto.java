@@ -12,11 +12,6 @@ public class CartReqDto {
     @Column(columnDefinition = "integer default 1")
     private int quantity;
     private Long cartId;
-//    @Enumerated(EnumType.STRING)
-//    @Schema(title = "")
-//    @JsonIgnore
-//    @Builder.Default
-//    private Resign resign = Resign.N;
 
     private int ice;
     private int shot;

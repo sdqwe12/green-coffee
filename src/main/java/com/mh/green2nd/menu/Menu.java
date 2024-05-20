@@ -36,10 +36,6 @@ public class Menu {
     @Schema(title = "제품설명",description = "제품설명")
     private String menu_explain;
 
-    @Column(name = "menu_origin", nullable = true)
-    @Schema(title = "제품원산지",description = "제품원산지")
-    private String menu_origin;
-
     @Schema(title = "가격",description = "가격")
     @Column(name = "menu_price")
     private double menu_price;

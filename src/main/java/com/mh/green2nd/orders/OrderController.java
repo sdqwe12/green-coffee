@@ -29,10 +29,11 @@ public class OrderController {
     }
 
     // 2. 주문내역 보여주기
+    @Operation(summary = "주문내역 보여주기")
     @GetMapping("/list")
     public ResponseEntity<List<Order>> orderlist(Authentication authentication) {
         User jwtUser = (User) authentication.getPrincipal();
-        List<Order> orderList = orderService.orderList(jwtUser);
+        List<Order> orderList = orderService.orderListWithUser(jwtUser);
         return ResponseEntity.status(HttpStatus.OK).body(orderList);
     }
 

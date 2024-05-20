@@ -35,21 +35,18 @@ public class UserService {
         User dunickname = userRepository.findByNickname(user.getNickname());
 
 //        Optional<User>
-        if (duemail != null){
+        if (duemail != null) {
             throw new RuntimeException(" ʕ •ᴥ•ʔ ━☆ 중복된 이메일이 있습니다. ʕ •ᴥ•ʔ ━☆");
             //에러코드 제작예정
         }
-        if(dunickname != null){
+        if (dunickname != null) {
             throw new RuntimeException(" ʕ •ᴥ•ʔ ━☆ 중복된 닉네임이 있습니다. ʕ •ᴥ•ʔ ━☆");
-        }
-        else {
+        } else {
             User signupUser = userRepository.save(user);
 
             return signupUser;
-    }
         }
-
-
+    }
 
     public String resignuser(String email) {
         User user = userRepository.findByEmail(email);
@@ -102,14 +99,6 @@ public class UserService {
         }
         return user.getEmail();
     }
-
-    // order add/new
-    //
-    // 주문정보 jwt item
-
-
-    // member
-    // item
 
     @Transactional  // entitymanager.clear();
     public String findpw(String nickname, String phone) {

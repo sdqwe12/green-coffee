@@ -1,6 +1,7 @@
 package com.mh.green2nd.tosspay;
 
 import com.mh.green2nd.tosspay.response.SingleResult;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,6 +14,7 @@ public class PayController {
     private final PayService payService;
     private final ResponseService responseService;
 
+    @Operation(summary = "결제 요청")
     @GetMapping("/success")
     public ResponseEntity<PayDto> success(@RequestParam String paymentKey,
                                           @RequestParam String orderId,
@@ -26,6 +28,7 @@ public class PayController {
         return ResponseEntity.ok(payDto);
     }
 
+    @Operation(summary = "결제 실패")
     @GetMapping("/fail")
     public SingleResult<PaymentResHandleFailDto> requestFinalPaymentsFail(@RequestParam String errorCode,
                                                                           @RequestParam String orderId,

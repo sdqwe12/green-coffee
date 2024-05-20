@@ -82,11 +82,8 @@ public class OrderService {
 
     // 주문내역 보여주기
     @Transactional
-    public List<Order> orderList(User jwtUser) {
-        User dbUser = userRepository.findById(jwtUser.getUser_id()).orElseThrow(() -> {
-            return new IllegalArgumentException("해당 유저가 없습니다.");
-        });
-        return orderRepository.findByUser(dbUser);
+    public List<Order> orderListWithUser(User jwtUser) {
+        return orderRepository.findByUserIdWithUser(jwtUser.getUser_id());
     }
 
     public double calculateTotalOrderPrice(Cart cart) {

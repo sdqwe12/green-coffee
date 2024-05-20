@@ -34,7 +34,7 @@ public class Store {
     private String holiday;
 
     @Column(name = "status", nullable = false)
-    @Schema(title = "status",description = "영업중, 휴무중, 영업종료", defaultValue = "Open")
+    @Schema(title = "status",description = "Open, Closed, Vacation", defaultValue = "Open")
     private String status;
 
 }

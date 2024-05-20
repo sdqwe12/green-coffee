@@ -1,10 +1,12 @@
 package com.mh.green2nd.menu.AdminMenu;
 
 import com.mh.green2nd.menu.Menu;
+import com.mh.green2nd.menu.MenuDto;
 import com.mh.green2nd.menu.MenuRepository;
 import com.mh.green2nd.user.Role;
 import com.mh.green2nd.user.User;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,5 +32,13 @@ public class AdminMenuService {
         Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new RuntimeException("Menu not found"));
         menu.setStatus(status);
         return menuRepository.save(menu);
+    }
+
+    // New method to update menu using MenuDto
+    public Menu updateMenu(User user, MenuDto menuDto) {
+        Menu menu = new Menu();
+        // Copy properties from menuDto to menu
+        BeanUtils.copyProperties(menuDto, menu);
+        return updateMenu(user, menu);
     }
 }
