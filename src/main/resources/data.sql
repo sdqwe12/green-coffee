@@ -46,9 +46,9 @@ VALUES
     ('coffee', '탄산 콜드브루', 'Sparkling Cold Brew', 5000, '탄산이 첨가된 콜드브루 커피','image/음료/에스프레소/탄산 콜드브루.jpg', 1),
     ('coffee', '토피넛 라떼', 'Toffee Nut Latte', 5000, '토피넛 향이 풍부한 라떼','image/음료/에스프레소/토피넛 라떼.jpg', 1);
 
-INSERT INTO home_ad (ad_head, ad_content, ad_upload_time, ad_due_date, image_url) VALUES
-('이벤트1', '혜택1', NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY), 'image/HomeEvent/2024-03-28 4월 프로모션.jpg'),
-('이벤트2', '혜택2', NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY), 'image/HomeEvent/2024-04-18 제주 지역 리유저블 컵 이벤트.jpg');
+INSERT INTO home_ad (ad_head, ad_content, ad_upload_time, ad_due_date, image_url, banner_image_url) VALUES
+('이벤트1', '혜택1', NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY), 'image/HomeEvent/2024-03-28 4월 프로모션.jpg', 'image/HomeEvent/2024-03-28 4월 프로모션-1.jpg'),
+('이벤트2', '혜택2', NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY), 'image/HomeEvent/2024-04-18 제주 지역 리유저블 컵 이벤트.jpg', 'image/HomeEvent/2024-04-18 제주 지역 리유저블 컵 이벤트-1.jpg');
 
 INSERT into recommend (menu_category,menu_name,menu_ename,menu_price,menu_explain,menu_image_url) VALUES
 ('beverage', '제주팔삭 셔벗 피지오', 'Jeju Palshark Sherbet Phizzo', 5000, '제주 특산 셔벗 음료','image/음료/스타벅스 피지오/제주팔삭 셔벗 피지오.jpg'),

@@ -25,6 +25,9 @@ public class HomeAd{
     @Column(name = "ad_content")
     private String adContent;
 
+    @Column(name = "banner_image_url")
+    private String bannerImageUrl;
+
     @Column(name = "image_url")
     private String imageUrl;
 
