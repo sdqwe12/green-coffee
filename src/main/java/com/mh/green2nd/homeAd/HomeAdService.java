@@ -2,33 +2,26 @@
 
 package com.mh.green2nd.homeAd;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@RequiredArgsConstructor
 @Service
 public class HomeAdService {
 
-    @Autowired
-    private HomeAdRepository homeAdRepository;
+    private final HomeAdRepository homeAdRepository;
 
-    public List<HomeAdDTO> getAdvertisementsByCategory(HomeAdCategory category) {
-        List<HomeAd> advertisements = homeAdRepository.findByCategory(category);
-        // Entity를 DTO로 변환하여 반환
-        return advertisements.stream()
-                .map(this::convertToDto)
+    // 이벤트 홈 광고
+    public List<HomeAd> getEvent() {
+        LocalDateTime now = LocalDateTime.now();
+        return homeAdRepository.findByAdDueDateAfter(now).stream()
+                .filter(homeAd -> homeAd.getAdHead().contains("이벤트"))
                 .collect(Collectors.toList());
     }
 
-    private HomeAdDTO convertToDto(HomeAd entity) {
-        HomeAdDTO dto = new HomeAdDTO();
-        dto.setAdHead(entity.getAdHead());
-        dto.setAdContent(entity.getAdContent());
-        dto.setImageUrl(entity.getImageUrl()); // 이미지 URL 설정
-        dto.setAdUploadTime(entity.getAdUploadTime());
-        dto.setAdDueDate(entity.getAdDueDate());
-        return dto;
-    }
 }

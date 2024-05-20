@@ -13,6 +13,7 @@ import java.util.List;
 @RequestMapping("/recommend")
 @RestController
 public class RecommendController {
+
     private final RecommendService recommendService;
 
     // 추천 메뉴 리스트 조회

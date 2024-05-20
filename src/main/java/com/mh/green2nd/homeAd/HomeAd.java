@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@Table(name = "home_ad")
 public class HomeAd{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,8 +33,5 @@ public class HomeAd{
 
     @Column(name = "ad_due_date")
     private LocalDateTime adDueDate;
-
-    @Enumerated(EnumType.STRING)
-    private HomeAdCategory category;
 
 }
