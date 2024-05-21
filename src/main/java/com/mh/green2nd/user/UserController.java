@@ -25,6 +25,7 @@ public class UserController {
     private final UserService userService;
     private final TokenManager tokenManager;
 
+
     @Operation(summary = "회원가입",description = "회원가입할 때 입력값은 email, password, nickname, phone, birthdate")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "회원가입 완료 되었을 때 나오는코드"),
@@ -33,6 +34,9 @@ public class UserController {
 
     @PostMapping("/signup")
     public ResponseEntity<User> signup(@Valid @RequestBody UserDto userDto){
+
+//        String verificationCode = userService.sendVerificationEmail(userDto.getEmail());
+//        userDto.setVerificationCode(verificationCode);
 
         ModelMapper mapper = new ModelMapper();
         User user = mapper.map(userDto, User.class);
@@ -43,39 +47,38 @@ public class UserController {
 
     @Operation(summary = "로그인 입력값 = email and password")
      @ApiResponses({
-            @ApiResponse(responseCode = "201",description = "로그인 정보가 있으면 나오는거임"),
-            @ApiResponse(responseCode = "500",description = "이미 탈퇴한 계정이거나 정보가 틀렸을 때")
+            @ApiResponse(responseCode = "201",description = "로그인 성공한 경우"),
+            @ApiResponse(responseCode = "400",description = "탈퇴한 계정이거나 정보가 틀렸을 때")
     })
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody LoginDto loginDto){
+        System.out.println("여기는 오냐");
         User loginUser = userService.login(loginDto.getEmail(), loginDto.getPassword());
         String token = tokenManager.generateToken(loginUser);
         loginUser.setToken(token);
     return ResponseEntity.status(HttpStatus.CREATED).body(loginUser);
     }
 
-    @Operation(summary = "이메일 찾기 입력값 \"nickname\": \"고죠사토루\",\n" +
-            "  \"phone\": \"01011111111\"")
+    @Operation(summary = "이메일 찾기 입력값 = 폰번호")
     @ApiResponses({
-            @ApiResponse(responseCode = "201",description = "로그인 정보가 있으면 나오는거임"),
+            @ApiResponse(responseCode = "200",description = "성공하면"),
             @ApiResponse(responseCode = "500",description = "그런 유저가 없을 때")
     })
     @PostMapping("/findemail")
-    public ResponseEntity<String> Findemail(@RequestBody User user){
-        String email = userService.findemail(user.getNickname(),user.getPhone());
+    public ResponseEntity<String> Findemail(@RequestBody FindPwDto findPwDto){
+        String email = userService.findemail(findPwDto.getPhone());
 
         return ResponseEntity.status(HttpStatus.OK).body(email);
     }
 
-    @Operation(summary = "비밀번호 찾기 입력값 \"nickname\": \"고죠사토루\",\n" +
-            "  \"phone\": \"01011111111\"")
+    @Operation(summary = "비밀번호찾기 입력값 = 폰번호")
     @ApiResponses({
-            @ApiResponse(responseCode = "201",description = "로그인 정보가 있으면 나오는거임"),
+            @ApiResponse(responseCode = "200",description = "성공하면"),
             @ApiResponse(responseCode = "500",description = "그런 유저가 없을 때")
     })
     @PostMapping("/findpw")
-    public ResponseEntity<String> findfw(FindPwDto findPwDto){
-        String password = userService.findpw(findPwDto.getNickname(),findPwDto.getPhone());
+    public ResponseEntity<String> findfw(@RequestBody FindPwDto findPwDto){
+        String password = userService.findpw(findPwDto.getPhone());
 
         return ResponseEntity.status(HttpStatus.OK).body(password);
     }
@@ -105,12 +108,18 @@ public class UserController {
         String result = userService.resignuser(user.getEmail());
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(result);
     }
+//    @PutMapping("/resign")
+//    public ResponseEntity<String> resgin(Authentication authentication){
+//        String result = userService.resignuser(user.getEmail());
+//        return ResponseEntity.status(HttpStatus.ACCEPTED).body(result);
+//    }
+
 
     // 비밀번호체크 api
-    @Operation(summary = "비밀번호체크 입력값 email, password",description = "비밀번호가 맞는지 확인할 때 사용하는 api")
+    @Operation(summary = "비밀번호체크 입력값 password",description = "비밀번호가 맞는지 확인할 때 사용하는 api")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "비밀번호가 맞을 때 나오는 코드"),
-            @ApiResponse(responseCode = "500",description = "비밀번호가 틀렸을 때 나오는 코드")
+            @ApiResponse(responseCode = "400",description = "비밀번호가 틀렸을 때 나오는 코드")
     })
     @PostMapping("/checkpw")
     public ResponseEntity<String> checkpw(@RequestBody PwCheckDto pwCheckDto, Authentication authentication){
@@ -133,5 +142,24 @@ public class UserController {
         System.out.println(user);
         return ResponseEntity.status(HttpStatus.OK).body("ᕦʕ •ᴥ•ʔᕤ 로그아웃 성공 ᕦʕ •ᴥ•ʔᕤ");
     }
+
+    @PostMapping("/sendcode")
+    public ResponseEntity<String> sendcode(@RequestBody EmailDto emailDto) {
+        String verificationCode = userService.sendVerificationEmail(emailDto.getEmail());
+        return ResponseEntity.ok(verificationCode);
+    }
+
+    @PostMapping("/verifycode")
+    public ResponseEntity<String> verifyEmail(@RequestBody VerificationDto verificationDto) {
+        boolean isVerified = userService.verifyEmail(verificationDto.getEmail(), verificationDto.getCode());
+
+        if (isVerified) {
+            return ResponseEntity.ok("인증 성공");
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("인증 실패");
+        }
+    }
+
+
 
 }

@@ -1,8 +1,8 @@
 insert into user (email,password,nickname,phone,birthdate,resign,loginstate,role) values
 ('abc@naver.com','abc123!','닉네임','01011111111','000101','N','Y','USER'),
-('aaa@naver.com','abc123!','고죠사토루','01011111111','990101','N','Y','USER'),
-('bbb@naver.com','abc123!','고길동','01011111111','990101','N','Y','USER'),
-('ccc@naver.com','abc123!','프리렌','01011111111','990101','N','Y','USER');
+('aaa@naver.com','abc123!','고죠사토루','01022222222','990101','N','Y','USER'),
+('bbb@naver.com','abc123!','고길동','01033333333','990101','N','Y','USER'),
+('ccc@naver.com','abc123!','프리렌','01044444444','990101','N','Y','USER');
 
 INSERT into menu (category,name,menu_ename,menu_explain,menu_price,menu_imgurl,menu_bannerimgurl) VALUES
 ('coffee','콜드 브루','Cold Brew','바리스타의 정성으로 탄생한 콜드 브루!',4900,'image/음료/콜드 브루.jpg','image/banner/빽다방.jpg'),

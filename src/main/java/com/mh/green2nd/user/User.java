@@ -73,6 +73,9 @@ public class User {
     @Schema(title = "토큰")
     private String token;
 
+    @Column(name = "verification_code")
+    private String verificationCode;
+
 //    @OneToMany
 //    private List<Order> orderlist;
 

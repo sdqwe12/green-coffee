@@ -16,18 +16,19 @@ import lombok.Setter;
 @Setter
 public class UserDto {
 
-    @Pattern(regexp = "^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\\.[A-Za-z0-9\\-]+$")
+    @Pattern(regexp = "^[A-Za-z0-9_\\.\\-]+@[A-Za-z0-9\\-]+\\.[A-Za-z0-9\\-]+$", message = "이메일 양식에 맞게 입력해주세요.")
     @Schema(title = "이메일",description = "이메일 입력")
     @NotBlank(message = "이메일은 필수 입력 사항입니다. 최소2 최대20")
     private String email;
 
-    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{6,20}")
+    @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{6,20}", message = "비밀번호 양식에 맞게 입력해주세요.")
     @Schema(title = "패스워드",description = "패스워드 입력부분입니다")
     @NotBlank(message = "비밀번호는 필수 입력 사항입니다. 최소6 최대20")
 
     private String password;
 
     @Column()
+    @Size(min = 2,max = 20, message = "닉네임의 길이는 2~20자 사이여야 합니다.")
     @Schema(title = "닉네임",description = "닉네임 입력부분입니다")
     private String nickname;
 

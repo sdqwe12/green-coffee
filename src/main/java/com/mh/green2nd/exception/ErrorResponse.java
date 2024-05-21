@@ -1,5 +1,6 @@
 package com.mh.green2nd.exception;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +13,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ErrorResponse {
+
     private String errorcode;
     private String errorMesaage;
+    @JsonFormat(pattern = "yyyy/MM/dd HH:mm:ss")
     private LocalDateTime errorDateTime;
+
 }

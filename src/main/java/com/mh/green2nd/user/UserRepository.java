@@ -12,11 +12,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
     User findByEmail(String email);
 
     User findByNickname(String nickname);
+    User findByPhone(String phone);
 
 
     User findByNicknameAndPhone(String nickname, String phone);
 
     List<User> findAllByResignAndResignDateBefore(Resign resign, LocalDateTime oneMonthAgo);
+
+
 
 
 //    List<User> findAllByResignAndResignDateBefore(Resign resign, LocalDateTime dateTime);
