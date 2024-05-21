@@ -10,6 +10,7 @@ public class EventService {
     private final EventRepository eventRepository;
 
     public String eventdetail(Long eventId) {
+
         Event event = eventRepository.findById(eventId).orElseThrow(
                 () -> new IllegalArgumentException(" ʕ •ᴥ•ʔ ━☆ 이벤트가 없습니다. ʕ •ᴥ•ʔ ━☆")
         );
