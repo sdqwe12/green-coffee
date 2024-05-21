@@ -1,9 +1,9 @@
-package com.mh.green2nd.store.SuperAdminStore;
+package com.mh.green2nd.store;
 
 import lombok.Data;
 
 @Data
-public class SuperAdminStoreReqDto {
+public class StoreDto {
 
     private String name;
     private String address;

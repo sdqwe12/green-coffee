@@ -48,6 +48,9 @@ dependencies {
 
     implementation 'org.springframework.boot:spring-boot-starter-security:3.2.5'
 
+    //    메일 보내기 그래들 메일샌더
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
+
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'

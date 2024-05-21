@@ -1,14 +1,12 @@
 package com.mh.green2nd.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.mh.green2nd.tosspay.Pay;
-import com.mh.green2nd.tosspay.PayDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 
 @Table(name = "user")
@@ -52,6 +50,8 @@ public class User {
     @Builder.Default
     private Resign resign = Resign.N;
 
+    private LocalDateTime resignDate;
+
     @Enumerated(EnumType.STRING)
     @Schema(title = "로그인상태")
     @Builder.Default
@@ -73,13 +73,16 @@ public class User {
     @Schema(title = "토큰")
     private String token;
 
-    @OneToMany(mappedBy = "user")
-    private List<Pay> pay = new ArrayList<>();
+    @Column(name = "verification_code")
+    private String verificationCode;
 
-    public void addPay(PayDto payDto) {
-        Pay pay = new Pay();
-        this.pay.add(pay);
-        pay.setUser(this);
-    }
+//    @OneToMany(mappedBy = "user")
+//    private List<Pay> pay = new ArrayList<>();
+//
+//    public void addPay(PayDto payDto) {
+//        Pay pay = new Pay();
+//        this.pay.add(pay);
+//        pay.setUser(this);
+//    }
 
 }

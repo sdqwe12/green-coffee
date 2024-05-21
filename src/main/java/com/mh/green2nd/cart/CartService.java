@@ -80,23 +80,10 @@ public class CartService {
         double extraPrice = cartReqDTO.getIce() * 200 + cartReqDTO.getShot() * 500 + cartReqDTO.getCream() * 500;
         cart.addToTotalCartPrice((menu.getMenu_price() + extraPrice) * cartReqDTO.getQuantity());
 
-        // 카트 저장
         cartRepository.save(cart);
-
-        // 결과 생성
         CartResDto cartResDto = new CartResDto();
-        // 여기에 적절한 결과값 설정
         return cartResDto;
     }
-
-    // 카트에서 해당하는 항목을 삭제합니다.
-
-//    public List<CartMenu> search(CartReqDto cartReqDTO,User user) {
-//    Cart cart = cartRepository.findByUser(user)
-//        .orElseThrow(() -> new EntityNotFoundException("Cart not found for user: " + user.getEmail()));
-//
-//    return cart.getCartMenusList();
-//}
 
     // 카트가 비어있으면 빈 카트를 반환하고, 그렇지 않으면(->optional) 카트에 담긴 메뉴 목록을 반환합니다.
     public List<CartMenu> getCartItems(User user) {

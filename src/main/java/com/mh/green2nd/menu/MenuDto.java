@@ -13,8 +13,6 @@ import lombok.Setter;
 @Setter
 public class MenuDto {
 
-    private Long menu_id;
-
     private String category;
 
     private String name;
