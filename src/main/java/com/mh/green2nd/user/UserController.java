@@ -145,8 +145,8 @@ public class UserController {
 
     @PostMapping("/sendcode")
     public ResponseEntity<String> sendcode(@RequestBody EmailDto emailDto) {
-        String verificationCode = userService.sendVerificationEmail(emailDto.getEmail());
-        return ResponseEntity.ok(verificationCode);
+        String sendemail = userService.sendEmail(emailDto.getEmail());
+        return ResponseEntity.ok(sendemail);
     }
 
     @PostMapping("/verifycode")

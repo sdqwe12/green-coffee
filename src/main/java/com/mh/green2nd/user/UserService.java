@@ -161,7 +161,7 @@ public class UserService {
         userRepository.deleteAll(users);
     }
 
-    public String sendVerificationEmail(String toEmail) {
+    public String sendEmail(String toEmail) {
         // 6자리 난수 생성
         String verificationCode = String.format("%06d", (int) (Math.random() * 1000000));
 
