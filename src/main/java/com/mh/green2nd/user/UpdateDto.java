@@ -20,8 +20,6 @@ public class UpdateDto {
 
     @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{6,20}", message = "비밀번호 양식에 맞게 입력해주세요.")
     @Schema(title = "패스워드",description = "패스워드 입력부분입니다")
-    @NotBlank(message = "비밀번호는 필수 입력 사항입니다. 최소6 최대20")
-
     private String password;
 
     @Column()

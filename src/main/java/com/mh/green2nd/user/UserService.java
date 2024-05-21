@@ -148,7 +148,7 @@ public class UserService {
 //        }
         if (!user.getPassword().equals(password)) {
 //            throw new RuntimeException("비밀번호가 틀렸습니다.");
-            throw new UserException(ErrorCode.NOTFOUNDPHONE);
+            throw new UserException(ErrorCode.PWCHECKFAILED);
         }
 
         return "ʕง•ᴥ•ʔง 비밀번호 인증되었습니다. ʕง•ᴥ•ʔง";
