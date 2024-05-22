@@ -16,4 +16,8 @@ public class CartReqDto {
     private int ice;
     private int shot;
     private int cream;
+
+    private double price_ice;
+    private double price_shot;
+    private double price_cream;
 }

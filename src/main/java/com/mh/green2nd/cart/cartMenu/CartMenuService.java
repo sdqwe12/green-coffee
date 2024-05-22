@@ -25,8 +25,12 @@ public class CartMenuService {
         int ice = cartMenu.getIce();
         int shot = cartMenu.getShot();
         int cream = cartMenu.getCream();
+        int price_ice = menu.getPrice_ice();
+        int price_shot = menu.getPrice_shot();
+        int price_cream = menu.getPrice_cream();
+
         double menuPrice = menu.getMenu_price();
-        int optionPrice = ice * 200 + shot * 500 + cream * 500;
+        int optionPrice = price_ice * ice + price_shot * shot + price_cream * cream;
         return (menuPrice + optionPrice) * quantity;
     }
 

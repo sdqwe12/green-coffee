@@ -30,7 +30,7 @@ public class StoreService {
     // superadmin만 매장 이름 수정 가능
     public Store updateStoreName(User user, Long storeId, String name) {
         if (user.getRole() != Role.SUPERADMIN) {
-            throw new RuntimeException("Only superadmins can update store name");
+            throw new RuntimeException("superadmins만 매장 이름 수정 가능");
         }
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new RuntimeException("Store not found"));
         store.setName(name);
@@ -39,8 +39,8 @@ public class StoreService {
 
     // superadmin과 admin 모두 매장 주소 수정 가능
     public Store updateStoreAddress(User user, Long storeId, String address) {
-        if (user.getRole() != Role.SUPERADMIN) {
-            throw new RuntimeException("Only superadmins can update store address");
+        if (user.getRole() != Role.SUPERADMIN && user.getRole() != Role.ADMIN) {
+            throw new RuntimeException("superadmins와 admins만 매장 주소 수정 가능");
         }
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new RuntimeException("Store not found"));
         store.setAddress(address);
@@ -49,8 +49,8 @@ public class StoreService {
 
     // superadmin과 admin 모두 매장 전화번호 수정 가능
     public Store updateStorePhoneNumber(User user, Long storeId, String phoneNumber) {
-        if (user.getRole() != Role.SUPERADMIN) {
-            throw new RuntimeException("Only superadmins can update store phone number");
+        if (user.getRole() != Role.SUPERADMIN && user.getRole() != Role.ADMIN) {
+            throw new RuntimeException("superadmins와 admins만 매장 전화번호 수정 가능");
         }
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new RuntimeException("Store not found"));
         store.setPhone(phoneNumber);
@@ -60,7 +60,7 @@ public class StoreService {
     // admin만 매장 영업시간 수정 가능
     public Store updateStoreTime(User user, Long storeId, StoreDto storeDto) {
         if (user.getRole() != Role.ADMIN) {
-            throw new RuntimeException("Only admins can update store time");
+            throw new RuntimeException("admins만 매장 영업시간 수정 가능");
         }
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new RuntimeException("Store not found"));
         store.setOpen(storeDto.getOpen());
@@ -72,7 +72,7 @@ public class StoreService {
     // admin만 휴무일 수정 가능
     public Store updateStoreHoliday(User user, Long storeId, String holiday) {
         if (user.getRole() != Role.ADMIN) {
-            throw new RuntimeException("Only admins can update store holiday");
+            throw new RuntimeException("admins만 휴무일 수정 가능");
         }
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new RuntimeException("Store not found"));
         store.setHoliday(holiday);

@@ -45,7 +45,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(signupUser);
     }
 
-    @Operation(summary = "로그인 입력값 = email and password")
+    @Operation(summary = "로그인 입력값 = email and password", description = "eee@naver.com : superadmin, ddd@naver.com : admin)")
     @ApiResponses({
             @ApiResponse(responseCode = "201",description = "로그인 성공한 경우"),
             @ApiResponse(responseCode = "400",description = "탈퇴한 계정이거나 정보가 틀렸을 때")

@@ -52,4 +52,15 @@ public class Menu {
     @Schema(title = "status",description = "품절 여부")
     private boolean status;
 
+    @Column(name = "price_ice", nullable = true)
+    @Schema(title = "price_ice",description = "아이스 추가 가격")
+    private int price_ice;
+
+    @Column(name = "price_shot", nullable = true)
+    @Schema(title = "price_shot",description = "샷 추가 가격")
+    private int price_shot;
+
+    @Column(name = "price_cream", nullable = true)
+    @Schema(title = "price_cream",description = "크림 추가 가격")
+    private int price_cream;
 }

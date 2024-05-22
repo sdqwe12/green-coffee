@@ -20,6 +20,11 @@ public class CartMenuDto {
     private int ice;
     private int shot;
     private int cream;
+
+    private int price_ice;
+    private int price_shot;
+    private int price_cream;
+
     private double subCartPrice;
 
 }

@@ -70,6 +70,7 @@ public class CartService {
             cartMenu.setIce(cartReqDTO.getIce());
             cartMenu.setShot(cartReqDTO.getShot());
             cartMenu.setCream(cartReqDTO.getCream());
+
             // subCartPrice 계산
             cartMenu.calculateSubCartPrice();
             //
@@ -77,7 +78,7 @@ public class CartService {
         }
 
         // totalPrice 업데이트
-        double extraPrice = cartReqDTO.getIce() * 200 + cartReqDTO.getShot() * 500 + cartReqDTO.getCream() * 500;
+        double extraPrice = (cartReqDTO.getIce() * cartReqDTO.getPrice_ice() + cartReqDTO.getShot() * cartReqDTO.getPrice_shot() + cartReqDTO.getCream() * cartReqDTO.getPrice_cream());
         cart.addToTotalCartPrice((menu.getMenu_price() + extraPrice) * cartReqDTO.getQuantity());
 
         cartRepository.save(cart);
@@ -139,7 +140,7 @@ public class CartService {
                 // 장바구니에 담긴 메뉴의 가격을 계산합니다.
                 cartMenu ->{
                     // 메뉴의 가격과 수량을 곱한 값을 반환합니다.
-                        return (cartMenu.getQuantity()+ cartMenu.getIce()*200+cartMenu.getShot()*500+ cartMenu.getCream()*500);
+                        return (cartMenu.getQuantity()+ cartMenu.getIce()*+cartMenu.getShot()*500+ cartMenu.getCream()*500);
                 }
                 // 모든 메뉴의 가격을 더합니다.
         ).sum();

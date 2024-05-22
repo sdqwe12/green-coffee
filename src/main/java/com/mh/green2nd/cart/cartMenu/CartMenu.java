@@ -31,6 +31,9 @@ public class CartMenu {
     private Menu menu;
 
     private int quantity;
+    private int ice;
+    private int shot;
+    private int cream;
 
     @Column(name = "sub_cart_price")
     private double subCartPrice;
@@ -39,14 +42,7 @@ public class CartMenu {
     @PostPersist
     public void calculateSubCartPrice() {
         double menuPrice = menu.getMenu_price();
-        int optionPrice = ice * 200 + shot * 500 + cream * 500;
+        int optionPrice = (int) (menu.getPrice_ice() * ice + menu.getPrice_shot() * shot + menu.getPrice_cream() * cream);
         this.subCartPrice = (menuPrice + optionPrice) * quantity;
     }
-
-    private int ice;
-    private int shot;
-    private int cream;
-
-
-
 }

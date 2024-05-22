@@ -25,4 +25,8 @@ public class MenuDto {
     private String menu_bannerimgurl;
 
     private double menu_price;
+
+    private int price_ice;
+    private int price_shot;
+    private int price_cream;
 }
