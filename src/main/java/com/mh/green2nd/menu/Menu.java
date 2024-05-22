@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Table(name = "menu")
 @Entity
 @Getter
 @Setter
@@ -12,6 +11,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 @Builder
+@Table(name = "menu")
 public class Menu {
 
     @Id
@@ -36,13 +36,8 @@ public class Menu {
     @Schema(title = "제품설명",description = "제품설명")
     private String menu_explain;
 
-    @Column(name = "menu_origin", nullable = true)
-    @Schema(title = "제품원산지",description = "제품원산지")
-    private String menu_origin;
-
     @Schema(title = "가격",description = "가격")
     @Column(name = "menu_price")
-//    @Column(name = "menu_price" ,columnDefinition = "integer default 5,000")
     private double menu_price;
 
     @Column(name = "menu_imgurl", nullable = true)
@@ -53,4 +48,19 @@ public class Menu {
     @Schema(title = "menu_bannerimgurl",description = "배너이미지url주소")
     private String menu_bannerimgurl;
 
+    @Column(name = "status", nullable = false)
+    @Schema(title = "status",description = "품절 여부")
+    private boolean status;
+
+    @Column(name = "price_ice", nullable = true)
+    @Schema(title = "price_ice",description = "아이스 추가 가격")
+    private int price_ice;
+
+    @Column(name = "price_shot", nullable = true)
+    @Schema(title = "price_shot",description = "샷 추가 가격")
+    private int price_shot;
+
+    @Column(name = "price_cream", nullable = true)
+    @Schema(title = "price_cream",description = "크림 추가 가격")
+    private int price_cream;
 }

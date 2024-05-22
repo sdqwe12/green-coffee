@@ -12,13 +12,11 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import org.springframework.hateoas.Link;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Data
 @Service
@@ -60,6 +58,8 @@ public class CartService {
         if (existingCartMenu != null) {
 
             existingCartMenu.setQuantity(existingCartMenu.getQuantity() + cartReqDTO.getQuantity());
+            // subCartPrice 업데이트
+            existingCartMenu.calculateSubCartPrice();
         } else {
 
             CartMenu cartMenu = new CartMenu();
@@ -71,32 +71,24 @@ public class CartService {
             cartMenu.setShot(cartReqDTO.getShot());
             cartMenu.setCream(cartReqDTO.getCream());
 
+            // subCartPrice 계산
+            cartMenu.calculateSubCartPrice();
+            //
             cart.getCartMenusList().add(cartMenu);
         }
 
         // totalPrice 업데이트
-        double extraPrice = cartReqDTO.getIce() * 200 + cartReqDTO.getShot() * 500 + cartReqDTO.getCream() * 500;
+        double extraPrice = (cartReqDTO.getIce() * cartReqDTO.getPrice_ice() + cartReqDTO.getShot() * cartReqDTO.getPrice_shot() + cartReqDTO.getCream() * cartReqDTO.getPrice_cream());
         cart.addToTotalCartPrice((menu.getMenu_price() + extraPrice) * cartReqDTO.getQuantity());
 
-        // 카트 저장
         cartRepository.save(cart);
-
-        // 결과 생성
         CartResDto cartResDto = new CartResDto();
-        // 여기에 적절한 결과값 설정
         return cartResDto;
     }
 
-    // 카트에서 해당하는 항목을 삭제합니다.
-
-//    public List<CartMenu> search(CartReqDto cartReqDTO,User user) {
-//    Cart cart = cartRepository.findByUser(user)
-//        .orElseThrow(() -> new EntityNotFoundException("Cart not found for user: " + user.getEmail()));
-//
-//    return cart.getCartMenusList();
-//}
-
+    // 카트가 비어있으면 빈 카트를 반환하고, 그렇지 않으면(->optional) 카트에 담긴 메뉴 목록을 반환합니다.
     public List<CartMenu> getCartItems(User user) {
+        // 사용자의 이메일로 사용자 정보를 가져옵니다.
         User dbUser = userRepository.findByEmail(user.getEmail());
 
         // 사용자의 ID를 기반으로 해당 사용자의 장바구니 아이템을 조회합니다.
@@ -121,12 +113,9 @@ public class CartService {
         User dbUser = userRepository.findById(user.getUser_id())
                 .orElseThrow(() -> new EntityNotFoundException("User not found with id: " + user.getUser_id()));
 
-//        System.out.println(dbUser);
         // 사용자의 카트 가져오기
         Cart cart = cartRepository.findByUser(dbUser)
                 .orElseThrow(() -> new EntityNotFoundException("Cart not found for user: " + dbUser.getUser_id()));
-
-        // 카트에서 해당 메뉴를 찾습니다.
         System.out.println("삭제전 " + cart.getCartMenusList().size());
         // 카트에서 해당 메뉴를 찾습니다.
         cart.getCartMenusList().forEach(cartMenu -> {
@@ -134,7 +123,6 @@ public class CartService {
             System.out.println("cartReqDto.getMenuId() " + cartReqDto.getMenuId());
             // 메뉴 아이디가 같다면 삭제합니다.
             if (cartMenu.getMenu().getMenu_id().equals(cartReqDto.getMenuId())) {
-                System.out.println("삭제하러와쌴");
                 System.out.println(cartMenu.getCartmenu_id());
                 // 카트에서 해당 메뉴를 삭제합니다.
                 cartMenuRepository.deleteById(cartMenu.getCartmenu_id());
@@ -152,7 +140,7 @@ public class CartService {
                 // 장바구니에 담긴 메뉴의 가격을 계산합니다.
                 cartMenu ->{
                     // 메뉴의 가격과 수량을 곱한 값을 반환합니다.
-                        return (cartMenu.getQuantity()+ cartMenu.getIce()*200+cartMenu.getShot()*500+ cartMenu.getCream()*500);
+                        return (cartMenu.getQuantity()+ cartMenu.getIce()*+cartMenu.getShot()*500+ cartMenu.getCream()*500);
                 }
                 // 모든 메뉴의 가격을 더합니다.
         ).sum();
@@ -179,6 +167,14 @@ public class CartService {
             throw new IllegalArgumentException("20개 이상 담아서 더 이상 담을 수 없습니다");
         }
         cartMenu.setQuantity(cartMenu.getQuantity() + 1);
+
+        // sub_cart_price 업데이트
+        cartMenu.calculateSubCartPrice();
+
+        // total_cart_price 업데이트
+        double totalPrice = calculateTotalCartPrice(cart);
+        cart.setTotalCartPrice(totalPrice);
+
         cartRepository.save(cart);
     }
 
@@ -199,6 +195,14 @@ public class CartService {
             throw new IllegalArgumentException("0개 밑으로 뺄 수 없습니다.");
         }
         cartMenu.setQuantity(cartMenu.getQuantity() - 1);
+
+        // sub_cart_price 업데이트
+        cartMenu.calculateSubCartPrice();
+
+        // total_cart_price 업데이트
+        double totalPrice = calculateTotalCartPrice(cart);
+        cart.setTotalCartPrice(totalPrice);
+
         cartRepository.save(cart);
     }
 

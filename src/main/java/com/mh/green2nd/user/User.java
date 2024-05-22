@@ -78,5 +78,13 @@ public class User {
 
 //    @OneToMany
 //    private List<Order> orderlist;
+//    @OneToMany(mappedBy = "user")
+//    private List<Pay> pay = new ArrayList<>();
+//
+//    public void addPay(PayDto payDto) {
+//        Pay pay = new Pay();
+//        this.pay.add(pay);
+//        pay.setUser(this);
+//    }
 
 }

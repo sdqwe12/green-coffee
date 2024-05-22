@@ -94,6 +94,7 @@ public class UserService {
         }
 
         if (updateDto.getNickname() != null) {
+
         User userWithSameNickname = userRepository.findByNickname(updateDto.getNickname());
         if (userWithSameNickname != null && !updateuser.getNickname().equals(updateDto.getNickname())) {
             throw new UserException(ErrorCode.DUPLICATENICKNAME);
@@ -106,6 +107,20 @@ public class UserService {
             throw new UserException(ErrorCode.DUPLICATEPHONE);
         }
     }
+
+            User userWithSameNickname = userRepository.findByNickname(updateDto.getNickname());
+            if (userWithSameNickname != null && !updateuser.getNickname().equals(updateDto.getNickname())) {
+                throw new UserException(ErrorCode.DUPLICATENICKNAME);
+            }
+
+
+        if (updateDto.getPhone() != null) {
+            User userWithSamePhone = userRepository.findByPhone(updateDto.getPhone());
+            if (userWithSamePhone != null && !updateuser.getPhone().equals(updateDto.getPhone())) {
+                throw new UserException(ErrorCode.DUPLICATEPHONE);
+            }
+        }
+
 
         if (updateDto.getNickname() != null)
             updateuser.setNickname(updateDto.getNickname());
@@ -152,14 +167,10 @@ public class UserService {
         }
 
         return "ʕง•ᴥ•ʔง 비밀번호 인증되었습니다. ʕง•ᴥ•ʔง";
+
     }
 
-    @Scheduled(cron = "0 0 0 * * ?")
-    public void resigndelete() {
-        LocalDateTime oneMonthAgo = LocalDateTime.now().minusMonths(1);
-        List<User> users = userRepository.findAllByResignAndResignDateBefore(Resign.Y, oneMonthAgo);
-        userRepository.deleteAll(users);
-    }
+
 
     public String sendEmail(String toEmail) {
         // 6자리 난수 생성
@@ -182,5 +193,29 @@ public class UserService {
         }
 
         return user.getVerificationCode().equals(inputCode);
+
     }
+
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void resigndelete() {
+        LocalDateTime oneMonthAgo = LocalDateTime.now().minusMonths(1);
+        List<User> users = userRepository.findAllByResignAndResignDateBefore(Resign.Y, oneMonthAgo);
+        userRepository.deleteAll(users);
+    }
+
+    public String sendVerificationEmail(String toEmail) {
+        // 6자리 난수 생성
+        String verificationCode = String.format("%06d", (int) (Math.random() * 1000000));
+
+        SimpleMailMessage mailMessage = new SimpleMailMessage();
+        mailMessage.setTo(toEmail);
+        mailMessage.setSubject("회원가입 인증 코드");
+        mailMessage.setText("회원가입 인증 코드는 " + verificationCode + " 입니다.");
+
+        javaMailSender.send(mailMessage);
+
+        return verificationCode;
+    }
+
+
 }

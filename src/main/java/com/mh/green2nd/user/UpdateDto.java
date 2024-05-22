@@ -17,7 +17,6 @@ public class UpdateDto {
     private String email;
 
 
-
     @Pattern(regexp = "(?=.*[0-9])(?=.*[a-zA-Z])(?=.*\\W)(?=\\S+$).{6,20}", message = "비밀번호 양식에 맞게 입력해주세요.")
     @Schema(title = "패스워드",description = "패스워드 입력부분입니다")
     private String password;
@@ -30,7 +29,7 @@ public class UpdateDto {
     @Schema(title = "휴대폰")
     private String phone;
 
-//    @Pattern(regexp = "(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01])", message = "생년월일은 YYMMDD 형식이어야 합니다.")
+    //    @Pattern(regexp = "(0[1-9]|1[0-2])(0[1-9]|[12]\\d|3[01])", message = "생년월일은 YYMMDD 형식이어야 합니다.")
     @Pattern(regexp = "\\d{2}(0?[1-9]|1[012])(0?[1-9]|[12]\\d|3[01])", message = "생년월일은 YYMMDD 형식이어야 합니다.")
     @Schema(title = "생년월일")
     private String birthdate;

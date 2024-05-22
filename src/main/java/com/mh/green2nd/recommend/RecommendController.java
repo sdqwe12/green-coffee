@@ -1,5 +1,6 @@
 package com.mh.green2nd.recommend;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,11 +13,24 @@ import java.util.List;
 @RequestMapping("/recommend")
 @RestController
 public class RecommendController {
+
     private final RecommendService recommendService;
 
-    @GetMapping("/")
-    public ResponseEntity<List<RecommendDto>> getRecommendations() {
-        List<RecommendDto> recommendDtoList = recommendService.getRecommendations();
-        return ResponseEntity.status(HttpStatus.OK).body(recommendDtoList);
+    // 추천 메뉴 리스트 조회
+    @Operation(summary = "추천 메뉴 리스트 조회")
+    @GetMapping("/list")
+    public ResponseEntity<List<Recommend>> getRecommendList() {
+        List<Recommend> recommendList = recommendService.getRecommendList();
+        return new ResponseEntity<>(recommendList, HttpStatus.OK);
     }
+
+    // 추천 메뉴 상세 조회
+    @GetMapping("/detail")
+    public ResponseEntity<Recommend> getRecommendDetail(Long recommendId) {
+        Recommend recommend = recommendService.getRecommendDetail(recommendId);
+        return new ResponseEntity<>(recommend, HttpStatus.OK);
+    }
+
+
+
 }

@@ -1,8 +1,6 @@
 package com.mh.green2nd.cart.cartMenu;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,6 +20,11 @@ public class CartMenuDto {
     private int ice;
     private int shot;
     private int cream;
+
+    private int price_ice;
+    private int price_shot;
+    private int price_cream;
+
     private double subCartPrice;
 
 }

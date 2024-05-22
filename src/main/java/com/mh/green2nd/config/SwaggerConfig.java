@@ -20,8 +20,11 @@ import java.util.Arrays;
                 description = " :･ﾟ✧(=✪ ᆺ ✪=)*:･ﾟ✧ 마지막으로 수정한 날짜20240521 14:35 ♡(ᐢ ᴥ ᐢし)",
                 version = "v6.5.2"
         )
+
         ,
         servers = {@Server(url = "https://back.green-coffee.shop", description = "Default Server URL")}
+
+
 )
 @Configuration
 public class SwaggerConfig {

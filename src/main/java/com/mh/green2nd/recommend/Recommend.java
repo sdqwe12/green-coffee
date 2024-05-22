@@ -1,9 +1,6 @@
 package com.mh.green2nd.recommend;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Data
@@ -12,17 +9,28 @@ import lombok.*;
 @Entity
 @AllArgsConstructor
 @NoArgsConstructor
+@Table(name = "recommend")
 public class Recommend {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long recommendId;
 
-    private String recommendName;
+    @Column(name = "menu_category")
+    private String menuCategory;
 
-    private int price;
+    @Column(name = "menu_name")
+    private String menuName;
 
-    private String imageUrl;
+    @Column(name = "menu_ename")
+    private String menuEname;
 
+    @Column(name = "menu_price")
+    private int menuPrice;
 
+    @Column(name = "menu_explain")
+    private String menuExplain;
+
+    @Column(name = "menu_image_url")
+    private String menuImageUrl;
 
 }

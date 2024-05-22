@@ -6,5 +6,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CartMenuRepository extends JpaRepository<CartMenu, Long>{
 
-    void deleteByCartAndMenu(Cart cart, Menu menu);
 }

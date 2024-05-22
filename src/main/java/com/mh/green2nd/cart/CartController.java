@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -59,7 +60,6 @@ public class CartController {
             ,description = "토큰에서 해당 회원의 카트 가져오기 때문에 값 입력할 필요 없음 그냥 나옴")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "정상 조회됐을 때 나오는 코드"),
-            
     })
     @GetMapping("/search")
     public ResponseEntity<List<CartMenu>> getCartItems(Authentication authentication) {
@@ -111,6 +111,8 @@ public class CartController {
         return null;
     }
 
+    @Operation(summary = "카트의 총 가격 조회하기 작동 o"
+            ,description = "토큰에서 해당 회원의 카트 가져오기 때문에 값 입력할 필요 없음 그냥 나옴")
     @GetMapping("/cart/total")
     public ResponseEntity<Double> getTotalPrice(Authentication authentication) {
         User user = (User) authentication.getPrincipal();

@@ -23,19 +23,11 @@ public class MenuService {
     public List<Menu> goods() {
         return menuRepository.findByCategory("goods");
     }
-
-
-
     public List<Menu> detail(String name) {
         return menuRepository.detail(name);
     }
-
-
-
     public List<Menu> search(String name) {
         return menuRepository.findByNameContaining(name);
     }
-
-
 
 }

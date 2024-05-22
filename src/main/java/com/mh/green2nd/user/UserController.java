@@ -45,8 +45,10 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(signupUser);
     }
 
-    @Operation(summary = "로그인 입력값 = email and password")
-     @ApiResponses({
+
+    @Operation(summary = "로그인 입력값 = email and password", description = "eee@naver.com : superadmin, ddd@naver.com : admin)")
+    @ApiResponses({
+
             @ApiResponse(responseCode = "201",description = "로그인 성공한 경우"),
             @ApiResponse(responseCode = "400",description = "탈퇴한 계정이거나 정보가 틀렸을 때")
     })
@@ -56,7 +58,7 @@ public class UserController {
         User loginUser = userService.login(loginDto.getEmail(), loginDto.getPassword());
         String token = tokenManager.generateToken(loginUser);
         loginUser.setToken(token);
-    return ResponseEntity.status(HttpStatus.CREATED).body(loginUser);
+        return ResponseEntity.status(HttpStatus.CREATED).body(loginUser);
     }
 
     @Operation(summary = "이메일 찾기 입력값 = 폰번호")
@@ -145,8 +147,10 @@ public class UserController {
 
     @PostMapping("/sendcode")
     public ResponseEntity<String> sendcode(@RequestBody EmailDto emailDto) {
+
         String sendemail = userService.sendEmail(emailDto.getEmail());
         return ResponseEntity.ok(sendemail);
+
     }
 
     @PostMapping("/verifycode")
