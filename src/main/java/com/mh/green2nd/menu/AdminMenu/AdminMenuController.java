@@ -97,7 +97,7 @@ public class AdminMenuController {
     }
 
     // admin만 메뉴 상태 수정 가능
-    @Operation(summary = "메뉴 상태 수정", description = "0: 품절, 1: 판매중")
+    @Operation(summary = "메뉴 상태 수정", description = "false: 품절, true: 판매중")
     @PutMapping("/{menuId}/status")
     public  ResponseEntity<String> updateMenuStatus(Authentication authentication, @PathVariable Long menuId, @RequestBody boolean status) {
         User jwtuser = (User) authentication.getPrincipal();
@@ -105,5 +105,13 @@ public class AdminMenuController {
         return ResponseEntity.ok("메뉴 상태가 수정되었습니다.");
     }
 
+    // superadmin만 메뉴 숨김 가능
+    @Operation(summary = "메뉴 숨김", description = "superadmin만 메뉴 숨김 가능")
+    @PutMapping("/{menuId}/visible")
+    public ResponseEntity<String> visibleMenu(Authentication authentication, @PathVariable Long menuId, @RequestBody boolean visible) {
+        User jwtuser = (User) authentication.getPrincipal();
+        adminMenuService.updateMenuVisible(jwtuser, menuId, visible);
+        return ResponseEntity.ok("메뉴가 숨김처리 되었습니다.");
+    }
 
 }

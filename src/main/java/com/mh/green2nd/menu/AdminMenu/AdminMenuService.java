@@ -114,7 +114,14 @@ public class AdminMenuService {
         return menuRepository.save(menu);
     }
 
-
-
+    // superadmin만 메뉴 숨김 가능
+    public Menu updateMenuVisible(User user, Long menuId, boolean visible) {
+        if (user.getRole() != Role.SUPERADMIN) {
+            throw new RuntimeException("Only superadmins can hide menus");
+        }
+        Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new RuntimeException("Menu not found"));
+        menu.setVisible(visible);
+        return menuRepository.save(menu);
+    }
 
 }
