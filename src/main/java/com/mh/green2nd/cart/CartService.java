@@ -78,7 +78,7 @@ public class CartService {
         }
 
         // totalPrice 업데이트
-        double extraPrice = (cartReqDTO.getIce() * cartReqDTO.getPrice_ice() + cartReqDTO.getShot() * cartReqDTO.getPrice_shot() + cartReqDTO.getCream() * cartReqDTO.getPrice_cream());
+        double extraPrice = (cartReqDTO.getIce() * menu.getPrice_ice() + cartReqDTO.getShot() * menu.getPrice_shot() + cartReqDTO.getCream() * menu.getPrice_cream());
         cart.addToTotalCartPrice((menu.getMenu_price() + extraPrice) * cartReqDTO.getQuantity());
 
         cartRepository.save(cart);
