@@ -19,6 +19,8 @@ public enum ErrorCode {
     DUPLICATEPHONE(HttpStatus.UNAUTHORIZED,"DUPLICATEPHONE","중복되는 휴대폰번호가 있습니다."),
     //찾기
     NOTFOUNDPHONE(HttpStatus.UNAUTHORIZED,"NOTFOUNDPHONE","해당 핸드폰번호를 가진 회원이 없습니다."),
+    // 회원가입 이메일 인증
+    MAILSENDFAILED(HttpStatus.UNAUTHORIZED,"MAILSENDFAILED","메일 인증 하는거 실패"),
 
     DUPLICATE(HttpStatus.BAD_REQUEST,"DUPLICATE","중복된 내용이 있습니다."),
     NOTFOUND(HttpStatus.NOT_FOUND,"NOTFOUND","해당해는 내용이없습니다."),

@@ -10,14 +10,31 @@ spring:
   mail:
     host: smtp.gmail.com
     port: 587
-    username: goyangi9876@gmail.com
-    password: goyangi123
+    username: goyangi9876@gmail.com # 앱 비밀번호 발급받은 google 계정
+    password: kwde qyik rqop qvue # 발급받은 앱 비밀번호 (16자리 입니다.) -> 복붙
     properties:
       mail:
         smtp:
-          auth: true
           starttls:
             enable: true
+          auth: true
+
+
+#  mail:
+#    host: smtp.gmail.com
+#    port: 587
+#    username: goyangi9876@gmail.com
+#    password: goyangi123
+#    properties:
+#      mail:
+#        smtp:
+#          auth: true
+#          starttls:
+#            enable: true
+#          starttls.required: true
+#          connectiontimeout: 5000
+#          timeout: 5000
+#          writetimeout: 5000
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQLDialect

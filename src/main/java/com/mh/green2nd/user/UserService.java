@@ -203,19 +203,19 @@ public class UserService {
         userRepository.deleteAll(users);
     }
 
-    public String sendVerificationEmail(String toEmail) {
-        // 6자리 난수 생성
-        String verificationCode = String.format("%06d", (int) (Math.random() * 1000000));
-
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        mailMessage.setTo(toEmail);
-        mailMessage.setSubject("회원가입 인증 코드");
-        mailMessage.setText("회원가입 인증 코드는 " + verificationCode + " 입니다.");
-
-        javaMailSender.send(mailMessage);
-
-        return verificationCode;
-    }
+//    public String sendVerificationEmail(String toEmail) {
+//        // 6자리 난수 생성
+//        String verificationCode = String.format("%06d", (int) (Math.random() * 1000000));
+//
+//        SimpleMailMessage mailMessage = new SimpleMailMessage();
+//        mailMessage.setTo(toEmail);
+//        mailMessage.setSubject("회원가입 인증 코드");
+//        mailMessage.setText("회원가입 인증 코드는 " + verificationCode + " 입니다.");
+//
+//        javaMailSender.send(mailMessage);
+//
+//        return verificationCode;
+//    }
 
 
 }

@@ -7,15 +7,20 @@ import io.swagger.v3.oas.annotations.Parameters;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.modelmapper.ModelMapper;
 
+import java.io.UnsupportedEncodingException;
 
+
+@Slf4j
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
@@ -24,6 +29,7 @@ public class UserController {
 
     private final UserService userService;
     private final TokenManager tokenManager;
+    private final EmailService emailService;
 
 
     @Operation(summary = "회원가입",description = "회원가입할 때 입력값은 email, password, nickname, phone, birthdate")
@@ -145,24 +151,53 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body("ᕦʕ •ᴥ•ʔᕤ 로그아웃 성공 ᕦʕ •ᴥ•ʔᕤ");
     }
 
-    @PostMapping("/sendcode")
-    public ResponseEntity<String> sendcode(@RequestBody EmailDto emailDto) {
+//    @PostMapping("/sendcode")
+//    public ResponseEntity<String> sendcode(@RequestBody EmailDto emailDto) {
+//
+//        String sendemail = userService.sendEmail(emailDto.getEmail());
+//        return ResponseEntity.ok(sendemail);
+//
+//    }
 
-        String sendemail = userService.sendEmail(emailDto.getEmail());
-        return ResponseEntity.ok(sendemail);
+//    @PostMapping("/verifycode")
+//    public ResponseEntity<String> verifyEmail(@RequestBody VerificationDto verificationDto) {
+//        boolean isVerified = userService.verifyEmail(verificationDto.getEmail(), verificationDto.getCode());
+//
+//        if (isVerified) {
+//            return ResponseEntity.ok("인증 성공");
+//        } else {
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("인증 실패");
+//        }
+//    }
 
-    }
+//     @PostMapping("/emails/verification-requests")
+//    public ResponseEntity sendMessage(@RequestParam("email") @Valid @CustomEmail String email) {
+//        userService.sendCodeToEmail(email);
+//
+//        return new ResponseEntity<>(HttpStatus.OK);
+//    }
+//
+//    @GetMapping("/emails/verifications")
+//    public ResponseEntity verificationEmail(@RequestParam("email") @Valid @CustomEmail String email,
+//                                            @RequestParam("code") String authCode) {
+//        EmailVerificationResult response = userService.verifiedCode(email, authCode);
+//
+//        return new ResponseEntity<>(new SingleResponseDto<>(response), HttpStatus.OK);
+//    }
 
-    @PostMapping("/verifycode")
-    public ResponseEntity<String> verifyEmail(@RequestBody VerificationDto verificationDto) {
-        boolean isVerified = userService.verifyEmail(verificationDto.getEmail(), verificationDto.getCode());
-
-        if (isVerified) {
-            return ResponseEntity.ok("인증 성공");
-        } else {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("인증 실패");
+    @ResponseBody
+    @PostMapping("/code")
+    public ResponseEntity<String> EmailCheck(String email) {
+        System.out.println(email);
+        try {
+            String authCode = emailService.sendEmail(email);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.status(500).body("인증번호 전송 실패");
         }
+        return ResponseEntity.status(200).body("저장");	// Response body에 값을 반환해줄게요~
     }
+
 
 
 
