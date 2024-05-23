@@ -31,13 +31,10 @@ public class CartService {
     private final CartMenuService cartMenuService;
     private final TokenManager tokenManager;
 
-    @Transactional
     // 카트에 메뉴를 추가합니다.
+    @Transactional
     public CartResDto addToCart(CartReqDto cartReqDTO, User user) {
-        // 사용자 이메일로 사용자 정보 가져오기
         User dbuser = userRepository.findByEmail(user.getEmail());
-
-        // 해당되는 메뉴 ID로 메뉴 검색
         Menu menu = menuRepository.findById(cartReqDTO.getMenuId())
                 .orElseThrow(
                         () -> new EntityNotFoundException("그런메뉴 id 없습니다: "

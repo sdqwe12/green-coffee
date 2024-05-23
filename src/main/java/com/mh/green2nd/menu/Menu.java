@@ -63,4 +63,8 @@ public class Menu {
     @Column(name = "price_cream", nullable = true)
     @Schema(title = "price_cream",description = "크림 추가 가격")
     private int price_cream;
+
+    @Column(name = "visible", nullable = false)
+    @Schema(title = "visible",description = "메뉴 노출 여부", defaultValue = "true")
+    private boolean visible = true;
 }
