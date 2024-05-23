@@ -70,7 +70,7 @@ public class UserController {
     @Operation(summary = "이메일 찾기 입력값 = 폰번호")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "성공하면"),
-            @ApiResponse(responseCode = "500",description = "그런 유저가 없을 때")
+            @ApiResponse(responseCode = "400",description = "그런 유저가 없을 때")
     })
     @PostMapping("/findemail")
     public ResponseEntity<String> Findemail(@RequestBody FindPwDto findPwDto){
@@ -82,7 +82,7 @@ public class UserController {
     @Operation(summary = "비밀번호찾기 입력값 = 폰번호")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "성공하면"),
-            @ApiResponse(responseCode = "500",description = "그런 유저가 없을 때")
+            @ApiResponse(responseCode = "400",description = "그런 유저가 없을 때")
     })
     @PostMapping("/findpw")
     public ResponseEntity<String> findfw(@RequestBody FindPwDto findPwDto){
@@ -96,7 +96,7 @@ public class UserController {
             ,description = "수정할 때 해당 이메일이 무조건 들어가야함, 뭘 바꾸는지 조건이 이메일이기 때문에 그리고 수정할 때도 정규식 조건에 맞아야 하는데 스웨거에서는 리퀘스트바디에 String이나 null이 아니라 지멋대로 조건에 맞는 예시가 들어가 있음")
     @ApiResponses({
             @ApiResponse(responseCode = "202",description = "정상 변경 되었을 때 나오는 코드"),
-            @ApiResponse(responseCode = "500",description = "정규식의 조건에 맞지 않을 때 나오는 코드"),
+            @ApiResponse(responseCode = "400",description = "정규식의 조건에 맞지 않을 때 나오는 코드"),
             @ApiResponse(responseCode = "400",description = "필수 입력 사항이 없을 때")
     })
     @PutMapping("/update")
@@ -109,7 +109,7 @@ public class UserController {
     @Operation(summary = "회원탈퇴 입력값 \"email\": \"aaa@naver.com\"",description = "회원정보 삭제하지 않고 탈퇴여부만 N에서 Y로 변경")
     @ApiResponses({
             @ApiResponse(responseCode = "202",description = "회원탈퇴완료 되었을 때 나오는코드"),
-            @ApiResponse(responseCode = "500",description = "이메일 못찾은경우")
+            @ApiResponse(responseCode = "400",description = "이메일 못찾은경우")
     })
     @PutMapping("/resign")
     public ResponseEntity<String> resgin(@RequestBody User user){
@@ -142,7 +142,7 @@ public class UserController {
     @Operation(summary = "로그아웃",description = "로그아웃할 때는 토큰을 가지고 있어야함")
     @ApiResponses({
             @ApiResponse(responseCode = "200",description = "로그아웃 성공시 나오는 코드"),
-            @ApiResponse(responseCode = "500",description = "로그아웃 실패시 나오는 코드")
+            @ApiResponse(responseCode = "400",description = "로그아웃 실패시 나오는 코드")
     })
     @PostMapping("/logout")
     public ResponseEntity<String> logout(Authentication authentication){
@@ -186,6 +186,11 @@ public class UserController {
 //    }
 
     @ResponseBody
+    @Operation(summary = "이메일 인증코드 전송",description = "이메일 인증코드 전송")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "정상적으로 보냈을 때"),
+            @ApiResponse(responseCode = "500",description = "메일 보내기 실패했을 경우")
+    })
     @PostMapping("/code")
     public ResponseEntity<String> EmailCheck(String email) {
         System.out.println(email);
