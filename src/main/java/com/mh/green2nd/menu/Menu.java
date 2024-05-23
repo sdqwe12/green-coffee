@@ -52,19 +52,27 @@ public class Menu {
     @Schema(title = "status",description = "품절 여부")
     private boolean status;
 
+    @Column(name = "price_size", nullable = true)
+    @Schema(title = "price_size",description = "사이즈 추가 가격")
+    private int price_size;
+
     @Column(name = "price_ice", nullable = true)
-    @Schema(title = "price_ice",description = "아이스 추가 가격")
+    @Schema(title = "price_ice",description = "아이스 추가", defaultValue = "2")
     private int price_ice;
 
     @Column(name = "price_shot", nullable = true)
-    @Schema(title = "price_shot",description = "샷 추가 가격")
+    @Schema(title = "price_shot",description = "샷 추가 가격", defaultValue = "0")
     private int price_shot;
 
     @Column(name = "price_cream", nullable = true)
-    @Schema(title = "price_cream",description = "크림 추가 가격")
+    @Schema(title = "price_cream",description = "크림 추가 가격", defaultValue = "0")
     private int price_cream;
 
     @Column(name = "visible", nullable = false)
     @Schema(title = "visible",description = "메뉴 노출 여부", defaultValue = "true")
     private boolean visible = true;
+
+    @Column(name = "recommend", nullable = true)
+    @Schema(title = "recommend",description = "추천메뉴 여부")
+    private boolean recommend;
 }

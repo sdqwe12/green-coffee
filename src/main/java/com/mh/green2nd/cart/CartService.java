@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import com.mh.green2nd.menu.Menu;
 
 @Data
 @Service
@@ -64,6 +65,7 @@ public class CartService {
             cartMenu.setQuantity(cartReqDTO.getQuantity());
             cartMenu.setCart(cart);
 
+            cartMenu.setSize(cartReqDTO.getSize());
             cartMenu.setIce(cartReqDTO.getIce());
             cartMenu.setShot(cartReqDTO.getShot());
             cartMenu.setCream(cartReqDTO.getCream());
@@ -75,7 +77,7 @@ public class CartService {
         }
 
         // totalPrice 업데이트
-        double extraPrice = (cartReqDTO.getIce() * menu.getPrice_ice() + cartReqDTO.getShot() * menu.getPrice_shot() + cartReqDTO.getCream() * menu.getPrice_cream());
+        double extraPrice = (cartReqDTO.getSize() * menu.getPrice_size() + cartReqDTO.getShot() * menu.getPrice_shot() + cartReqDTO.getCream() * menu.getPrice_cream());
         cart.addToTotalCartPrice((menu.getMenu_price() + extraPrice) * cartReqDTO.getQuantity());
 
         cartRepository.save(cart);
@@ -137,7 +139,7 @@ public class CartService {
                 // 장바구니에 담긴 메뉴의 가격을 계산합니다.
                 cartMenu ->{
                     // 메뉴의 가격과 수량을 곱한 값을 반환합니다.
-                        return (cartMenu.getQuantity()+ cartMenu.getIce()*+cartMenu.getShot()*500+ cartMenu.getCream()*500);
+                    return (cartMenu.getQuantity() + cartMenu.getShot() * 500 + cartMenu.getSize() * 1000 + cartMenu.getCream() * 500);
                 }
                 // 모든 메뉴의 가격을 더합니다.
         ).sum();
@@ -222,6 +224,7 @@ public class CartService {
     public double calculateTotalCartPrice(Cart cart) {
         double totalPrice = 0.0;
         for (CartMenu cartMenu : cart.getCartMenusList()) {
+            Menu menu = cartMenu.getMenu();
             double subPrice = cartMenuService.calculateSubCartPrice(cartMenu);
             totalPrice += subPrice;
         }

@@ -87,6 +87,14 @@ public class SuperAdminMenuController {
         return ResponseEntity.ok("메뉴카테고리가 수정되었습니다.");
     }
 
+    //superadmin만 visibile 상태 수정 가능
+    @Operation(summary = "메뉴 노출 여부 수정", description = "superadmin만 visibile 상태 수정 가능")
+    @PutMapping("/{menuId}/updateVisible")
+    public  ResponseEntity<String> updateMenuVisible(Authentication authentication, @PathVariable Long menuId, @RequestBody boolean visible) {
+        User jwtuser = (User) authentication.getPrincipal();
+        superAdminMenuService.updateMenuVisible(jwtuser, menuId, visible);
+        return ResponseEntity.ok("메뉴노출여부가 수정되었습니다.");
+    }
 
 
 }

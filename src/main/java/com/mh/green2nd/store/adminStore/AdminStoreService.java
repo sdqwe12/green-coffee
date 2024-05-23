@@ -15,14 +15,13 @@ public class AdminStoreService {
     private final StoreRepository storeRepository;
 
     // admin만 매장 영업시간 수정 가능
-    public Store updateStoreTime(User user, Long storeId, StoreDto storeDto) {
+    public Store updateStoreTime(User user, Long storeId, String open, String close) {
         if (user.getRole() != Role.ADMIN) {
             throw new RuntimeException("admins만 매장 영업시간 수정 가능");
         }
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new RuntimeException("Store not found"));
-        store.setOpen(storeDto.getOpen());
-        store.setClose(storeDto.getClose());
-        store.setHoliday(storeDto.getHoliday());
+        store.setOpen(open);
+        store.setClose(close);
         return storeRepository.save(store);
     }
 

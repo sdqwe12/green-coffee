@@ -28,12 +28,8 @@ public class InterceptorCorsConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(jwtInterceptor)
-<<<<<<< HEAD
-                .addPathPatterns("/item/**","/homeAd/**","/orders/**","/cart/**","/user/**", "/payment/**", "/admin/**", "/superadmin/**")
-                .excludePathPatterns("list/**", "/user/signup/**", "/user/login/**","/user/findemail/**","/user/findpw/**","/user/verifycode/**","/user/code/**");
-=======
-                .addPathPatterns("/item/**","/homeAd/**","/orders/**","/cart/**","/user/**", "/payment/**", "/admin/**", "/superadmin/**","/store/**","/menu/**")
+
+                .addPathPatterns("/item/**","/homeAd/**","/orders/**","/cart/**","/user/**", "/payment/**", "/admin/**", "/superadmin/**","/store/**")
                 .excludePathPatterns("list/**", "/user/signup/**", "/user/login/**","/user/findemail/**","/user/findpw/**","/user/verifycode/**","/user/sendcode/**");
->>>>>>> f0212ddebc74f68e5eb651b37701259c570867ee
     }
 }

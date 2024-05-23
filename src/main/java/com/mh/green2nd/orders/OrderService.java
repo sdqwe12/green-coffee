@@ -53,8 +53,7 @@ public class OrderService {
             orderMenu.setShot(orderReqDto.getShot());
             orderMenu.setCream(orderReqDto.getCream());
 
-            double extraPrice = orderReqDto.getIce() * menu.getPrice_ice() +
-                    orderReqDto.getShot() * menu.getPrice_shot() +
+            double extraPrice = orderReqDto.getShot() * menu.getPrice_shot() +
                     orderReqDto.getCream() * menu.getPrice_cream();
             total += (extraPrice + menu.getMenu_price()) * orderReqDto.getQuantity();
 

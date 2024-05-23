@@ -29,5 +29,8 @@ public class MenuService {
     public List<Menu> search(String name) {
         return menuRepository.findByNameContaining(name);
     }
+    public List<Menu> recommend() {
+        return menuRepository.findByRecommend(true);
+    }
 
 }

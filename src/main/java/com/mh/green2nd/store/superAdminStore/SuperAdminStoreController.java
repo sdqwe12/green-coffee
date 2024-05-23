@@ -9,7 +9,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/store/superAdmin")
+@RequestMapping("/superAdmin/store")
 @RequiredArgsConstructor
 public class SuperAdminStoreController {
     private final SuperAdminStoreService superAdminStoreService;

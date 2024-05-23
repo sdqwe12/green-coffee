@@ -104,6 +104,15 @@ public class SuperAdminMenuService {
         return menuRepository.save(menu);
     }
 
+    //superadmin만 메뉴 상태 수정 가능
+    public Menu updateMenuVisible(User user, Long menuId, boolean visible) {
+        if (user.getRole() != Role.SUPERADMIN) {
+            throw new RuntimeException("Only superadmins can update menu visibles");
+        }
+        Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new RuntimeException("Menu not found"));
+        menu.setVisible(visible);
+        return menuRepository.save(menu);
+    }
 
 
 

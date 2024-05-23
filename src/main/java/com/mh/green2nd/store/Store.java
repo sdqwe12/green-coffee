@@ -31,10 +31,11 @@ public class Store {
     private String close;
 
     @Column(name = "holiday")
+    @Schema(defaultValue = "화요일")
     private String holiday;
 
     @Column(name = "status", nullable = false)
-    @Schema(title = "status",description = "Open, Closed, Vacation", defaultValue = "Open")
+    @Schema(description = "영업중, 영업끝, 휴무중")
     private String status;
 
 }
