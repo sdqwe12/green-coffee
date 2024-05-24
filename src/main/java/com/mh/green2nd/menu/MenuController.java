@@ -62,7 +62,4 @@ public class MenuController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-
-
-
 }

@@ -25,7 +25,7 @@ public class OrderController {
     public ResponseEntity neworder(@RequestBody OrderReqDto[] orderReqDto, Authentication authentication) {
         User jwtUser = (User) authentication.getPrincipal();
         orderService.createNewOrder(orderReqDto, jwtUser);
-        return null;
+        return ResponseEntity.status(HttpStatus.CREATED).body("주문이 완료되었습니다.");
     }
 
     // 2. 주문내역 보여주기

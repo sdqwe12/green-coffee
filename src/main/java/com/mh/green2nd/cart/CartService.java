@@ -137,9 +137,9 @@ public class CartService {
         // 장바구니의 총 가격을 다시 계산합니다.
         int total = cart.getCartMenusList().stream().mapToInt(
                 // 장바구니에 담긴 메뉴의 가격을 계산합니다.
-                cartMenu ->{
-                    // 메뉴의 가격과 수량을 곱한 값을 반환합니다.
-                    return (cartMenu.getQuantity() + cartMenu.getShot() * 500 + cartMenu.getSize() * 1000 + cartMenu.getCream() * 500);
+                cartMenu -> {
+                    double extraPrice = (cartMenu.getSize() * cartMenu.getMenu().getPrice_size() + cartMenu.getShot() * cartMenu.getMenu().getPrice_shot() + cartMenu.getCream() * cartMenu.getMenu().getPrice_cream());
+                    return (int) ((cartMenu.getMenu().getMenu_price() + extraPrice) * cartMenu.getQuantity());
                 }
                 // 모든 메뉴의 가격을 더합니다.
         ).sum();
