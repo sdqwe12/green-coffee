@@ -46,6 +46,9 @@ public class SuperAdminStoreService {
         if (superAdminStoreUpdateDto.getPhone() != null) {
             store.setPhone(superAdminStoreUpdateDto.getPhone());
         }
+        if (superAdminStoreUpdateDto.getAdminName() != null) {
+            store.setAdminName(superAdminStoreUpdateDto.getAdminName());
+        }
 
         return storeRepository.save(store);
     }

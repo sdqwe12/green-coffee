@@ -53,10 +53,10 @@ INSERT INTO home_ad (ad_head, ad_content, ad_upload_time, ad_due_date, image_url
 ('이벤트1', '혜택1', NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY), 'image/HomeEvent/2024-03-28 4월 프로모션.jpg', 'image/HomeEvent/2024-03-28 4월 프로모션-1.jpg'),
 ('이벤트2', '혜택2', NOW(), DATE_ADD(NOW(), INTERVAL 7 DAY), 'image/HomeEvent/2024-04-18 제주 지역 리유저블 컵 이벤트.jpg', 'image/HomeEvent/2024-04-18 제주 지역 리유저블 컵 이벤트-1.jpg');
 
-INSERT INTO store (name, address, phone, open, close, holiday, status)
+INSERT INTO store (name, address, phone, open, close, holiday, status, admin_name)
 VALUES
-    ('Store 1', 'Address 1', '1234567890', '09:00', '18:00', '연중무휴', '영업중'),
-    ('Store 2', 'Address 2', '1234567891', '09:00', '18:00', '연중무휴', '영업중'),
-    ('Store 3', 'Address 3', '1234567892', '09:00', '18:00', '연중무휴', '영업중'),
-    ('Store 4', 'Address 4', '1234567893', '09:00', '18:00', '연중무휴', '영업중'),
-    ('Store 5', 'Address 5', '1234567894', '09:00', '18:00', '연중무휴', '영업중');
+    ('Store 1', 'Address 1', '1234567890', '09:00', '18:00', '연중무휴', '영업중', '고길동'),
+    ('Store 2', 'Address 2', '1234567891', '09:00', '18:00', '연중무휴', '영업중', '박길동'),
+    ('Store 3', 'Address 3', '1234567892', '09:00', '18:00', '연중무휴', '영업중', '이길동'),
+    ('Store 4', 'Address 4', '1234567893', '09:00', '18:00', '연중무휴', '영업중', '정길동'),
+    ('Store 5', 'Address 5', '1234567894', '09:00', '18:00', '연중무휴', '영업중', '오길동');

@@ -10,4 +10,6 @@ public class SuperAdminStoreUpdateDto {
         private String name = null;
         private String address = null;
         private String phone = null;
+
+        private String adminName = null;
 }
