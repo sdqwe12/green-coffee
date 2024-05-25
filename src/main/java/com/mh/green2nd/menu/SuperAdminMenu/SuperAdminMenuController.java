@@ -33,60 +33,14 @@ public class SuperAdminMenuController {
         return ResponseEntity.ok("메뉴가 삭제되었습니다.");
     }
 
-    //superadmin만 메뉴 이름 수정 가능
-    @Operation(summary = "메뉴 이름 수정", description = "superadmin만 메뉴 이름 수정 가능")
-    @PutMapping("/{menuId}/updateName")
-    public  ResponseEntity<String> updateMenu(Authentication authentication, @PathVariable Long menuId, @RequestBody String name) {
+    //superadmin만 메뉴 수정 가능
+    @Operation(summary = "메뉴 수정", description = "superadmin만 메뉴 수정 가능")
+    @PatchMapping("/{menuId}/update")
+    public ResponseEntity<String> updateMenu(Authentication authentication, @PathVariable Long menuId, @RequestBody SuperAdminMenuUpdateDto superAdminMenuUpdateDto) {
         User jwtuser = (User) authentication.getPrincipal();
-        superAdminMenuService.updateMenu(jwtuser, menuId, name);
-        return ResponseEntity.ok("메뉴이름이 수정되었습니다.");
+        superAdminMenuService.updateMenu(jwtuser, menuId, superAdminMenuUpdateDto);
+        return ResponseEntity.ok("메뉴 정보가 수정되었습니다.");
     }
-
-    //superadmin만 메뉴 가격 수정 가능
-    @Operation(summary = "메뉴 가격 수정", description = "superadmin만 메뉴 가격 수정 가능")
-    @PutMapping("/{menuId}/updatePrice")
-    public  ResponseEntity<String> updateMenuPrice(Authentication authentication, @PathVariable Long menuId, @RequestBody double price) {
-        User jwtuser = (User) authentication.getPrincipal();
-        superAdminMenuService.updateMenuPrice(jwtuser, menuId, price);
-        return ResponseEntity.ok("메뉴가격이 수정되었습니다.");
-    }
-
-    //superadmin만 메뉴 설명 수정 가능
-    @Operation(summary = "메뉴 설명 수정", description = "superadmin만 메뉴 설명 수정 가능")
-    @PutMapping("/{menuId}/updateExplain")
-    public  ResponseEntity<String> updateMenuExplain(Authentication authentication, @PathVariable Long menuId, @RequestBody String explain) {
-        User jwtuser = (User) authentication.getPrincipal();
-        superAdminMenuService.updateMenuExplain(jwtuser, menuId, explain);
-        return ResponseEntity.ok("메뉴설명이 수정되었습니다.");
-    }
-
-    //superadmin만 메뉴 이미지 수정 가능
-    @Operation(summary = "메뉴 이미지 수정", description = "superadmin만 메뉴 이미지 수정 가능")
-    @PutMapping("/{menuId}/updateImgurl")
-    public  ResponseEntity<String> updateMenuImgurl(Authentication authentication, @PathVariable Long menuId, @RequestBody String imgurl) {
-        User jwtuser = (User) authentication.getPrincipal();
-        superAdminMenuService.updateMenuImgUrl(jwtuser, menuId, imgurl);
-        return ResponseEntity.ok("메뉴이미지가 수정되었습니다.");
-    }
-
-    //superadmin만 메뉴 영문명 수정 가능
-    @Operation(summary = "메뉴 영문명 수정", description = "superadmin만 메뉴 영문명 수정 가능")
-    @PutMapping("/{menuId}/updateEname")
-    public  ResponseEntity<String> updateMenuEname(Authentication authentication, @PathVariable Long menuId, @RequestBody String ename) {
-        User jwtuser = (User) authentication.getPrincipal();
-        superAdminMenuService.updateMenuEname(jwtuser, menuId, ename);
-        return ResponseEntity.ok("메뉴영문명이 수정되었습니다.");
-    }
-
-    //superadmin만 메뉴 카테고리 수정 가능
-    @Operation(summary = "메뉴 카테고리 수정 (1 : coffee, 2 : beverage, 3 : food, 4 : goods)", description = "superadmin만 메뉴 카테고리 수정 가능")
-    @PutMapping("/{menuId}/updateCategory")
-    public  ResponseEntity<String> updateMenuCategory(Authentication authentication, @PathVariable Long menuId, @RequestBody String category) {
-        User jwtuser = (User) authentication.getPrincipal();
-        superAdminMenuService.updateMenuCategory(jwtuser, menuId, category);
-        return ResponseEntity.ok("메뉴카테고리가 수정되었습니다.");
-    }
-
 
 
 }

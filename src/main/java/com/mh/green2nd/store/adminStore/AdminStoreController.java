@@ -9,17 +9,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/store/admin")
+@RequestMapping("/admin/store")
 @RequiredArgsConstructor
 public class AdminStoreController {
     private final AdminStoreService adminStoreService;
 
     // admin만 매장 영업시간 수정 가능
     @Operation(summary = "매장 영업시간 수정", description = "admin만 매장 영업시간 수정 가능")
-    @PutMapping("/{storeId}/time")
-    public ResponseEntity<String> updateStoreTime(@PathVariable Long storeId, @RequestBody StoreDto storeDto, Authentication authentication) {
+    @PutMapping("/{storeId}/time/{open}/{close}")
+    public ResponseEntity<String> updateStoreTime(@PathVariable Long storeId, @PathVariable String open, @PathVariable String close, Authentication authentication) {
         User currentUser = (User) authentication.getPrincipal();
-        adminStoreService.updateStoreTime(currentUser, storeId, storeDto);
+        adminStoreService.updateStoreTime(currentUser, storeId, open, close);
         return ResponseEntity.ok("매장 영업시간이 수정되었습니다.");
     }
 

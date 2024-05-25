@@ -34,76 +34,32 @@ public class SuperAdminMenuService {
         menuRepository.delete(menu);
     }
 
-    //superadmin과 admin 모두 메뉴 이름 수정 가능
-    public Menu updateMenu(User user, Long menuId, String name) {
+    //superadmin만 메뉴 수정 가능
+    public Menu updateMenu(User user, Long menuId, SuperAdminMenuUpdateDto superAdminMenuUpdateDto) {
         if (user.getRole() != Role.SUPERADMIN) {
-            throw new RuntimeException("Only superadmins can update menu names");
+            throw new RuntimeException("Only superadmins can update menus");
         }
         Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new RuntimeException("Menu not found"));
-        menu.setName(name);
-        return menuRepository.save(menu);
-    }
-
-    //superadmin만 메뉴 가격 수정 가능
-    public Menu updateMenuPrice(User user, Long menuId, double price) {
-        if (user.getRole() != Role.SUPERADMIN) {
-            throw new RuntimeException("Only superadmins can update menu prices");
+        if (superAdminMenuUpdateDto.getName() != null) {
+            menu.setName(superAdminMenuUpdateDto.getName());
         }
-        Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new RuntimeException("Menu not found"));
-        menu.setMenu_price(price);
-        return menuRepository.save(menu);
-    }
-
-    //superadmin만 메뉴 설명 수정 가능
-    public Menu updateMenuExplain(User user, Long menuId, String explain) {
-        if (user.getRole() != Role.SUPERADMIN) {
-            throw new RuntimeException("Only superadmins can update menu explains");
+        if (superAdminMenuUpdateDto.getPrice() != null) {
+            menu.setMenu_price(superAdminMenuUpdateDto.getPrice());
         }
-        Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new RuntimeException("Menu not found"));
-        menu.setMenu_explain(explain);
-        return menuRepository.save(menu);
-    }
-
-    //superadmin만 메뉴 이미지 수정 가능
-    public Menu updateMenuImgUrl(User user, Long menuId, String imgUrl) {
-        if (user.getRole() != Role.SUPERADMIN) {
-            throw new RuntimeException("Only superadmins can update menu img urls");
+        if (superAdminMenuUpdateDto.getExplain() != null) {
+            menu.setMenu_explain(superAdminMenuUpdateDto.getExplain());
         }
-        Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new RuntimeException("Menu not found"));
-        menu.setMenu_imgurl(imgUrl);
-        return menuRepository.save(menu);
-    }
-
-    //superadmin만 메뉴 배너이미지 수정 가능
-    public Menu updateMenuBannerImgUrl(User user, Long menuId, String bannerImgUrl) {
-        if (user.getRole() != Role.SUPERADMIN) {
-            throw new RuntimeException("Only superadmins can update menu banner img urls");
+        if (superAdminMenuUpdateDto.getEname() != null) {
+            menu.setMenu_ename(superAdminMenuUpdateDto.getEname());
         }
-        Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new RuntimeException("Menu not found"));
-        menu.setMenu_bannerimgurl(bannerImgUrl);
-        return menuRepository.save(menu);
-    }
-
-    //superadmin만 메뉴 영문명 수정 가능
-    public Menu updateMenuEname(User user, Long menuId, String ename) {
-        if (user.getRole() != Role.SUPERADMIN) {
-            throw new RuntimeException("Only superadmins can update menu enames");
+        if (superAdminMenuUpdateDto.getCategory() != null) {
+            menu.setCategory(superAdminMenuUpdateDto.getCategory());
         }
-        Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new RuntimeException("Menu not found"));
-        menu.setMenu_ename(ename);
-        return menuRepository.save(menu);
-    }
-
-    //superadmin만 메뉴 카테고리 수정 가능
-    public Menu updateMenuCategory(User user, Long menuId, String category) {
-        if (user.getRole() != Role.SUPERADMIN) {
-            throw new RuntimeException("Only superadmins can update menu categories");
+        if (superAdminMenuUpdateDto.getVisible() != null) {
+            menu.setVisible(superAdminMenuUpdateDto.getVisible());
         }
-        Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new RuntimeException("Menu not found"));
-        menu.setCategory(category);
         return menuRepository.save(menu);
     }
-
 
 
 
