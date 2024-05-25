@@ -30,33 +30,23 @@ public class SuperAdminStoreService {
         return storeRepository.save(store);
     }
 
-    // superadmin만 매장 이름 수정 가능
-    public Store updateStoreName(User user, Long storeId, String name) {
+    // superadmin만 매장 정보 수정 가능
+    public Store updateStore(User user, Long storeId, SuperAdminStoreUpdateDto superAdminStoreUpdateDto) {
         if (user.getRole() != Role.SUPERADMIN) {
-            throw new RuntimeException("superadmins만 매장 이름 수정 가능");
+            throw new RuntimeException("Only superadmins can update stores");
         }
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new RuntimeException("Store not found"));
-        store.setName(name);
-        return storeRepository.save(store);
-    }
 
-    // superadmin만 매장 주소 수정 가능
-    public Store updateStoreAddress(User user, Long storeId, String address) {
-        if (user.getRole() != Role.SUPERADMIN && user.getRole() != Role.ADMIN) {
-            throw new RuntimeException("superadmins와 admins만 매장 주소 수정 가능");
+        if (superAdminStoreUpdateDto.getName() != null) {
+            store.setName(superAdminStoreUpdateDto.getName());
         }
-        Store store = storeRepository.findById(storeId).orElseThrow(() -> new RuntimeException("Store not found"));
-        store.setAddress(address);
-        return storeRepository.save(store);
-    }
+        if (superAdminStoreUpdateDto.getAddress() != null) {
+            store.setAddress(superAdminStoreUpdateDto.getAddress());
+        }
+        if (superAdminStoreUpdateDto.getPhone() != null) {
+            store.setPhone(superAdminStoreUpdateDto.getPhone());
+        }
 
-    // superadmin만 매장 전화번호 수정 가능
-    public Store updateStorePhoneNumber(User user, Long storeId, String phoneNumber) {
-        if (user.getRole() != Role.SUPERADMIN && user.getRole() != Role.ADMIN) {
-            throw new RuntimeException("superadmins와 admins만 매장 전화번호 수정 가능");
-        }
-        Store store = storeRepository.findById(storeId).orElseThrow(() -> new RuntimeException("Store not found"));
-        store.setPhone(phoneNumber);
         return storeRepository.save(store);
     }
 

@@ -23,34 +23,13 @@ public class SuperAdminStoreController {
         return ResponseEntity.ok("새로운 매장이 생성되었습니다.");
     }
 
-    //superadmin만 매장 이름 수정 가능
-    @Operation(summary = "매장 이름 수정", description = "superadmin만 매장 이름 수정 가능")
-    @PutMapping("/{storeId}/name")
-    public ResponseEntity<String> updateStoreName(@PathVariable Long storeId, @RequestBody String name, Authentication authentication) {
+    //superadmin만 매장 정보 수정 가능
+    @Operation(summary = "매장 정보 수정", description = "superadmin만 매장 정보 수정 가능")
+    @PatchMapping("/{storeId}/update")
+    public ResponseEntity<String> updateStore(Authentication authentication, @PathVariable Long storeId, @RequestBody SuperAdminStoreUpdateDto superAdminStoreUpdateDto) {
         User currentUser = (User) authentication.getPrincipal();
-        superAdminStoreService.updateStoreName(currentUser, storeId, name);
-        return ResponseEntity.ok("매장 이름이 수정되었습니다.");
-    }
-
-    //superadmin만 매장 주소 수정 가능
-    @Operation(summary = "매장 주소 수정", description = "superadmin과 admin 모두 매장 주소 수정 가능")
-    @PutMapping("/{storeId}/address")
-    public  ResponseEntity<String> updateStoreAddress(@PathVariable Long storeId, @RequestBody String address, Authentication authentication) {
-        User currentUser = (User) authentication.getPrincipal();
-        superAdminStoreService.updateStoreAddress(currentUser, storeId, address);
-        return ResponseEntity.ok("매장 주소가 수정되었습니다.");
-    }
-
-    //superadmin만 매장 전화번호 수정 가능
-    @Operation(summary = "매장 전화번호 수정", description = "superadmin과 admin 모두 매장 전화번호 수정 가능")
-    @PutMapping("/{storeId}/phone")
-    public  ResponseEntity<String> updateStorePhoneNumber(@PathVariable Long storeId,
-                                                          @RequestBody String phoneNumber,
-                                                          Authentication authentication) {
-        System.out.println(authentication);
-        User currentUser = (User) authentication.getPrincipal();
-        superAdminStoreService.updateStorePhoneNumber(currentUser, storeId, phoneNumber);
-        return ResponseEntity.ok("매장 전화번호가 수정되었습니다.");
+        superAdminStoreService.updateStore(currentUser, storeId, superAdminStoreUpdateDto);
+        return ResponseEntity.ok("매장 정보가 수정되었습니다.");
     }
 
 
