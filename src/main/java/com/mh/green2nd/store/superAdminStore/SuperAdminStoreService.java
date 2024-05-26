@@ -53,6 +53,13 @@ public class SuperAdminStoreService {
         return storeRepository.save(store);
     }
 
+    // superadmin만 매장 정보 조회 가능
+    public void getStoreInfo(User user, Long storeId) {
+        if (user.getRole() != Role.SUPERADMIN) {
+            throw new RuntimeException("Only superadmins can get store info");
+        }
+    }
+
 
 
 

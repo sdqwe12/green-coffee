@@ -14,6 +14,15 @@ import org.springframework.web.bind.annotation.*;
 public class AdminStoreController {
     private final AdminStoreService adminStoreService;
 
+    // admin만 매장 조회 가능
+    @Operation(summary = "매장 조회", description = "admin만 매장 조회 가능")
+    @GetMapping("/list")
+    public ResponseEntity<String> getStoreList(Authentication authentication) {
+        User currentUser = (User) authentication.getPrincipal();
+        adminStoreService.getStoreList(currentUser);
+        return ResponseEntity.ok("매장 조회가 완료되었습니다.");
+    }
+
     // admin만 매장 영업시간 수정 가능
     @Operation(summary = "매장 영업시간 수정", description = "admin만 매장 영업시간 수정 가능")
     @PutMapping("/{storeId}/time/{open}/{close}")

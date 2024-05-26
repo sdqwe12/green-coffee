@@ -20,7 +20,6 @@ import java.util.Collections;
 public class PayService {
 
     private final PayRepository payRepository;
-    private final UserRepository userRepository;
     private final InformationRepository informationRepository;
 
     @Value("${toss.apikey}")
