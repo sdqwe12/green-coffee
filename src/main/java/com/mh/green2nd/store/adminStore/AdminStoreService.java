@@ -14,6 +14,13 @@ public class AdminStoreService {
 
     private final StoreRepository storeRepository;
 
+    // admin만 매장 조회 가능
+    public void getStoreList(User user) {
+        if (user.getRole() != Role.ADMIN) {
+            throw new RuntimeException("Only admins can get store list");
+        }
+    }
+
     // admin만 매장 영업시간 수정 가능
     public Store updateStoreTime(User user, Long storeId, String open, String close) {
         if (user.getRole() != Role.ADMIN) {

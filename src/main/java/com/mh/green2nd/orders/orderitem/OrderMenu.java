@@ -37,7 +37,7 @@ public class OrderMenu {
     @PostPersist
     public void calculateSubCartPrice() {
         double menuPrice = menu.getMenu_price();
-        int optionPrice = ice * 200 + shot * 500 + cream * 500;
+        int optionPrice = ice * menu.getPrice_ice() + shot * menu.getPrice_shot() + cream * menu.getPrice_cream();
         this.subPrice = (menuPrice + optionPrice) * quantity;
     }
 

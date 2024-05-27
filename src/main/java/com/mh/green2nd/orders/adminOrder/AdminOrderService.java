@@ -8,6 +8,8 @@ import com.mh.green2nd.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class AdminOrderService {
@@ -25,5 +27,14 @@ public class AdminOrderService {
 
         order.setState(newState);
         orderRepository.save(order);
+    }
+
+    // 주문 내역 조회
+    public List<Order> getOrderList(User user) {
+        if (user.getRole() != Role.ADMIN) {
+            throw new RuntimeException("Only admins can get order list");
+        }
+
+        return orderRepository.findAll();
     }
 }

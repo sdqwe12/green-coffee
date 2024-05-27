@@ -1,6 +1,5 @@
 package com.mh.green2nd.tosspay;
 
-import com.mh.green2nd.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
@@ -20,7 +19,6 @@ import java.util.Collections;
 public class PayService {
 
     private final PayRepository payRepository;
-    private final UserRepository userRepository;
     private final InformationRepository informationRepository;
 
     @Value("${toss.apikey}")

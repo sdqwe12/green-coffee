@@ -13,11 +13,12 @@ public class CartReqDto {
     private int quantity;
     private Long cartId;
 
+    private int size;
     private int ice;
     private int shot;
     private int cream;
 
-    private double price_ice;
-    private double price_shot;
-    private double price_cream;
+    private int price_size;
+    private int price_shot;
+    private int price_cream;
 }

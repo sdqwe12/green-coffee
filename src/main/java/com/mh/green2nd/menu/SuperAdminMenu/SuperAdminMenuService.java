@@ -8,6 +8,12 @@ import com.mh.green2nd.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -34,14 +40,43 @@ public class SuperAdminMenuService {
         menuRepository.delete(menu);
     }
 
+<<<<<<< HEAD
     //superadmin만 메뉴 수정 가능
     public Menu updateMenu(User user, Long menuId, SuperAdminMenuUpdateDto superAdminMenuUpdateDto) {
         if (user.getRole() != Role.SUPERADMIN) {
+=======
+    // superadmin만 메뉴 조회 가능
+    public List<SuperAdminMenuGetDto> getMenuList(User user) {
+        if (user.getRole() != Role.SUPERADMIN) {
+            throw new RuntimeException("Only superadmins can get menu list");
+        }
+        List<Menu> menus = menuRepository.findAll();
+        List<SuperAdminMenuGetDto> superAdminMenuGetDtos = new ArrayList<>();
+        for (Menu menu : menus) {
+            SuperAdminMenuGetDto superAdminMenuGetDto = new SuperAdminMenuGetDto();
+            superAdminMenuGetDto.setId(menu.getMenu_id());
+            superAdminMenuGetDto.setName(menu.getName());
+            superAdminMenuGetDto.setPrice((int) menu.getMenu_price());
+            superAdminMenuGetDto.setExplain(menu.getMenu_explain());
+            superAdminMenuGetDto.setEname(menu.getMenu_ename());
+            superAdminMenuGetDto.setCategory(menu.getCategory());
+            superAdminMenuGetDto.setVisible(menu.isVisible());
+            superAdminMenuGetDto.setRecommend(menu.isRecommend());
+            superAdminMenuGetDtos.add(superAdminMenuGetDto);
+        }
+        return superAdminMenuGetDtos;
+    }
+
+    //superadmin만 메뉴 수정 가능
+    public Menu updateMenu(User user, Long menuId, SuperAdminMenuUpdateDto superAdminMenuUpdateDto) {
+        if (user.getRole() != Role.SUPERADMIN) {
+>>>>>>> jc
             throw new RuntimeException("Only superadmins can update menus");
         }
         Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new RuntimeException("Menu not found"));
         if (superAdminMenuUpdateDto.getName() != null) {
             menu.setName(superAdminMenuUpdateDto.getName());
+<<<<<<< HEAD
         }
         if (superAdminMenuUpdateDto.getPrice() != null) {
             menu.setMenu_price(superAdminMenuUpdateDto.getPrice());
@@ -64,4 +99,58 @@ public class SuperAdminMenuService {
 
 
 
+=======
+        }
+        if (superAdminMenuUpdateDto.getPrice() != null) {
+            menu.setMenu_price(superAdminMenuUpdateDto.getPrice());
+        }
+        if (superAdminMenuUpdateDto.getExplain() != null) {
+            menu.setMenu_explain(superAdminMenuUpdateDto.getExplain());
+        }
+        if (superAdminMenuUpdateDto.getEname() != null) {
+            menu.setMenu_ename(superAdminMenuUpdateDto.getEname());
+        }
+        if (superAdminMenuUpdateDto.getCategory() != null) {
+            menu.setCategory(superAdminMenuUpdateDto.getCategory());
+        }
+        if (superAdminMenuUpdateDto.getVisible() != null) {
+            menu.setVisible(superAdminMenuUpdateDto.getVisible());
+        }
+        return menuRepository.save(menu);
+    }
+
+    //superadmin만 추천메뉴 수정 가능
+    public Menu updateRecommend(User user, Long menuId, boolean recommend) {
+        if (user.getRole() != Role.SUPERADMIN) {
+            throw new RuntimeException("Only superadmins can update recommend");
+        }
+        Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new RuntimeException("Menu not found"));
+        menu.setRecommend(recommend);
+        return menuRepository.save(menu);
+    }
+
+    //superadmin만 메뉴 이미지 업로드 가능
+    public String uploadImage(MultipartFile file) {
+        try {
+            byte[] bytes = file.getBytes();
+            Path path = Paths.get("src/main/resources/static/images/" + file.getOriginalFilename());
+            Files.write(path, bytes);
+            return path.toString();
+        } catch (Exception e) {
+            throw new RuntimeException("Image upload failed");
+        }
+    }
+
+    //superadmin만 메뉴 이미지 수정 가능
+    public String updateImage(User user, Long menuId, String imageUrl) {
+        if (user.getRole() != Role.SUPERADMIN) {
+            throw new RuntimeException("Only superadmins can update images");
+        }
+        Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new RuntimeException("Menu not found"));
+        menu.setMenu_imgurl(imageUrl);
+        return menuRepository.save(menu).getMenu_imgurl();
+    }
+
+
+>>>>>>> jc
 }

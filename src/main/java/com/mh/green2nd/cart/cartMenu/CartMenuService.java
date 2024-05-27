@@ -20,17 +20,17 @@ public class CartMenuService {
     }
 
     public double calculateSubCartPrice(CartMenu cartMenu) {
-        Menu menu = cartMenu.getMenu();
         int quantity = cartMenu.getQuantity();
-        int ice = cartMenu.getIce();
+        int size = cartMenu.getSize();
         int shot = cartMenu.getShot();
         int cream = cartMenu.getCream();
-        int price_ice = menu.getPrice_ice();
+        Menu menu = cartMenu.getMenu();
+        int price_size = menu.getPrice_size();
         int price_shot = menu.getPrice_shot();
         int price_cream = menu.getPrice_cream();
 
         double menuPrice = menu.getMenu_price();
-        int optionPrice = price_ice * ice + price_shot * shot + price_cream * cream;
+        int optionPrice = price_size * size + price_shot * shot + price_cream * cream;
         return (menuPrice + optionPrice) * quantity;
     }
 

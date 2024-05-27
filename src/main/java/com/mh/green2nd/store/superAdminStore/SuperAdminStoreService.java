@@ -36,6 +36,7 @@ public class SuperAdminStoreService {
             throw new RuntimeException("Only superadmins can update stores");
         }
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new RuntimeException("Store not found"));
+<<<<<<< HEAD
 
         if (superAdminStoreUpdateDto.getName() != null) {
             store.setName(superAdminStoreUpdateDto.getName());
@@ -51,6 +52,30 @@ public class SuperAdminStoreService {
         }
 
         return storeRepository.save(store);
+=======
+
+        if (superAdminStoreUpdateDto.getName() != null) {
+            store.setName(superAdminStoreUpdateDto.getName());
+        }
+        if (superAdminStoreUpdateDto.getAddress() != null) {
+            store.setAddress(superAdminStoreUpdateDto.getAddress());
+        }
+        if (superAdminStoreUpdateDto.getPhone() != null) {
+            store.setPhone(superAdminStoreUpdateDto.getPhone());
+        }
+        if (superAdminStoreUpdateDto.getAdminName() != null) {
+            store.setAdminName(superAdminStoreUpdateDto.getAdminName());
+        }
+
+        return storeRepository.save(store);
+    }
+
+    // superadmin만 매장 정보 조회 가능
+    public void getStoreInfo(User user, Long storeId) {
+        if (user.getRole() != Role.SUPERADMIN) {
+            throw new RuntimeException("Only superadmins can get store info");
+        }
+>>>>>>> jc
     }
 
 
