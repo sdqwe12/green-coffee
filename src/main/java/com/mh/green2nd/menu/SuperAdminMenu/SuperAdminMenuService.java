@@ -40,11 +40,6 @@ public class SuperAdminMenuService {
         menuRepository.delete(menu);
     }
 
-<<<<<<< HEAD
-    //superadmin만 메뉴 수정 가능
-    public Menu updateMenu(User user, Long menuId, SuperAdminMenuUpdateDto superAdminMenuUpdateDto) {
-        if (user.getRole() != Role.SUPERADMIN) {
-=======
     // superadmin만 메뉴 조회 가능
     public List<SuperAdminMenuGetDto> getMenuList(User user) {
         if (user.getRole() != Role.SUPERADMIN) {
@@ -70,36 +65,11 @@ public class SuperAdminMenuService {
     //superadmin만 메뉴 수정 가능
     public Menu updateMenu(User user, Long menuId, SuperAdminMenuUpdateDto superAdminMenuUpdateDto) {
         if (user.getRole() != Role.SUPERADMIN) {
->>>>>>> jc
             throw new RuntimeException("Only superadmins can update menus");
         }
         Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new RuntimeException("Menu not found"));
         if (superAdminMenuUpdateDto.getName() != null) {
             menu.setName(superAdminMenuUpdateDto.getName());
-<<<<<<< HEAD
-        }
-        if (superAdminMenuUpdateDto.getPrice() != null) {
-            menu.setMenu_price(superAdminMenuUpdateDto.getPrice());
-        }
-        if (superAdminMenuUpdateDto.getExplain() != null) {
-            menu.setMenu_explain(superAdminMenuUpdateDto.getExplain());
-        }
-        if (superAdminMenuUpdateDto.getEname() != null) {
-            menu.setMenu_ename(superAdminMenuUpdateDto.getEname());
-        }
-        if (superAdminMenuUpdateDto.getCategory() != null) {
-            menu.setCategory(superAdminMenuUpdateDto.getCategory());
-        }
-        if (superAdminMenuUpdateDto.getVisible() != null) {
-            menu.setVisible(superAdminMenuUpdateDto.getVisible());
-        }
-        return menuRepository.save(menu);
-    }
-
-
-
-
-=======
         }
         if (superAdminMenuUpdateDto.getPrice() != null) {
             menu.setMenu_price(superAdminMenuUpdateDto.getPrice());
@@ -140,7 +110,6 @@ public class SuperAdminMenuService {
             throw new RuntimeException("Image upload failed");
         }
     }
-
     //superadmin만 메뉴 이미지 수정 가능
     public String updateImage(User user, Long menuId, String imageUrl) {
         if (user.getRole() != Role.SUPERADMIN) {
@@ -151,6 +120,4 @@ public class SuperAdminMenuService {
         return menuRepository.save(menu).getMenu_imgurl();
     }
 
-
->>>>>>> jc
 }
