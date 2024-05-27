@@ -1,6 +1,5 @@
 package com.mh.green2nd.tosspay;
 
-import com.mh.green2nd.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
