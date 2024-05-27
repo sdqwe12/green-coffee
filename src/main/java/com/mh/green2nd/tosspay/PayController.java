@@ -28,14 +28,13 @@ public class PayController {
         return ResponseEntity.ok(payDto);
     }
 
-    @Operation(summary = "결제 실패")
+    @Operation(summary = "결제 실패", description = "0: 성공, 1: 실패")
     @GetMapping("/fail")
     public SingleResult<PaymentResHandleFailDto> requestFinalPaymentsFail(@RequestParam String errorCode,
-                                                                          @RequestParam String orderId,
-                                                                          @RequestParam String errorMsg){
+                                                                          @RequestParam String orderId){
         try {
             return responseService.getSingleResult(
-                    payService.requestFail(errorCode, errorMsg, orderId)
+                    payService.requestFail(errorCode, orderId)
             );
         }catch (Exception e) {
             e.printStackTrace();

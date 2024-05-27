@@ -66,12 +66,20 @@ public class PayService {
         return body;
     }
 
+    // 0: 성공, 1: 실패
     @Transactional
-    public PaymentResHandleFailDto requestFail(String errorCode, String errorMsg, String orderId) {
+    public PaymentResHandleFailDto requestFail(String errorCode, String orderId) {
         Pay pay = payRepository.findByOrderId(orderId)
                 .orElseThrow(() -> new RuntimeException("주문아이디 없음"));
 
         pay.setPaySuccessYn("N");
+
+        String errorMsg;
+        if ("1".equals(errorCode)) {
+            errorMsg = "fail";
+        } else {
+            errorMsg = "success";
+        }
         pay.setPayFailReason(errorMsg);
 
         payRepository.save(pay);
