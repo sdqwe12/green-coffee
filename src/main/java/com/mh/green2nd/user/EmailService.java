@@ -54,7 +54,7 @@ public class EmailService {
         String authNum = createCode();
 
         String toEmail = email;        // 받는 사람(값 받아옵니다.)
-        String title = "그린커피 회원가입 인증번호";        // 메일 제목
+        String title = "그린커피 이메일 인증번호";        // 메일 제목
 
         MimeMessage message = emailSender.createMimeMessage();
 
@@ -89,6 +89,13 @@ public class EmailService {
 
         //메일전송에 필요한 정보 설정
         MimeMessage emailForm = createEmailForm(email);
+
+        // 생성된 인증 코드를 쿠키에 저장
+//        String verificationCode = createCode();
+//        Cookie cookie = new Cookie("verificationCode", verificationCode);
+//        cookie.setMaxAge(5 * 60); // 쿠키의 유효 시간을 5분으로 설정
+//        response.addCookie(cookie);
+
         //실제 메일 전송
         emailSender.send(emailForm);
 

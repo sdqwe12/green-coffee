@@ -35,15 +35,6 @@ public class SuperAdminMenuController {
         superAdminMenuService.deleteMenu(jwtuser, menuId);
         return ResponseEntity.ok("메뉴가 삭제되었습니다.");
     }
-
-    // superadmin만 메뉴 조회 가능
-    @Operation(summary = "메뉴 조회", description = "superadmin만 메뉴 조회 가능")
-    @GetMapping("/list")
-    public List<SuperAdminMenuGetDto> getMenuList(Authentication authentication) {
-        User jwtuser = (User) authentication.getPrincipal();
-        return superAdminMenuService.getMenuList(jwtuser);
-    }
-
     //superadmin만 메뉴 수정 가능
     @Operation(summary = "메뉴 수정", description = "superadmin만 메뉴 수정 가능")
     @PatchMapping("/{menuId}/update")
@@ -53,7 +44,15 @@ public class SuperAdminMenuController {
         return ResponseEntity.ok("메뉴 정보가 수정되었습니다.");
     }
 
-    //superadmin만 추천메뉴 수정 가능
+    // superadmin만 메뉴 조회 가능
+    @Operation(summary = "메뉴 조회", description = "superadmin만 메뉴 조회 가능")
+    @GetMapping("/list")
+    public List<SuperAdminMenuGetDto> getMenuList(Authentication authentication) {
+        User jwtuser = (User) authentication.getPrincipal();
+        return superAdminMenuService.getMenuList(jwtuser);
+    }
+
+   //superadmin만 추천메뉴 수정 가능
     @Operation(summary = "추천메뉴 수정", description = "superadmin만 추천메뉴 수정 가능")
     @PatchMapping("/{menuId}/recommend")
     public ResponseEntity<String> updateRecommend(Authentication authentication, @PathVariable Long menuId, @RequestBody boolean recommend) {
@@ -84,6 +83,5 @@ public class SuperAdminMenuController {
 
         return ResponseEntity.ok("메뉴 이미지가 수정되었습니다.");
     }
-
 
 }

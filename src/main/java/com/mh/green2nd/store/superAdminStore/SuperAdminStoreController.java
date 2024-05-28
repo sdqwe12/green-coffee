@@ -32,13 +32,5 @@ public class SuperAdminStoreController {
         return ResponseEntity.ok("매장 정보가 수정되었습니다.");
     }
 
-    //superadmin만 매장 정보 조회 가능
-    @Operation(summary = "매장 정보 조회", description = "superadmin만 매장 정보 조회 가능")
-    @GetMapping("/{storeId}/info")
-    public ResponseEntity<String> getStoreInfo(Authentication authentication, @PathVariable Long storeId) {
-        User currentUser = (User) authentication.getPrincipal();
-        superAdminStoreService.getStoreInfo(currentUser, storeId);
-        return ResponseEntity.ok("매장 정보 조회가 완료되었습니다.");
-    }
 
 }

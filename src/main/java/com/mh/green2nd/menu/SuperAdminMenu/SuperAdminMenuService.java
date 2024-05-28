@@ -110,7 +110,6 @@ public class SuperAdminMenuService {
             throw new RuntimeException("Image upload failed");
         }
     }
-
     //superadmin만 메뉴 이미지 수정 가능
     public String updateImage(User user, Long menuId, String imageUrl) {
         if (user.getRole() != Role.SUPERADMIN) {
@@ -120,6 +119,5 @@ public class SuperAdminMenuService {
         menu.setMenu_imgurl(imageUrl);
         return menuRepository.save(menu).getMenu_imgurl();
     }
-
 
 }

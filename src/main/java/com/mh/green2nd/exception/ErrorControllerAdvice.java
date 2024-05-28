@@ -14,7 +14,7 @@ public class ErrorControllerAdvice {
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> errorPage(RuntimeException e){
         String message = e.getMessage();
-        return ResponseEntity.status(400).body("error "+message);
+        return ResponseEntity.status(400).body(message);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

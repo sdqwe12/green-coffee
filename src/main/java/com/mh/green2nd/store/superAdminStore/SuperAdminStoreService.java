@@ -36,7 +36,6 @@ public class SuperAdminStoreService {
             throw new RuntimeException("Only superadmins can update stores");
         }
         Store store = storeRepository.findById(storeId).orElseThrow(() -> new RuntimeException("Store not found"));
-
         if (superAdminStoreUpdateDto.getName() != null) {
             store.setName(superAdminStoreUpdateDto.getName());
         }
