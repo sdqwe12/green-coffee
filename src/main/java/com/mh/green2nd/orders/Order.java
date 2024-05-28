@@ -2,10 +2,12 @@ package com.mh.green2nd.orders;
 
 
 import com.mh.green2nd.orders.orderitem.OrderMenu;
+import com.mh.green2nd.store.Store;
 import com.mh.green2nd.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,9 +42,21 @@ public class Order {
         this.totalOrderPrice += price;
     }
 
+    public double getTotalOrderPrice() {
+        return totalOrderPrice;
+    }
+
+    public void setTotalOrderPrice(double totalOrderPrice) {
+        this.totalOrderPrice = totalOrderPrice;
+    }
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User user;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "store_id")
+    private Store store;
 
     @Enumerated(EnumType.STRING)
     private OrderState state;

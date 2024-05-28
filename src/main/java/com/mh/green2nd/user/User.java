@@ -1,6 +1,7 @@
 package com.mh.green2nd.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mh.green2nd.store.Store;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
@@ -75,6 +76,10 @@ public class User {
 
     @Column(name = "verification_code")
     private String verificationCode;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "store_id", referencedColumnName = "id")
+    private Store store;
 
 //    @OneToMany
 //    private List<Order> orderlist;

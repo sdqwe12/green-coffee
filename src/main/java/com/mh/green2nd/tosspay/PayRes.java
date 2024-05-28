@@ -24,4 +24,5 @@ public class PayRes {
     private LocalDateTime createDate;
     private Boolean paySuccessYn;
 
+
 }

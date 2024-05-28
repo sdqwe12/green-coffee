@@ -99,25 +99,4 @@ public class SuperAdminMenuService {
         return menuRepository.save(menu);
     }
 
-    //superadmin만 메뉴 이미지 업로드 가능
-    public String uploadImage(MultipartFile file) {
-        try {
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get("src/main/resources/static/images/" + file.getOriginalFilename());
-            Files.write(path, bytes);
-            return path.toString();
-        } catch (Exception e) {
-            throw new RuntimeException("Image upload failed");
-        }
-    }
-    //superadmin만 메뉴 이미지 수정 가능
-    public String updateImage(User user, Long menuId, String imageUrl) {
-        if (user.getRole() != Role.SUPERADMIN) {
-            throw new RuntimeException("Only superadmins can update images");
-        }
-        Menu menu = menuRepository.findById(menuId).orElseThrow(() -> new RuntimeException("Menu not found"));
-        menu.setMenu_imgurl(imageUrl);
-        return menuRepository.save(menu).getMenu_imgurl();
-    }
-
 }
