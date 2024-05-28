@@ -70,6 +70,10 @@ public class User {
     @Schema(title = "보유스탬프",description = "몇 장 있는지 숫자넣음")
     private int stamp;
 
+    @Column
+    @Schema(title = "보유포인트")
+    private int point;
+
     @Schema(title = "토큰")
     private String token;
 

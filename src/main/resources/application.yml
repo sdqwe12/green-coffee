@@ -40,7 +40,7 @@ spring:
     database-platform: org.hibernate.dialect.MySQLDialect
     defer-datasource-initialization: true
     hibernate:
-      ddl-auto: none
+      ddl-auto: create
     generate-ddl: true
     show-sql: true
     properties:
@@ -59,7 +59,8 @@ mh:
 toss:
     apikey: test_ck_6BYq7GWPVvvw6bWZz20mVNE5vbo1
     secretkey: test_sk_P9BRQmyarYPORJwq5bL2VJ07KzLN
-    url: https://api.tosspayments.com/v1/payments
+    success_url : "http://localhost:8080/api/v2/payments/toss/success"
+    fail_url : "http://localhost:8080/api/v2/payments/toss/fail"
 #kakao:
 #    restapi:
 #      key: 0cf975c17c99981156fd74102e25d6bc
