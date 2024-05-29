@@ -30,6 +30,8 @@ public class JWTInterceptor implements HandlerInterceptor {
         String token = request.getHeader("Authorization");
         System.out.println(request.getRequestURI());
 
+        System.out.println("문제야문제야");
+
         if (token == null || !token.startsWith("Bearer ")) {
             throw new RuntimeException("TOKEN이 없습니다.");
         } else {

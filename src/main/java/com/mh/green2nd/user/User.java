@@ -76,6 +76,8 @@ public class User {
     @Column(name = "verification_code")
     private String verificationCode;
 
+    private String refreshToken;
+
 //    @OneToMany
 //    private List<Order> orderlist;
 //    @OneToMany(mappedBy = "user")

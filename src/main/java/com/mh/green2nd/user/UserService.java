@@ -3,6 +3,8 @@ package com.mh.green2nd.user;
 
 import com.mh.green2nd.exception.ErrorCode;
 import com.mh.green2nd.exception.UserException;
+import com.mh.green2nd.jwt.TokenManager;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.mail.SimpleMailMessage;
@@ -22,8 +24,8 @@ import java.util.regex.Pattern;
 public class UserService {
 
     private final UserRepository userRepository;
-
     private final JavaMailSender javaMailSender;
+    private final TokenManager tokenManager;
 
     public User login(String email, String password) {
         Optional<User> loginuser = userRepository.findByEmailAndPassword(email, password);
@@ -95,23 +97,23 @@ public class UserService {
 
         if (updateDto.getNickname() != null) {
 
-        User userWithSameNickname = userRepository.findByNickname(updateDto.getNickname());
-        if (userWithSameNickname != null && !updateuser.getNickname().equals(updateDto.getNickname())) {
-            throw new UserException(ErrorCode.DUPLICATENICKNAME);
-        }
-    }
-
-    if (updateDto.getPhone() != null) {
-        User userWithSamePhone = userRepository.findByPhone(updateDto.getPhone());
-        if (userWithSamePhone != null && !updateuser.getPhone().equals(updateDto.getPhone())) {
-            throw new UserException(ErrorCode.DUPLICATEPHONE);
-        }
-    }
-
             User userWithSameNickname = userRepository.findByNickname(updateDto.getNickname());
             if (userWithSameNickname != null && !updateuser.getNickname().equals(updateDto.getNickname())) {
                 throw new UserException(ErrorCode.DUPLICATENICKNAME);
             }
+        }
+
+        if (updateDto.getPhone() != null) {
+            User userWithSamePhone = userRepository.findByPhone(updateDto.getPhone());
+            if (userWithSamePhone != null && !updateuser.getPhone().equals(updateDto.getPhone())) {
+                throw new UserException(ErrorCode.DUPLICATEPHONE);
+            }
+        }
+
+        User userWithSameNickname = userRepository.findByNickname(updateDto.getNickname());
+        if (userWithSameNickname != null && !updateuser.getNickname().equals(updateDto.getNickname())) {
+            throw new UserException(ErrorCode.DUPLICATENICKNAME);
+        }
 
 
         if (updateDto.getPhone() != null) {
@@ -171,7 +173,6 @@ public class UserService {
     }
 
 
-
     public String sendEmail(String toEmail) {
         // 6자리 난수 생성
         String verificationCode = String.format("%06d", (int) (Math.random() * 1000000));
@@ -216,6 +217,52 @@ public class UserService {
 //
 //        return verificationCode;
 //    }
+
+    // Refresh Token 저장
+    public void saveRefreshToken(Long userId, String refreshToken) {
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+        user.setRefreshToken(refreshToken);
+        userRepository.save(user);
+    }
+
+    // Refresh Token 검증
+//    public boolean validateRefreshToken(Long userId, String refreshToken) {
+//        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
+//        return user.getRefreshToken().equals(refreshToken);
+//    }
+
+//    public String validateAndRefresh(String refreshToken) {
+//        User user = userRepository.findByRefreshToken(refreshToken);
+//        System.out.println("User's Refresh Token: " + user.getRefreshToken());
+//        System.out.println("Received Refresh Token: " + refreshToken);
+//        if (user == null) {
+//            throw new RuntimeException("Invalid refresh token.");
+//        }
+//
+//        // 리프레시 토큰이 유효하면 새로운 액세스 토큰을 발행합니다.
+//        return tokenManager.generateToken(user);
+//    }
+    public String validateAndRefresh(HttpServletRequest request) {
+    String refreshToken = request.getHeader("Authorization");
+
+    // refreshToken이 존재하는지 확인
+    if (refreshToken == null || !refreshToken.startsWith("Bearer ")) {
+        throw new RuntimeException("Refresh Token이 없습니다.");
+    }
+
+    refreshToken = refreshToken.substring(7); // "Bearer " 제거
+
+    // DB에서 refreshToken 검색 및 검증
+    User user = userRepository.findByRefreshToken(refreshToken);
+    if (user == null) {
+        throw new RuntimeException("Invalid refresh token");
+    }
+
+    // 새로운 액세스 토큰 생성
+    String newAccessToken = tokenManager.generateToken(user);
+
+    return newAccessToken;
+}
 
 
 }

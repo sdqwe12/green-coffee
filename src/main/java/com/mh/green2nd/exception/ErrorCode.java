@@ -20,7 +20,10 @@ public enum ErrorCode {
     //찾기
     NOTFOUNDPHONE(HttpStatus.UNAUTHORIZED,"NOTFOUNDPHONE","해당 핸드폰번호를 가진 회원이 없습니다."),
     // 회원가입 이메일 인증
-    MAILSENDFAILED(HttpStatus.UNAUTHORIZED,"MAILSENDFAILED","메일 인증 하는거 실패"),
+//    MAILSENDFAILED(HttpStatus.UNAUTHORIZED,"MAILSENDFAILED","메일 인증 하는거 실패"),
+    NOTMAIL(HttpStatus.UNAUTHORIZED,"NOTMAIL","유효한 코드가 없습니다 코드의 유효시간은 1분입니다."),
+    NOEQULMAIL(HttpStatus.UNAUTHORIZED,"NOEQULMAIL","코드가 일치하지 않습니다."),
+    VERIFYMAIL(HttpStatus.UNAUTHORIZED,"VERIFYMAIL","코드가 일치하는 것을 확인했습니다"),
 
     DUPLICATE(HttpStatus.BAD_REQUEST,"DUPLICATE","중복된 내용이 있습니다."),
     NOTFOUND(HttpStatus.NOT_FOUND,"NOTFOUND","해당해는 내용이없습니다."),
