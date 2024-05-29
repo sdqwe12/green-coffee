@@ -32,7 +32,7 @@ public class AdminMenuService {
             adminMenuGetDto.setPrice((int) menu.getMenu_price());
             adminMenuGetDto.setExplain(menu.getMenu_explain());
             adminMenuGetDto.setStatus(menu.isStatus());
-            adminMenuGetDto.setImageUrl(menu.getMenu_imgurl());
+            adminMenuGetDto.setMenu_imgurl(menu.getMenu_imgurl());
             adminMenuGetDto.setCategory(menu.getCategory());
             adminMenuGetDtos.add(adminMenuGetDto);
         }

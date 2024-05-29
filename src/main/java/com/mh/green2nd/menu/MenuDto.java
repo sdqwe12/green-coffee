@@ -26,8 +26,5 @@ public class MenuDto {
 
     private double menu_price;
 
-    private int price_size;
-    private int price_ice;
-    private int price_shot;
-    private int price_cream;
+
 }

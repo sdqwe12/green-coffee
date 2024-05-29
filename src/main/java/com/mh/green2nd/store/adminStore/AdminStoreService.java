@@ -14,30 +14,29 @@ public class AdminStoreService {
 
     private final StoreRepository storeRepository;
 
-    // admin만 매장 조회 가능
-    public void getStoreList(User user) {
-        if (user.getRole() != Role.ADMIN) {
-            throw new RuntimeException("Only admins can get store list");
-        }
-    }
+//    // admin는 자신이 속한 매장 조회 가능
+//    public StoreDto getStore(User user) {
+//        Store store = storeRepository.findByUser(user).orElseThrow(() -> new RuntimeException("Store not found"));
+//        return new StoreDto(store);
+//    }
 
     // admin만 매장 영업시간 수정 가능
-    public Store updateStoreTime(User user, Long storeId, String open, String close) {
+    public Store updateStoreTime(User user, String name, String open, String close) {
         if (user.getRole() != Role.ADMIN) {
             throw new RuntimeException("admins만 매장 영업시간 수정 가능");
         }
-        Store store = storeRepository.findById(storeId).orElseThrow(() -> new RuntimeException("Store not found"));
+        Store store = storeRepository.findByName(name).orElseThrow(() -> new RuntimeException("Store not found"));
         store.setOpen(open);
         store.setClose(close);
         return storeRepository.save(store);
     }
 
     // admin만 휴무일 수정 가능
-    public Store updateStoreHoliday(User user, Long storeId, String holiday) {
+    public Store updateStoreHoliday(User user, String name, String holiday) {
         if (user.getRole() != Role.ADMIN) {
             throw new RuntimeException("admins만 휴무일 수정 가능");
         }
-        Store store = storeRepository.findById(storeId).orElseThrow(() -> new RuntimeException("Store not found"));
+        Store store = storeRepository.findByName(name).orElseThrow(() -> new RuntimeException("Store not found"));
         store.setHoliday(holiday);
         return storeRepository.save(store);
     }
