@@ -97,9 +97,15 @@ public class UserController {
 //        }
 //    }
 
+    @Operation(summary = "리프레시 토큰으로 액세스 토큰 재발급", description = "설명")
+    @ApiResponses({
+
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "400", description = "실패")
+    })
     @PostMapping("/refresh")
-    public ResponseEntity<String> refresh(HttpServletRequest request) {
-        String newAccessToken = userService.validateAndRefresh(request);
+    public ResponseEntity<String> refresh(@RequestBody RefreshTokenRequest refreshTokenRequest) {
+        String newAccessToken = userService.validateAndRefresh(refreshTokenRequest.getRefreshToken());
         return ResponseEntity.ok(newAccessToken);
     }
 

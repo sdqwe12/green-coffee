@@ -14,11 +14,11 @@ public class AdminStoreService {
 
     private final StoreRepository storeRepository;
 
-//    // admin는 자신이 속한 매장 조회 가능
-//    public StoreDto getStore(User user) {
-//        Store store = storeRepository.findByUser(user).orElseThrow(() -> new RuntimeException("Store not found"));
-//        return new StoreDto(store);
-//    }
+    // admin는 자신이 속한 매장 조회 가능
+    public StoreDto getStore(User user) {
+        Store store = storeRepository.findByUser(user).orElseThrow(() -> new RuntimeException("Store not found"));
+        return new StoreDto(store);
+    }
 
     // admin만 매장 영업시간 수정 가능
     public Store updateStoreTime(User user, String name, String open, String close) {

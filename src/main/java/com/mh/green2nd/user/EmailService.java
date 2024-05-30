@@ -110,7 +110,7 @@ public class EmailService {
 
         // 생성된 인증 코드를 쿠키에 저장
         Cookie cookie = new Cookie("verificationCode", verificationCode);
-        cookie.setMaxAge(1 * 60); // 쿠키의 유효 시간을 5분으로 설정
+        cookie.setMaxAge(3 * 60); // 쿠키의 유효 시간을 3분으로 설정
         response.addCookie(cookie);
 
         // 실제 메일 전송

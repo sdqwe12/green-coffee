@@ -60,9 +60,9 @@ public class Menu {
     @Schema(title = "price_ice",description = "아이스 추가", defaultValue = "2")
     private int price_ice;
 
-    @Column(name = "is_ice", nullable = true)
-    @Schema(title = "is_ice",description = "아이스 추가 여부 및 개수")
-    private int is_ice;
+//    @Column(name = "is_ice", nullable = true)
+//    @Schema(title = "is_ice",description = "아이스 추가 여부 및 개수")
+//    private int is_ice;
 
     @Column(name = "price_shot", nullable = true)
     @Schema(title = "price_shot",description = "샷 추가 가격", defaultValue = "0")

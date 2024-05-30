@@ -26,5 +26,4 @@ public class MenuDto {
 
     private double menu_price;
 
-
 }
