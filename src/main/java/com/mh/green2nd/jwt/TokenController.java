@@ -35,6 +35,8 @@ public class TokenController {
     @PostMapping("/token")
     public ResponseEntity<String> token(@RequestBody String refreshToken) {
         Jws<Claims> claims = tokenManager.validateToken(refreshToken);
+        System.out.println(claims);
+
         Long userId = Long.parseLong(claims.getBody().getId());
 
         // Fetch the User object using userId
