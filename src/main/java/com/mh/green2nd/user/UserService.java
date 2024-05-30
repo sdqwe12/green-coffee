@@ -231,7 +231,7 @@ public class UserService {
 //        return user.getRefreshToken().equals(refreshToken);
 //    }
 
-//    public String validateAndRefresh(String refreshToken) {
+    //    public String validateAndRefresh(String refreshToken) {
 //        User user = userRepository.findByRefreshToken(refreshToken);
 //        System.out.println("User's Refresh Token: " + user.getRefreshToken());
 //        System.out.println("Received Refresh Token: " + refreshToken);
@@ -242,27 +242,36 @@ public class UserService {
 //        // 리프레시 토큰이 유효하면 새로운 액세스 토큰을 발행합니다.
 //        return tokenManager.generateToken(user);
 //    }
-    public String validateAndRefresh(HttpServletRequest request) {
-    String refreshToken = request.getHeader("Authorization");
-
-    // refreshToken이 존재하는지 확인
-    if (refreshToken == null || !refreshToken.startsWith("Bearer ")) {
-        throw new RuntimeException("Refresh Token이 없습니다.");
+//    public String validateAndRefresh(HttpServletRequest request) {
+//    String refreshToken = request.getHeader("Authorization");
+//
+//    // refreshToken이 존재하는지 확인
+//    if (refreshToken == null || !refreshToken.startsWith("Bearer ")) {
+//        throw new RuntimeException("Refresh Token이 없습니다.");
+//    }
+//
+//    refreshToken = refreshToken.substring(7); // "Bearer " 제거
+//
+//    // DB에서 refreshToken 검색 및 검증
+//    User user = userRepository.findByRefreshToken(refreshToken);
+//    if (user == null) {
+//        throw new RuntimeException("Invalid refresh token");
+//    }
+//
+//    // 새로운 액세스 토큰 생성
+//    String newAccessToken = tokenManager.generateToken(user);
+//
+//    return newAccessToken;
+//}
+    public String validateAndRefresh(String refreshToken) {
+        User user = userRepository.findByRefreshToken(refreshToken);
+        if (user == null) {
+            throw new RuntimeException("해당하는 리프레시 토큰이 없습니다.");
+        }
+        // 새로운 액세스 토큰 생성
+        String newAccessToken = tokenManager.generateToken(user);
+        return newAccessToken;
     }
-
-    refreshToken = refreshToken.substring(7); // "Bearer " 제거
-
-    // DB에서 refreshToken 검색 및 검증
-    User user = userRepository.findByRefreshToken(refreshToken);
-    if (user == null) {
-        throw new RuntimeException("Invalid refresh token");
-    }
-
-    // 새로운 액세스 토큰 생성
-    String newAccessToken = tokenManager.generateToken(user);
-
-    return newAccessToken;
-}
 
 
 }
