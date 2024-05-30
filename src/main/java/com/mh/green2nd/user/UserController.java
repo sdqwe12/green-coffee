@@ -104,8 +104,8 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "실패")
     })
     @PostMapping("/refresh")
-    public ResponseEntity<String> refresh(@RequestBody RefreshTokenRequest refreshTokenRequest) {
-        String newAccessToken = userService.validateAndRefresh(refreshTokenRequest.getRefreshToken());
+    public ResponseEntity<String> refresh(HttpServletRequest request) {
+        String newAccessToken = userService.validateAndRefresh(request);
         return ResponseEntity.ok(newAccessToken);
     }
 

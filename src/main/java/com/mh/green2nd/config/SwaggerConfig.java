@@ -17,7 +17,7 @@ import java.util.Arrays;
 
 @OpenAPIDefinition(
         info = @Info(title = "그린컴2차 그린커피 프로젝트",
-                description = " :･ﾟ✧(=✪ ᆺ ✪=)*:･ﾟ✧ 마지막으로 수정한 날짜20240522 14:35 ♡(ᐢ ᴥ ᐢし)",
+                description = " :･ﾟ✧(=✪ ᆺ ✪=)*:･ﾟ✧ 마지막으로 수정한 날짜20240529 17:77 ♡(ᐢ ᴥ ᐢし)",
                 version = "v6.5.2"
         )
 
@@ -31,7 +31,7 @@ public class SwaggerConfig {
 
 
     @Bean
-    public OpenAPI openAPI(){
+    public OpenAPI openAPI() {
         SecurityScheme securityScheme = new SecurityScheme()
                 .type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")
                 .in(SecurityScheme.In.HEADER).name("Authorization");
