@@ -1,5 +1,6 @@
 package com.mh.green2nd.store;
 
+import com.mh.green2nd.user.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Data;
@@ -41,5 +42,8 @@ public class Store {
     @Column(name = "admin_name")
     @Schema(description = "매장 관리자 이름")
     private String adminName;
+
+    @OneToOne(mappedBy = "store")
+    private User user;
 
 }

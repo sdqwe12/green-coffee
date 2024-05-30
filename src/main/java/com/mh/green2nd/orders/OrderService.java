@@ -9,6 +9,8 @@ import com.mh.green2nd.orders.dto.OrderReqDto;
 import com.mh.green2nd.orders.orderitem.OrderMenu;
 import com.mh.green2nd.orders.orderitem.OrderMenuRepository;
 import com.mh.green2nd.orders.orderitem.OrderMenuService;
+import com.mh.green2nd.store.Store;
+import com.mh.green2nd.store.StoreRepository;
 import com.mh.green2nd.user.Role;
 import com.mh.green2nd.user.User;
 import com.mh.green2nd.user.UserRepository;
@@ -29,14 +31,19 @@ public class OrderService {
     private final UserRepository userRepository;
     private final OrderMenuService orderMenuService;
     private final CartRepository cartRepository;
+    private final StoreRepository storeRepository;
 
     @Transactional
-    public void createNewOrder(OrderReqDto[] orderReqDtoArray, User jwtUser) {
+    public void createNewOrder(OrderReqDto[] orderReqDtoArray, User jwtUser, String name) {
         User dbUser = userRepository.findById(jwtUser.getUser_id()).orElseThrow(() -> {
             return new IllegalArgumentException("해당 유저가 없습니다.");
         });
+        Store store = storeRepository.findByName(name).orElseThrow(() -> {
+                    return new IllegalArgumentException("해당 매장이 없습니다.");
+                });
         Order order = new Order();
         order.setUser(dbUser);
+        order.setStore(store);
         int total = 0;
         for (OrderReqDto orderReqDto : orderReqDtoArray) {
             OrderMenu orderMenu = new OrderMenu();

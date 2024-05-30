@@ -1,5 +1,6 @@
 package com.mh.green2nd.orders.adminOrder;
 
+import com.mh.green2nd.orders.Order;
 import com.mh.green2nd.orders.OrderState;
 import com.mh.green2nd.user.User;
 import io.swagger.v3.oas.annotations.Operation;
@@ -10,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -28,14 +31,22 @@ public class AdminOrderController {
     }
 
     // 주문 내역 조회
-    @Operation(summary = "주문 내역 조회")
-    @GetMapping("/list")
-    public ResponseEntity<String> getOrderList(Authentication authentication) {
+    @Operation(summary = "모든 주문 조회")
+    @GetMapping("/all")
+    public ResponseEntity<List<Order>> getAllOrders(Authentication authentication) {
         User currentUser = (User) authentication.getPrincipal();
-        adminOrderService.getOrderList(currentUser);
-        return ResponseEntity.ok("주문 내역을 조회하였습니다.");
+        List<Order> orders = adminOrderService.getAllOrders(currentUser);
+        return ResponseEntity.ok(orders);
     }
 
+    // 모든 주문 상세 정보 조회
+    @Operation(summary = "모든 주문 상세 정보 조회")
+    @GetMapping("/details")
+    public ResponseEntity<List<Order>> getAllOrderDetails(Authentication authentication) {
+        User currentUser = (User) authentication.getPrincipal();
+        List<Order> orders = adminOrderService.getAllOrderDetails(currentUser);
+        return ResponseEntity.ok(orders);
+    }
 
 
 }

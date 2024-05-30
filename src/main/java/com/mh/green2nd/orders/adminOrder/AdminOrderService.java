@@ -30,9 +30,18 @@ public class AdminOrderService {
     }
 
     // 주문 내역 조회
-    public List<Order> getOrderList(User user) {
+    public List<Order> getAllOrders(User user) {
         if (user.getRole() != Role.ADMIN) {
-            throw new RuntimeException("Only admins can get order list");
+            throw new RuntimeException("Only admins can get all orders");
+        }
+
+        return orderRepository.findAll();
+    }
+
+    // 모든 주문 상세 정보 조회
+    public List<Order> getAllOrderDetails(User user) {
+        if (user.getRole() != Role.ADMIN) {
+            throw new RuntimeException("Only admins can get all order details");
         }
 
         return orderRepository.findAll();

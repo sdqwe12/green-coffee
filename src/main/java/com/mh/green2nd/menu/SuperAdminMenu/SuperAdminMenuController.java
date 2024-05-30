@@ -61,27 +61,4 @@ public class SuperAdminMenuController {
         return ResponseEntity.ok("추천메뉴가 수정되었습니다.");
     }
 
-    //superadmin만 메뉴 이미지 업로드 가능
-    @Operation(summary = "메뉴 이미지 업로드", description = "superadmin만 메뉴 이미지 업로드 가능")
-    @PostMapping("/image")
-    public ResponseEntity<String> uploadImage(Authentication authentication, @RequestPart MultipartFile file) {
-        User jwtuser = (User) authentication.getPrincipal();
-        superAdminMenuService.uploadImage(file);
-        return ResponseEntity.ok("메뉴 이미지가 업로드되었습니다.");
-    }
-
-    //superadmin만 메뉴 이미지 수정 가능
-    @PatchMapping("/{menuId}/image")
-    public ResponseEntity<String> updateImage(Authentication authentication, @PathVariable Long menuId, @RequestPart MultipartFile file) {
-        User jwtuser = (User) authentication.getPrincipal();
-
-        // 이미지 파일 업로드하고 URL 받기
-        String imageUrl = superAdminMenuService.uploadImage(file);
-
-        // 메뉴 이미지 수정
-        superAdminMenuService.updateImage(jwtuser, menuId, imageUrl);
-
-        return ResponseEntity.ok("메뉴 이미지가 수정되었습니다.");
-    }
-
 }

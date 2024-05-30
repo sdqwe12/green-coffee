@@ -10,6 +10,6 @@ public class AdminMenuGetDto {
         private int price;
         private String explain;
         private boolean status;
-        private String imageUrl;
+        private String menu_imgurl;
         private String category;
 }
