@@ -1,4 +1,4 @@
-package com.mh.green2nd.store.superAdminStore;
+package com.mh.green2nd.store;
 import lombok.Data;
 
 import java.time.LocalDate;
