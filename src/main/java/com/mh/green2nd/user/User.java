@@ -1,6 +1,7 @@
 package com.mh.green2nd.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.mh.green2nd.store.Store;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
@@ -61,6 +62,10 @@ public class User {
     @Schema(title = "권한")
     @Builder.Default
     private Role role = Role.USER;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "store_id", referencedColumnName = "id")
+    private Store store;
 
     @Column(columnDefinition = "integer default 0")
     @Schema(title = "쿠폰",description = "보유쿠폰 몇장이면?")
