@@ -2,12 +2,16 @@ package com.mh.green2nd.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mh.green2nd.store.Store;
+import com.mh.green2nd.tosspay.Pay;
+import com.mh.green2nd.tosspay.PayDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Table(name = "user")
@@ -83,17 +87,16 @@ public class User {
 
     private String refreshToken;
 
-
-
 //    @OneToMany
 //    private List<Order> orderlist;
-//    @OneToMany(mappedBy = "user")
-//    private List<Pay> pay = new ArrayList<>();
-//
-//    public void addPay(PayDto payDto) {
-//        Pay pay = new Pay();
-//        this.pay.add(pay);
-//        pay.setUser(this);
-//    }
+
+    @OneToMany(mappedBy = "user")
+    private List<Pay> pay = new ArrayList<>();
+
+    public void addPay(PayDto payDto) {
+        Pay pay = new Pay();
+        this.pay.add(pay);
+        pay.setUser(this);
+    }
 
 }
