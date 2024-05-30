@@ -63,6 +63,10 @@ public class User {
     @Builder.Default
     private Role role = Role.USER;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "store_id", referencedColumnName = "id")
+    private Store store;
+
     @Column(columnDefinition = "integer default 0")
     @Schema(title = "쿠폰",description = "보유쿠폰 몇장이면?")
     private int coupon;
@@ -77,9 +81,9 @@ public class User {
     @Column(name = "verification_code")
     private String verificationCode;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "store_id", referencedColumnName = "id")
-    private Store store;
+    private String refreshToken;
+
+
 
 //    @OneToMany
 //    private List<Order> orderlist;

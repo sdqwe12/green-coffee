@@ -21,8 +21,8 @@ import java.util.Arrays;
                 version = "v6.5.2"
         )
 
-//       ,
-//        servers = {@Server(url = "https://back.green-coffee.shop", description = "Default Server URL")}
+       ,
+        servers = {@Server(url = "https://back.green-coffee.shop", description = "Default Server URL")}
 
 
 )
@@ -31,7 +31,7 @@ public class SwaggerConfig {
 
 
     @Bean
-    public OpenAPI openAPI() {
+    public OpenAPI openAPI(){
         SecurityScheme securityScheme = new SecurityScheme()
                 .type(SecurityScheme.Type.HTTP).scheme("bearer").bearerFormat("JWT")
                 .in(SecurityScheme.In.HEADER).name("Authorization");

@@ -2,10 +2,13 @@ package com.mh.green2nd.user;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
+
 
 import java.io.UnsupportedEncodingException;
 import java.util.Random;
@@ -49,9 +52,9 @@ public class EmailService {
     }
 
     // 메일 양식 작성
-    public MimeMessage createEmailForm(String email) throws MessagingException, UnsupportedEncodingException {
+    public MimeMessage createEmailForm(String email, String authNum) throws MessagingException, UnsupportedEncodingException {
         // 코드를 생성합니다.
-        String authNum = createCode();
+//        String authNum = createCode();
 
         String toEmail = email;        // 받는 사람(값 받아옵니다.)
         String title = "그린커피 이메일 인증번호";        // 메일 제목
@@ -85,21 +88,36 @@ public class EmailService {
     }
 
     //실제 메일 전송
-    public String sendEmail(String email) throws MessagingException, UnsupportedEncodingException {
+    public String sendEmail(String email, HttpServletResponse response) throws MessagingException, UnsupportedEncodingException {
 
-        //메일전송에 필요한 정보 설정
-        MimeMessage emailForm = createEmailForm(email);
-
-        // 생성된 인증 코드를 쿠키에 저장
+//        //메일전송에 필요한 정보 설정
+//        MimeMessage emailForm = createEmailForm(email);
+//        // 생성된 인증 코드를 쿠키에 저장
 //        String verificationCode = createCode();
 //        Cookie cookie = new Cookie("verificationCode", verificationCode);
 //        cookie.setMaxAge(5 * 60); // 쿠키의 유효 시간을 5분으로 설정
 //        response.addCookie(cookie);
+//
+//        //실제 메일 전송
+//        emailSender.send(emailForm);
+//
+//        return "정상적으로 보냄"; //인증 코드 반환
+        // 인증 코드 생성
+        String verificationCode = createCode();
 
-        //실제 메일 전송
+        // 메일전송에 필요한 정보 설정
+        MimeMessage emailForm = createEmailForm(email, verificationCode);
+
+        // 생성된 인증 코드를 쿠키에 저장
+        Cookie cookie = new Cookie("verificationCode", verificationCode);
+        cookie.setMaxAge(3 * 60); // 쿠키의 유효 시간을 3분으로 설정
+        response.addCookie(cookie);
+
+        // 실제 메일 전송
         emailSender.send(emailForm);
 
-        return "정상적으로 보냄"; //인증 코드 반환
+        return "정상적으로 보냄"; // 인증 코드 반환
     }
+
 
 }
