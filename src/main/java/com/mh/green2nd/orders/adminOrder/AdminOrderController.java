@@ -22,7 +22,7 @@ public class AdminOrderController {
     private final AdminOrderService adminOrderService;
 
     // 주문 상태 변경
-    @Operation(summary = "주문 상태 변경", description = "접수, 주문승인, 요청, 요리중, 준비완료 중 택1")
+    @Operation(summary = "주문 상태 변경", description = " 주문 요청, 주문 승인, 제조 완료, 수령 완료 중 택1")
     @PutMapping("/{orderId}/state")
     public ResponseEntity<String> updateOrderState(Long orderId, OrderState newState, Authentication authentication) {
         User currentUser = (User) authentication.getPrincipal();

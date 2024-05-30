@@ -76,14 +76,8 @@ public class User {
     @Column(name = "verification_code")
     private String verificationCode;
 
-
     private String refreshToken;
 
-
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "store_id", referencedColumnName = "id")
-    private Store store;
 
 
 //    @OneToMany

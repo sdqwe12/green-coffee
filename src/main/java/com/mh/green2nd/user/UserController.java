@@ -106,7 +106,7 @@ public class UserController {
     @PostMapping("/refresh")
     public ResponseEntity<String> refresh(@RequestBody RefreshTokenRequest refreshTokenRequest) {
         String newAccessToken = userService.validateAndRefresh(refreshTokenRequest.getRefreshToken());
-    return ResponseEntity.ok(newAccessToken);
+        return ResponseEntity.ok(newAccessToken);
     }
 
 
