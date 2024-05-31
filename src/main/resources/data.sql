@@ -1,10 +1,10 @@
 insert into user (email,password,nickname,phone,birthdate,resign,loginstate,role) values
 ('abc@naver.com','abc123!','닉네임','01011111111','000101','N','Y','USER'),
-('aaa@naver.com','abc123!','고죠사토루','01011111111','990101','N','Y','USER'),
-('bbb@naver.com','abc123!','고길동','01011111111','990101','N','Y','USER'),
-('ccc@naver.com','abc123!','프리렌','01011111111','990101','N','Y','USER'),
-('ddd@naver.com','abc123!','토토로','01011111111','990101','N','Y','ADMIN'),
-('eee@naver.com','abc123!','숲튽훈','01011111111','990101','N','Y','SUPERADMIN');
+('aaa@naver.com','abc123!','고죠사토루','01022222222','990101','N','Y','USER'),
+('bbb@naver.com','abc123!','고길동','01033333333','990101','N','Y','USER'),
+('ccc@naver.com','abc123!','프리렌','01044444444','990101','N','Y','USER'),
+('ddd@naver.com','abc123!','토토로','01055555555','990101','N','Y','ADMIN'),
+('eee@naver.com','abc123!','숲튽훈','01066666666','990101','N','Y','SUPERADMIN');
 
 INSERT INTO menu (category, name, menu_ename, menu_price, menu_explain, price_size, price_ice, price_shot, price_cream, menu_imgurl, status, visible, recommend)
 VALUES
