@@ -25,4 +25,5 @@ public class PayRes {
     private Boolean paySuccessYn;
 
 
+
 }

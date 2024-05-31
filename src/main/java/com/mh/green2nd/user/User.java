@@ -1,13 +1,9 @@
 package com.mh.green2nd.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-<<<<<<< HEAD
-import com.mh.green2nd.store.Store;
-=======
 import com.mh.green2nd.orders.Order;
 import com.mh.green2nd.store.Store;
 import com.mh.green2nd.pay.Pay;
->>>>>>> jc
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
@@ -90,20 +86,6 @@ public class User {
 
     private String refreshToken;
 
-<<<<<<< HEAD
-
-
-//    @OneToMany
-//    private List<Order> orderlist;
-//    @OneToMany(mappedBy = "user")
-//    private List<Pay> pay = new ArrayList<>();
-//
-//    public void addPay(PayDto payDto) {
-//        Pay pay = new Pay();
-//        this.pay.add(pay);
-//        pay.setUser(this);
-//    }
-=======
     @OneToMany
     private List<Order> orderlist;
 
@@ -114,6 +96,5 @@ public class User {
         this.pay.add(pay);
         pay.setUser(this);
     }
->>>>>>> jc
 
 }

@@ -44,15 +44,14 @@ public class Pay {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public PayRes toRes() {
+    public PayRes toDto(){
         return PayRes.builder()
                 .payType(payType.name())
                 .amount(amount)
                 .orderId(orderId)
                 .email(email)
                 .customerName(customerName)
-                .createDate(createDate)
-                .paySuccessYn(paySuccessYn.equals("Y"))
+                .createDate(LocalDateTime.now())
                 .build();
     }
 
