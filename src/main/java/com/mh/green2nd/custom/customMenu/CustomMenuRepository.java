@@ -1,4 +1,7 @@
 package com.mh.green2nd.custom.customMenu;
 
-public class CustomMenuRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CustomMenuRepository extends JpaRepository<CustomMenu, Long>{
+
 }
