@@ -1,10 +1,14 @@
 package com.mh.green2nd.store;
 
+import com.mh.green2nd.orders.Order;
 import com.mh.green2nd.user.User;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "store")
@@ -16,7 +20,7 @@ public class Store {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", unique = true, nullable = false)
     private String name;
 
     @Column(name = "address")
@@ -45,5 +49,8 @@ public class Store {
 
     @OneToOne(mappedBy = "store")
     private User user;
+
+    @OneToMany(mappedBy = "store")
+    private List<Order> orders = new ArrayList<>();
 
 }
