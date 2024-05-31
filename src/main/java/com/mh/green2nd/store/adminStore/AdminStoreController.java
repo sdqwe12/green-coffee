@@ -1,6 +1,7 @@
 package com.mh.green2nd.store.adminStore;
 
 import com.mh.green2nd.store.StoreDto;
+import com.mh.green2nd.store.StoreInfo;
 import com.mh.green2nd.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.*;
 public class AdminStoreController {
     private final AdminStoreService adminStoreService;
 
+<<<<<<< HEAD
     // admin는 자신이 속한 매장 조회 가능
     @Operation(summary = "매장 조회", description = "admin은 자신이 속한 매장 조회 가능")
     @GetMapping("/store")
@@ -21,6 +23,16 @@ public class AdminStoreController {
         User currentUser = (User) authentication.getPrincipal();
         return adminStoreService.getStore(currentUser);
     }
+=======
+//    // admin는 자신이 속한 매장 조회 가능
+//    @Operation(summary = "매장 조회", description = "admin은 자신이 속한 매장 조회 가능")
+//    @GetMapping("/store")
+//    public ResponseEntity<StoreInfo> getStoreDetails(Authentication authentication) {
+//        User currentUser = (User) authentication.getPrincipal();
+//        StoreInfo storeInfo = adminStoreService.getStoreInfo(currentUser);
+//        return ResponseEntity.ok(storeInfo);
+//    }
+>>>>>>> jc
 
     // admin만 매장 영업시간 수정 가능
     @Operation(summary = "매장 영업시간 수정", description = "admin만 매장 영업시간 수정 가능, name은 매장 이름(대구점, 서울점, 부산점, 인천점, 대전점)")

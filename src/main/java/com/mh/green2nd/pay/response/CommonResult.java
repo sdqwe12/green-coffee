@@ -1,4 +1,4 @@
-package com.mh.green2nd.tosspay.response;
+package com.mh.green2nd.pay.response;
 
 import lombok.Data;
 

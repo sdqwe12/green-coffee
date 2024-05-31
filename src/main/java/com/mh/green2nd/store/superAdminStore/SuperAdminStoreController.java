@@ -2,6 +2,7 @@ package com.mh.green2nd.store.superAdminStore;
 
 import com.mh.green2nd.store.Store;
 import com.mh.green2nd.store.StoreDto;
+import com.mh.green2nd.store.StoreInfo;
 import com.mh.green2nd.user.User;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;

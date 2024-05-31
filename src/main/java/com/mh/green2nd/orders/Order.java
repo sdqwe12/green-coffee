@@ -34,7 +34,7 @@ public class Order {
             , orphanRemoval = true// 고아객체제거
     )
     private List<OrderMenu> orderItems = new ArrayList<>();
-    private LocalDateTime create_date = LocalDateTime.now();
+    private LocalDateTime create_time = LocalDateTime.now();
 
     @Column(name = "total_order_price")
     private double totalOrderPrice;

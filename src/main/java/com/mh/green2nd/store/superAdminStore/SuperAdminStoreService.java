@@ -2,16 +2,26 @@ package com.mh.green2nd.store.superAdminStore;
 
 import com.mh.green2nd.orders.Order;
 import com.mh.green2nd.orders.OrderRepository;
+<<<<<<< HEAD
 import com.mh.green2nd.store.Store;
 import com.mh.green2nd.store.StoreDto;
 import com.mh.green2nd.store.StoreRepository;
+=======
+import com.mh.green2nd.store.*;
+>>>>>>> jc
 import com.mh.green2nd.user.Role;
 import com.mh.green2nd.user.User;
+import com.mh.green2nd.orders.orderitem.OrderMenu;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD
 import java.math.BigDecimal;
 import java.time.LocalDate;
+=======
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+>>>>>>> jc
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -83,7 +93,11 @@ public class SuperAdminStoreService {
         List<Order> orders = orderRepository.findByStoreName(store.getName());
         Map<LocalDate, Double> salesInfo = orders.stream()
                 .collect(Collectors.groupingBy(
+<<<<<<< HEAD
                         order -> order.getCreate_date().toLocalDate(),
+=======
+                        order -> order.getCreate_time().toLocalDate(),
+>>>>>>> jc
                         Collectors.reducing(
                                 0.0,
                                 Order::getTotalOrderPrice,
@@ -91,7 +105,30 @@ public class SuperAdminStoreService {
                         )
                 ));
 
+<<<<<<< HEAD
         return new StoreInfo(store.getName(), store.getAddress(), store.getPhone(), store.getOpen(), store.getClose(), store.getHoliday(), store.getStatus(), store.getAdminName(), salesInfo);
+=======
+        List<OrderInfo> orderInfos = orders.stream().map(order -> {
+            OrderInfo orderInfo = new OrderInfo();
+            orderInfo.setCustomerName(order.getUser().getNickname());
+            orderInfo.setTotalOrderPrice(order.getTotalOrderPrice());
+            Map<String, Integer> orderedItems = order.getOrderItems().stream()
+                    .collect(Collectors.toMap(
+                            orderMenu -> orderMenu.getMenu().getName(),
+                            OrderMenu::getQuantity,
+                            Integer::sum
+                    ));
+            orderInfo.setOrderedItems(orderedItems);
+            return orderInfo;
+        }).collect(Collectors.toList());
+
+        // Assuming you have a getOrderTime() method in Order class
+        LocalDateTime createTime = orders.get(0).getCreate_time();
+
+        StoreInfo storeInfo = new StoreInfo(store.getName(), store.getAddress(), store.getPhone(), store.getOpen(), store.getClose(), store.getHoliday(), store.getStatus(), store.getAdminName(), salesInfo, createTime);
+        storeInfo.setOrderInfos(orderInfos);
+        return storeInfo;
+>>>>>>> jc
     }
 
 }
