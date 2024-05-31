@@ -57,9 +57,12 @@ mh:
     accessToken: mh1234mh1234mh1234mh1234mh1234mh1234mh1234
     refreshToken: mh1234mh1234mh1234mh1234mh1234mh1234mh1234
 toss:
+  client:
     apikey: test_ck_6BYq7GWPVvvw6bWZz20mVNE5vbo1
     secretkey: test_sk_P9BRQmyarYPORJwq5bL2VJ07KzLN
-    url: https://api.tosspayments.com/v1/payments
+    successUrl: https://api.tosspayments.com/v1/payments/success
+    failUrl: https://api.tosspayments.com/v1/payments/fail
+    OriginUrl: https://api.tosspayments.com/v1/payments
 #kakao:
 #    restapi:
 #      key: 0cf975c17c99981156fd74102e25d6bc

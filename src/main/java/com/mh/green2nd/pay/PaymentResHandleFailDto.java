@@ -1,4 +1,4 @@
-package com.mh.green2nd.tosspay;
+package com.mh.green2nd.pay;
 
 import lombok.Builder;
 import lombok.Data;

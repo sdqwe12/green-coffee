@@ -1,4 +1,4 @@
-package com.mh.green2nd.tosspay;
+package com.mh.green2nd.pay;
 
 
 import lombok.AllArgsConstructor;
@@ -17,12 +17,13 @@ public class PayRes {
     private Long amount;
     private String orderId;
     private String orderName;
-    private String ID;
+    private String email;
     private String customerName;
     private String successUrl;
     private String failUrl;
     private LocalDateTime createDate;
     private Boolean paySuccessYn;
+
 
 
 }

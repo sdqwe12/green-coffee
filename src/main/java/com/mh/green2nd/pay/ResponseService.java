@@ -1,7 +1,7 @@
-package com.mh.green2nd.tosspay;
+package com.mh.green2nd.pay;
 
-import com.mh.green2nd.tosspay.response.CommonResult;
-import com.mh.green2nd.tosspay.response.SingleResult;
+import com.mh.green2nd.pay.response.CommonResult;
+import com.mh.green2nd.pay.response.SingleResult;
 import org.springframework.stereotype.Service;
 
 @Service

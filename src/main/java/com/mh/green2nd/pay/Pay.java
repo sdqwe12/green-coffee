@@ -1,4 +1,4 @@
-package com.mh.green2nd.tosspay;
+package com.mh.green2nd.pay;
 
 import com.mh.green2nd.user.User;
 import jakarta.persistence.*;
@@ -19,10 +19,12 @@ public class Pay {
 
     @Column(nullable = false)
     private Long amount;
+    @Enumerated(EnumType.STRING)
+    private PayType payType;
     @Column(nullable = false)
     private String orderId;
     @Column(nullable = false)
-    private String ID;
+    private String email;
     @Column(nullable = false)
     private String customerName;
     @Column(nullable = false)
@@ -42,14 +44,16 @@ public class Pay {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    public PayRes toRes() {
+    public PayRes toDto(){
         return PayRes.builder()
+                .payType(payType.name())
                 .amount(amount)
                 .orderId(orderId)
-                .ID(ID)
+                .email(email)
                 .customerName(customerName)
-                .createDate(createDate)
-                .paySuccessYn(paySuccessYn.equals("Y"))
+                .createDate(LocalDateTime.now())
                 .build();
     }
+
+
 }
