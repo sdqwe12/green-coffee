@@ -1,6 +1,7 @@
 package com.mh.green2nd.orders;
 
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.mh.green2nd.orders.orderitem.OrderMenu;
 import com.mh.green2nd.store.Store;
 import com.mh.green2nd.user.User;
@@ -34,7 +35,7 @@ public class Order {
             , orphanRemoval = true// 고아객체제거
     )
     private List<OrderMenu> orderItems = new ArrayList<>();
-    private LocalDateTime create_time = LocalDateTime.now();
+    private LocalDateTime createdAt = LocalDateTime.now();
 
     @Column(name = "total_order_price")
     private double totalOrderPrice;
@@ -56,6 +57,7 @@ public class Order {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "store_id")
+    @JsonManagedReference
     private Store store;
 
     @Enumerated(EnumType.STRING)

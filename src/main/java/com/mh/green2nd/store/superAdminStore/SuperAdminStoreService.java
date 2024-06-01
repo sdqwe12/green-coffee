@@ -82,7 +82,7 @@ public class SuperAdminStoreService {
         List<Order> orders = orderRepository.findByStoreName(store.getName());
         Map<LocalDate, Double> salesInfo = orders.stream()
                 .collect(Collectors.groupingBy(
-                        order -> order.getCreate_time().toLocalDate(),
+                        order -> order.getCreatedAt().toLocalDate(),
                         Collectors.reducing(
                                 0.0,
                                 Order::getTotalOrderPrice,
@@ -105,7 +105,7 @@ public class SuperAdminStoreService {
         }).collect(Collectors.toList());
 
         // Assuming you have a getOrderTime() method in Order class
-        LocalDateTime createTime = orders.get(0).getCreate_time();
+        LocalDateTime createTime = orders.get(0).getCreatedAt();
 
         StoreInfo storeInfo = new StoreInfo(store.getName(), store.getAddress(), store.getPhone(), store.getOpen(), store.getClose(), store.getHoliday(), store.getStatus(), store.getAdminName(), salesInfo, createTime);
         storeInfo.setOrderInfos(orderInfos);

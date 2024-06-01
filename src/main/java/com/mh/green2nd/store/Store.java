@@ -1,5 +1,6 @@
 package com.mh.green2nd.store;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.mh.green2nd.orders.Order;
 import com.mh.green2nd.user.User;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -50,7 +51,8 @@ public class Store {
     @OneToOne(mappedBy = "store")
     private User user;
 
-    @OneToMany(mappedBy = "store")
+    @OneToMany(mappedBy = "store", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonBackReference
     private List<Order> orders = new ArrayList<>();
 
 }
