@@ -72,6 +72,14 @@ public class CustomService {
 
     }
 
+//    public void searchToCustom(User principal) {
+//        User customUser = userRepository.findById(user.getUser_id())
+//                .orElseThrow(
+//                        () -> new IllegalArgumentException("해당 사용자가 없습니다."));
+//    }
+
+
+
     /*
 
 

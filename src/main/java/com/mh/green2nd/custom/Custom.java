@@ -1,6 +1,5 @@
 package com.mh.green2nd.custom;
 
-import com.mh.green2nd.cart.cartMenu.CartMenu;
 import com.mh.green2nd.custom.customMenu.CustomMenu;
 import com.mh.green2nd.user.User;
 import io.swagger.v3.oas.annotations.tags.Tag;
