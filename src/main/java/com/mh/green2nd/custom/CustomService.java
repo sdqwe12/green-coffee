@@ -6,6 +6,7 @@ import com.mh.green2nd.cart.cartMenu.CartMenu;
 import com.mh.green2nd.cart.cartMenu.CartMenuRepository;
 import com.mh.green2nd.cart.cartMenu.CartMenuService;
 import com.mh.green2nd.custom.customMenu.CustomMenu;
+import com.mh.green2nd.custom.customMenu.CustomMenuRepository;
 import com.mh.green2nd.jwt.TokenManager;
 import com.mh.green2nd.menu.Menu;
 import com.mh.green2nd.menu.MenuRepository;
@@ -34,6 +35,7 @@ public class CustomService {
     private final CartMenuRepository cartMenuRepository;
     private final CartMenuService cartMenuService;
     private final TokenManager tokenManager;
+    private final CustomMenuRepository customMenuRepository;
 
     public CustomResDto addToCustom(CustomReqDto customReqDto, User user) {
         User customUser = userRepository.findById(user.getUser_id())
@@ -115,9 +117,13 @@ public class CustomService {
 
         // 커스텀 메뉴에서 해당 항목을 삭제합니다.
         custom.getCustomMenusList().remove(customMenu);
+        System.out.println(" 삭제까지 오나? -> 오는거 확인했음");
 
         // 변경된 커스텀 메뉴를 저장합니다.
         customRepository.save(custom);
+
+        customMenuRepository.delete(customMenu);
+//        customRepository.delete(custom);
     }
 
 

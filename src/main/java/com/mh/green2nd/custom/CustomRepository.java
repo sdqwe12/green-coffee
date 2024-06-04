@@ -7,4 +7,6 @@ import java.util.Optional;
 
 public interface CustomRepository extends JpaRepository<Custom, Long> {
     Optional<Custom> findByUser(User customUser);
+
+    void delete(Custom custom);
 }
