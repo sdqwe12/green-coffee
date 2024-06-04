@@ -27,21 +27,33 @@ public class UserService {
     private final JavaMailSender javaMailSender;
     private final TokenManager tokenManager;
 
+//    public User login(String email, String password) {
+//        Optional<User> loginuser = userRepository.findByEmailAndPassword(email, password);
+//        if (loginuser.isEmpty()) {
+//            System.out.println("여기 왔나");
+////            throw new RuntimeException("조건에 맞는 사용자가 없습니다. 이메일과 비밀번호를 확인해주세요.");
+//            throw new UserException(ErrorCode.LOGINFAILED1);
+//        } else if (loginuser.get().getResign().equals(Resign.Y)) {
+//            System.out.println("탈퇴여기 왔나");
+////            throw new RuntimeException(" ʕ •ᴥ•ʔ ━☆ﾟ 이미 탈퇴한 계정입니다. ʕ •ᴥ•ʔ ━☆");
+////            throw new UserException(ErrorCode.LOGINFAILED2);
+//            throw new RuntimeException("이미 탈퇴한 계정입니다. 탈퇴 날짜: " + resignDate);
+//        } else {
+//            return loginuser.get();
+//        }
+//
+//    }
     public User login(String email, String password) {
-        Optional<User> loginuser = userRepository.findByEmailAndPassword(email, password);
-        if (loginuser.isEmpty()) {
-            System.out.println("여기 왔나");
-//            throw new RuntimeException("조건에 맞는 사용자가 없습니다. 이메일과 비밀번호를 확인해주세요.");
-            throw new UserException(ErrorCode.LOGINFAILED1);
-        } else if (loginuser.get().getResign().equals(Resign.Y)) {
-            System.out.println("탈퇴여기 왔나");
-//            throw new RuntimeException(" ʕ •ᴥ•ʔ ━☆ﾟ 이미 탈퇴한 계정입니다. ʕ •ᴥ•ʔ ━☆");
-            throw new UserException(ErrorCode.LOGINFAILED2);
-        } else {
-            return loginuser.get();
-        }
-
+    Optional<User> loginuser = userRepository.findByEmailAndPassword(email, password);
+    if (loginuser.isEmpty()) {
+        throw new UserException(ErrorCode.LOGINFAILED1);
+    } else if (loginuser.get().getResign().equals(Resign.Y)) {
+        LocalDateTime resignDate = loginuser.get().getResignDate();
+        throw new RuntimeException("이미 탈퇴한 계정입니다. 재가입은 한달 뒤에 가능합니다. 탈퇴한 날짜: " + resignDate);
+    } else {
+        return loginuser.get();
     }
+}
 
     public User signup(User user) {
 

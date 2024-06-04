@@ -1,6 +1,8 @@
 package com.mh.green2nd.custom;
 
+import com.mh.green2nd.cart.Cart;
 import com.mh.green2nd.cart.CartRepository;
+import com.mh.green2nd.cart.cartMenu.CartMenu;
 import com.mh.green2nd.cart.cartMenu.CartMenuRepository;
 import com.mh.green2nd.cart.cartMenu.CartMenuService;
 import com.mh.green2nd.custom.customMenu.CustomMenu;
@@ -9,9 +11,15 @@ import com.mh.green2nd.menu.Menu;
 import com.mh.green2nd.menu.MenuRepository;
 import com.mh.green2nd.user.User;
 import com.mh.green2nd.user.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
 
 @Data
 @Service
@@ -72,11 +80,45 @@ public class CustomService {
 
     }
 
-//    public void searchToCustom(User principal) {
-//        User customUser = userRepository.findById(user.getUser_id())
-//                .orElseThrow(
-//                        () -> new IllegalArgumentException("해당 사용자가 없습니다."));
-//    }
+    public List<CustomMenu> searchToCustom(User user) {
+        // 사용자의 이메일로 사용자 정보를 가져옵니다.
+        User customUser = userRepository.findByEmail(user.getEmail());
+
+        // 사용자의 ID를 기반으로 해당 사용자의 장바구니 아이템을 조회합니다.
+        Optional<Custom> optionalCustom = customRepository.findByUser(customUser);
+
+        // 만약 optionalCart가 비어있다면 빈 리스트를 반환합니다.
+        if (optionalCustom.isEmpty()) {
+            return Collections.emptyList();
+        }
+
+        // Optional에서 Cart 객체를 가져옵니다.
+        Custom custom = optionalCustom.get();
+
+        // Cart 객체에서 장바구니 아이템 목록을 가져옵니다.
+        List<CustomMenu> customMenus = custom.getCustomMenus();
+
+        return customMenus;
+    }
+
+    @Transactional
+    public void removeFromCustom(CustomDeleteDto customDeleteDto, User user) {
+        // 현재 인증된 사용자의 커스텀 메뉴를 가져옵니다.
+        Custom custom = customRepository.findByUser(user)
+                .orElseThrow(() -> new EntityNotFoundException("Custom not found for user: " + user.getUser_id()));
+
+        // 커스텀 메뉴에서 해당 항목을 찾습니다.
+        CustomMenu customMenu = custom.getCustomMenusList().stream()
+                .filter(cm -> cm.getMyname().equals(customDeleteDto.getMyname()))
+                .findFirst()
+                .orElseThrow(() -> new EntityNotFoundException("Menu not found in custom: " + customDeleteDto.getMyname()));
+
+        // 커스텀 메뉴에서 해당 항목을 삭제합니다.
+        custom.getCustomMenusList().remove(customMenu);
+
+        // 변경된 커스텀 메뉴를 저장합니다.
+        customRepository.save(custom);
+    }
 
 
 

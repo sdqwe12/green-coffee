@@ -68,10 +68,6 @@ public class UserController {
     })
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody LoginDto loginDto) {
-//        User loginUser = userService.login(loginDto.getEmail(), loginDto.getPassword());
-//        String token = tokenManager.generateToken(loginUser);
-//        loginUser.setToken(token);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(loginUser);
 
         User loginUser = userService.login(loginDto.getEmail(), loginDto.getPassword());
         String token = tokenManager.generateToken(loginUser);
@@ -122,7 +118,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(email);
     }
 
-    @Operation(summary = "비밀번호찾기 입력값 = 폰번호")
+    @Operation(summary = "비밀번호찾기 -> 이메일인증으로")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공하면"),
             @ApiResponse(responseCode = "400", description = "그런 유저가 없을 때")
@@ -154,16 +150,17 @@ public class UserController {
             @ApiResponse(responseCode = "202", description = "회원탈퇴완료 되었을 때 나오는코드"),
             @ApiResponse(responseCode = "400", description = "이메일 못찾은경우")
     })
-    @PutMapping("/resign")
-    public ResponseEntity<String> resgin(@RequestBody User user) {
-        String result = userService.resignuser(user.getEmail());
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(result);
-    }
 //    @PutMapping("/resign")
-//    public ResponseEntity<String> resgin(Authentication authentication){
+//    public ResponseEntity<String> resgin(@RequestBody User user) {
 //        String result = userService.resignuser(user.getEmail());
 //        return ResponseEntity.status(HttpStatus.ACCEPTED).body(result);
 //    }
+    @PutMapping("/resign")
+    public ResponseEntity<String> resgin(Authentication authentication){
+        User user = (User) authentication.getPrincipal();
+        String result = userService.resignuser(user.getEmail());
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(result);
+    }
 
 
     // 비밀번호체크 api

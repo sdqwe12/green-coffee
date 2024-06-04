@@ -1,5 +1,6 @@
 package com.mh.green2nd.custom.customMenu;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mh.green2nd.custom.Custom;
 import com.mh.green2nd.menu.Menu;
@@ -23,10 +24,12 @@ public class CustomMenu {
 
     @ManyToOne
     @JoinColumn(name = "custom_id")
+    @JsonBackReference
     private Custom custom;
 
     @ManyToOne
     @JoinColumn(name = "menu_id")
+    @JsonIgnore
     private Menu menu;
 
     @JsonIgnore
@@ -34,6 +37,9 @@ public class CustomMenu {
     private int quantity;
 
     private String myname;
+    public String getMyname() {
+        return this.myname;
+    }
 
     @Max(2)
     @Min(0)

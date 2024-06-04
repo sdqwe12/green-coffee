@@ -11,6 +11,13 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class ErrorControllerAdvice {
 
+    @ExceptionHandler(JwtGreenException.class)
+    public ResponseEntity<String> jwtError(JwtGreenException e){
+        System.out.println("토큰이 만료");
+        String message = e.getErrorCode().getMessage();
+        return ResponseEntity.status(401).body(message);
+    }
+
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<String> errorPage(RuntimeException e){
         String message = e.getMessage();
