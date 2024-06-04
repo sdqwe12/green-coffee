@@ -11,7 +11,6 @@ import com.mh.green2nd.orders.orderitem.OrderMenuRepository;
 import com.mh.green2nd.orders.orderitem.OrderMenuService;
 import com.mh.green2nd.store.Store;
 import com.mh.green2nd.store.StoreRepository;
-import com.mh.green2nd.user.Role;
 import com.mh.green2nd.user.User;
 import com.mh.green2nd.user.UserRepository;
 import jakarta.transaction.Transactional;
@@ -44,6 +43,8 @@ public class OrderService {
         Order order = new Order();
         order.setUser(dbUser);
         order.setStore(store);
+        order.setState(OrderState.주문요청);
+
         int total = 0;
         for (OrderReqDto orderReqDto : orderReqDtoArray) {
             OrderMenu orderMenu = new OrderMenu();

@@ -1,6 +1,5 @@
 package com.mh.green2nd.orders;
 
-import com.mh.green2nd.cart.CartService;
 import com.mh.green2nd.orders.dto.OrderReqDto;
 import com.mh.green2nd.user.User;
 import io.swagger.v3.oas.annotations.Operation;
@@ -29,7 +28,7 @@ public class OrderController {
     }
 
     // 2. 주문내역 보여주기
-    @Operation(summary = "주문내역 보여주기")
+    @Operation(summary = "주문내역 보여주기", description = "로그인한 user의 주문내역 보여주기")
     @GetMapping("/list")
     public ResponseEntity<List<Order>> orderlist(Authentication authentication) {
         User jwtUser = (User) authentication.getPrincipal();
