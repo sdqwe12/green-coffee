@@ -30,7 +30,7 @@ public class TokenManager {
                 .claim("email", user.getEmail())
                 .claim("role", user.getRole())
 //                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60)) // 한시간
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30)) // 30분
                 .signWith(hmacShaKeyFor(accessToken.getBytes()))
                 .compact();
     }
