@@ -62,8 +62,8 @@ public class CustomController {
     @PostMapping("/add")
     public ResponseEntity<String> addToCustom(@RequestBody CustomReqDto customReqDto, Authentication authentication) {
         User jwtuser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        System.out.println(jwtuser);
-        System.out.println(customReqDto);
+        System.out.println("컨트롤러 jwt 오냐"+jwtuser);
+        System.out.println("컨트롤러 req 오냐" +customReqDto);
         customService.addToCustom(customReqDto, (User) authentication.getPrincipal());
 
         return ResponseEntity.ok("나만의 메뉴에 담겼습니다. 확인해보세요");

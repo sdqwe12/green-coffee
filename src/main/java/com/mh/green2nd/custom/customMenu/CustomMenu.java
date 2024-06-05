@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mh.green2nd.custom.Custom;
 import com.mh.green2nd.menu.Menu;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -40,6 +41,8 @@ public class CustomMenu {
     @Column(columnDefinition = "integer default 1")
     private int quantity;
 
+    @Schema(description = "나만의 메뉴 이름")
+    @Column(nullable = false, length = 20)
     private String myname;
 
     @Max(2)

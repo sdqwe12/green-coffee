@@ -49,13 +49,12 @@ public class CustomService {
         // 사용자의 나만의메뉴 가져오기
         Custom custom = customRepository.findByUser(customUser).orElse(new Custom());
         if (custom.getCustomMenus().isEmpty()) {
-//        if (custom.getCartMenusList().isEmpty()) {
             custom.setUser(customUser);
         }
 
-        // 나만의 메뉴에 이미 존재하는 메뉴인지 확인
+        // 나만의 메뉴에 이미 존재하는 이름인지
         CustomMenu existingCustomMenu = custom.getCustomMenus().stream()
-                .filter(customMenu -> customMenu.getMyname().equals(customReqDto.getMyname()))
+                .filter(customMenu -> customMenu.getMyname() != null && customMenu.getMyname().equals(customReqDto.getMyname()))
                 .findFirst()
                 .orElse(null);
 
@@ -68,6 +67,9 @@ public class CustomService {
             customMenu.setCustom(custom);
             customMenu.setMyname(customReqDto.getMyname());
 
+            // myname 필드의 값을 출력합니다.
+            System.out.println(" 서비스의 myname 오냐: " + customMenu.getMyname());
+
             customMenu.setSize(customReqDto.getSize());
             customMenu.setIce(customReqDto.getIce());
             customMenu.setShot(customReqDto.getShot());
@@ -79,7 +81,6 @@ public class CustomService {
         customRepository.save(custom);
         CustomResDto customResDto = new CustomResDto();
         return customResDto;
-
     }
 
     public List<CustomMenu> searchToCustom(User user) {

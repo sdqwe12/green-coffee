@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 public class CustomReqDto {
     private Long menuId;
+    @Column(nullable = false, length = 20)
     private String myname;
     private int size;
     private int ice;
