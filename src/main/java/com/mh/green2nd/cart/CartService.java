@@ -49,17 +49,19 @@ public class CartService {
 
         // 카트에 이미 존재하는 메뉴인지 확인하고 업데이트 또는 추가
         CartMenu existingCartMenu = cart.getCartMenusList().stream()
-                .filter(cartMenu -> cartMenu.getMenu().equals(menu))
+                .filter(cartMenu -> cartMenu.getMenu().equals(menu)
+                        && cartMenu.getSize() == cartReqDTO.getSize()
+                        && cartMenu.getIce() == cartReqDTO.getIce()
+                        && cartMenu.getShot() == cartReqDTO.getShot()
+                        && cartMenu.getCream() == cartReqDTO.getCream())
                 .findFirst()
                 .orElse(null);
 
         if (existingCartMenu != null) {
-
             existingCartMenu.setQuantity(existingCartMenu.getQuantity() + cartReqDTO.getQuantity());
             // subCartPrice 업데이트
             existingCartMenu.calculateSubCartPrice();
         } else {
-
             CartMenu cartMenu = new CartMenu();
             cartMenu.setMenu(menu);
             cartMenu.setQuantity(cartReqDTO.getQuantity());

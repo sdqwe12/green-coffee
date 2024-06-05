@@ -21,7 +21,7 @@ public class PayRes {
     private String customerName;
     private String successUrl;
     private String failUrl;
-    private LocalDateTime createDate;
+    private LocalDateTime createdAt;
     private Boolean paySuccessYn;
 
 

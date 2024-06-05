@@ -28,7 +28,7 @@ public class PayReq {
                 .email(email)
                 .customerName(customerName)
                 .paySuccessYn("Y")
-                .createDate(LocalDateTime.now())
+                .createdAt(LocalDateTime.now())
                 .build();
     }
 

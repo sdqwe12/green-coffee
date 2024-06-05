@@ -28,7 +28,7 @@ public class Pay {
     @Column(nullable = false)
     private String customerName;
     @Column(nullable = false)
-    private LocalDateTime createDate;
+    private LocalDateTime createdAt;
     @Column(nullable = false)
     private String paySuccessYn;
 
@@ -51,7 +51,7 @@ public class Pay {
                 .orderId(orderId)
                 .email(email)
                 .customerName(customerName)
-                .createDate(LocalDateTime.now())
+                .createdAt(LocalDateTime.now())
                 .build();
     }
 
