@@ -19,7 +19,8 @@ public class AdminOrderController {
 
     private final AdminOrderService adminOrderService;
 
-    @Operation(summary = "매장별 주문상태 조회(주문요청, 주문승인, 제조완료, 수령완료)", description = "대구점, 서울점, 부산점, 인천점, 대전점 중 택1")
+    @Operation(summary = "매장별 주문상태 조회(주문요청, 주문승인, 제조완료, 수령완료)", description = "대구점, 서울점, 부산점, 인천점, 대전점 중 택1. " +
+            "매장별 첫번째 주문 상태 조회")
     @GetMapping("/GetOrderState/{storeName}")
     public ResponseEntity<Order> getFirstCompletedOrderByStoreName(@PathVariable String storeName, Authentication authentication) {
         User currentUser = (User) authentication.getPrincipal();
@@ -27,7 +28,8 @@ public class AdminOrderController {
         return ResponseEntity.ok(order);
     }
 
-    @Operation(summary = "매장별 주문상태(주문요청, 주문승인, 제조완료, 수령완료) 변경", description = "대구점, 서울점, 부산점, 인천점, 대전점 중 택1")
+    @Operation(summary = "매장별 주문상태(주문요청, 주문승인, 제조완료, 수령완료) 변경", description = "대구점, 서울점, 부산점, 인천점, 대전점 중 택1. " +
+            "매장별 첫번째 주문 상태 변경")
     @PutMapping("/ChangeOrderState/{storeName}")
     public ResponseEntity<String> updateFirstCompletedOrderStateByStoreName(@PathVariable String storeName, @RequestBody OrderState newState, Authentication authentication) {
         User currentUser = (User) authentication.getPrincipal();
