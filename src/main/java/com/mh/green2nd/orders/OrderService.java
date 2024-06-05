@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -102,6 +103,14 @@ public class OrderService {
         return totalOrderPrice;
     }
 
+    // 주문내역 간략보기
+    @Transactional
+    public List<String> getOrderSummaries(User jwtUser) {
+        List<Order> orderList = orderRepository.findByUserIdWithUser(jwtUser.getUser_id());
+        return orderList.stream()
+                .map(Order::getOrderItemsSummary)
+                .collect(Collectors.toList());
+    }
 
 
 

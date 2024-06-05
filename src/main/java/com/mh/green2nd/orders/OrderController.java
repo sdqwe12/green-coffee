@@ -10,6 +10,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/orders")
@@ -36,4 +37,15 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK).body(orderList);
     }
 
+    // 3. 주문내역 간략보기
+    @Operation(summary = "주문내역 간략보기", description = "로그인한 user의 주문내역 간략보기")
+    @GetMapping("/summary")
+    public ResponseEntity<List<String>> orderlistSummary(Authentication authentication) {
+        User jwtUser = (User) authentication.getPrincipal();
+        List<Order> orderList = orderService.orderListWithUser(jwtUser);
+        List<String> orderSummaries = orderList.stream()
+                .map(Order::getOrderItemsSummary)
+                .collect(Collectors.toList());
+        return ResponseEntity.status(HttpStatus.OK).body(orderSummaries);
+    }
 }
