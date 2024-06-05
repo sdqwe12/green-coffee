@@ -29,17 +29,18 @@ public class CustomMenu {
 
     @ManyToOne
     @JoinColumn(name = "menu_id")
-    @JsonIgnore
+//    @JsonIgnore
     private Menu menu;
+
+//    public Long getMenuId() {
+//        return this.menu.getId();
+//    }
 
     @JsonIgnore
     @Column(columnDefinition = "integer default 1")
     private int quantity;
 
     private String myname;
-    public String getMyname() {
-        return this.myname;
-    }
 
     @Max(2)
     @Min(0)

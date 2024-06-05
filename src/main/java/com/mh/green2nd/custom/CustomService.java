@@ -41,6 +41,7 @@ public class CustomService {
         User customUser = userRepository.findById(user.getUser_id())
                 .orElseThrow(
                         () -> new IllegalArgumentException("해당 사용자가 없습니다."));
+
         Menu menu = menuRepository.findById(customReqDto.getMenuId())
                 .orElseThrow(
                         () -> new IllegalArgumentException("해당 메뉴가 없습니다."));
@@ -62,7 +63,6 @@ public class CustomService {
         if (existingCustomMenu != null) {
             throw new IllegalArgumentException("이미 같은 이름의 나만의 메뉴가 있습니다. 다른 이름을 사용해주세요.");
         } else {
-
             CustomMenu customMenu = new CustomMenu();
             customMenu.setMenu(menu);
             customMenu.setCustom(custom);

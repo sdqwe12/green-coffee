@@ -9,7 +9,6 @@ import lombok.Data;
 public class CustomReqDto {
     private Long menuId;
     private String myname;
-
     private int size;
     private int ice;
     private int shot;
