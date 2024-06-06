@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.regex.Pattern;
 
 @Service
@@ -26,8 +27,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final JavaMailSender javaMailSender;
     private final TokenManager tokenManager;
+    private final EmailService emailService;
 
-//    public User login(String email, String password) {
+    //    public User login(String email, String password) {
 //        Optional<User> loginuser = userRepository.findByEmailAndPassword(email, password);
 //        if (loginuser.isEmpty()) {
 //            System.out.println("여기 왔나");
@@ -44,16 +46,16 @@ public class UserService {
 //
 //    }
     public User login(String email, String password) {
-    Optional<User> loginuser = userRepository.findByEmailAndPassword(email, password);
-    if (loginuser.isEmpty()) {
-        throw new UserException(ErrorCode.LOGINFAILED1);
-    } else if (loginuser.get().getResign().equals(Resign.Y)) {
-        LocalDateTime resignDate = loginuser.get().getResignDate();
-        throw new RuntimeException("이미 탈퇴한 계정입니다. 재가입은 한달 뒤에 가능합니다. 탈퇴한 날짜: " + resignDate);
-    } else {
-        return loginuser.get();
+        Optional<User> loginuser = userRepository.findByEmailAndPassword(email, password);
+        if (loginuser.isEmpty()) {
+            throw new UserException(ErrorCode.LOGINFAILED1);
+        } else if (loginuser.get().getResign().equals(Resign.Y)) {
+            LocalDateTime resignDate = loginuser.get().getResignDate();
+            throw new RuntimeException("이미 탈퇴한 계정입니다. 재가입은 한달 뒤에 가능합니다. 탈퇴한 날짜: " + resignDate);
+        } else {
+            return loginuser.get();
+        }
     }
-}
 
     public User signup(User user) {
 
@@ -162,7 +164,6 @@ public class UserService {
         User user = userRepository.findByPhone(phone);
 
         if (user == null) {
-//            throw new RuntimeException("입력하신 정보에 맞는 비밀번호가 없습니다.");
             throw new UserException(ErrorCode.NOTFOUNDPHONE);
         }
         user.setPassword("1q2w3e4r!");
@@ -216,19 +217,6 @@ public class UserService {
         userRepository.deleteAll(users);
     }
 
-//    public String sendVerificationEmail(String toEmail) {
-//        // 6자리 난수 생성
-//        String verificationCode = String.format("%06d", (int) (Math.random() * 1000000));
-//
-//        SimpleMailMessage mailMessage = new SimpleMailMessage();
-//        mailMessage.setTo(toEmail);
-//        mailMessage.setSubject("회원가입 인증 코드");
-//        mailMessage.setText("회원가입 인증 코드는 " + verificationCode + " 입니다.");
-//
-//        javaMailSender.send(mailMessage);
-//
-//        return verificationCode;
-//    }
 
     // Refresh Token 저장
     public void saveRefreshToken(Long userId, String refreshToken) {
@@ -237,44 +225,7 @@ public class UserService {
         userRepository.save(user);
     }
 
-    // Refresh Token 검증
-//    public boolean validateRefreshToken(Long userId, String refreshToken) {
-//        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
-//        return user.getRefreshToken().equals(refreshToken);
-//    }
 
-    //    public String validateAndRefresh(String refreshToken) {
-//        User user = userRepository.findByRefreshToken(refreshToken);
-//        System.out.println("User's Refresh Token: " + user.getRefreshToken());
-//        System.out.println("Received Refresh Token: " + refreshToken);
-//        if (user == null) {
-//            throw new RuntimeException("Invalid refresh token.");
-//        }
-//
-//        // 리프레시 토큰이 유효하면 새로운 액세스 토큰을 발행합니다.
-//        return tokenManager.generateToken(user);
-//    }
-//    public String validateAndRefresh(HttpServletRequest request) {
-//    String refreshToken = request.getHeader("Authorization");
-//
-//    // refreshToken이 존재하는지 확인
-//    if (refreshToken == null || !refreshToken.startsWith("Bearer ")) {
-//        throw new RuntimeException("Refresh Token이 없습니다.");
-//    }
-//
-//    refreshToken = refreshToken.substring(7); // "Bearer " 제거
-//
-//    // DB에서 refreshToken 검색 및 검증
-//    User user = userRepository.findByRefreshToken(refreshToken);
-//    if (user == null) {
-//        throw new RuntimeException("Invalid refresh token");
-//    }
-//
-//    // 새로운 액세스 토큰 생성
-//    String newAccessToken = tokenManager.generateToken(user);
-//
-//    return newAccessToken;
-//}
     public String validateAndRefresh(String refreshToken) {
         User user = userRepository.findByRefreshToken(refreshToken);
         if (user == null) {
@@ -284,6 +235,70 @@ public class UserService {
         String newAccessToken = tokenManager.generateToken(user);
         return newAccessToken;
     }
+
+
+//    public String sendVerificationEmailForPasswordReset(String toEmail) {
+//    // 6자리 난수 생성
+//    String verificationCode = String.format("%06d", (int) (Math.random() * 1000000));
+//
+//    SimpleMailMessage mailMessage = new SimpleMailMessage();
+//    mailMessage.setTo(toEmail);
+//    mailMessage.setSubject("비밀번호 재설정 인증 코드");
+//    mailMessage.setText("비밀번호 재설정 인증 코드는 " + verificationCode + " 입니다.");
+//
+//    javaMailSender.send(mailMessage);
+//
+//    return verificationCode;
+//}
+
+//public boolean verifyEmailForPasswordReset(String email, String inputCode) {
+//    User user = userRepository.findByEmail(email);
+//    if (user == null) {
+//        throw new UsernameNotFoundException("User not found with email: " + email);
+//    }
+//
+//    String verificationCode = user.getVerificationCode();
+//    if (verificationCode == null) {
+//        throw new IllegalArgumentException("Verification code is not set for user: " + email);
+//    }
+//
+//    if (verificationCode.equals(inputCode)) {
+//        // 임시 비밀번호로 비밀번호 재설정
+//        String tempPassword = emailService.createCode();
+//        user.setPassword(tempPassword);
+//        userRepository.save(user);
+//        return true;
+//    } else {
+//        return false;
+//    }
+//}
+
+//public void resetPassword(String email, String newPassword) {
+//    User user = userRepository.findByEmail(email);
+//    if (user == null) {
+//        throw new UsernameNotFoundException("User not found with email: " + email);
+//    }
+//    user.setPassword(newPassword);
+//    userRepository.save(user);
+//}
+
+    public String createTempPassword(String email) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new UserException(ErrorCode.NOTFOUNDUSER);
+        }
+
+        // 임시 비밀번호 생성 (예: 8자리 랜덤 문자열)
+        String tempPassword = UUID.randomUUID().toString().substring(0, 8);
+
+        // 임시 비밀번호로 사용자 비밀번호 변경
+        user.setPassword(tempPassword);
+        userRepository.save(user);
+
+        return tempPassword;
+    }
+
+
 
 
 }

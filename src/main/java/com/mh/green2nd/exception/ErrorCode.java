@@ -33,6 +33,7 @@ public enum ErrorCode {
     NOTFOUND(HttpStatus.NOT_FOUND,"NOTFOUND","해당해는 내용이없습니다."),
     TEST(HttpStatus.BAD_GATEWAY,"TEST","TEST입니다."),
     NOTUPDATEEMAIL(HttpStatus.NOT_FOUND,"NOTUPDATE","수정할이메일이없습니다."),
+    NOTFOUNDUSER(HttpStatus.NOT_FOUND,"NOTFOUNDUSER","해당하는 유저가 없습니다."),
 
 
 

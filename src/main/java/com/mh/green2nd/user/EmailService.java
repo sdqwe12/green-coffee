@@ -1,5 +1,7 @@
 package com.mh.green2nd.user;
 
+import com.mh.green2nd.exception.ErrorCode;
+import com.mh.green2nd.exception.UserException;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.servlet.http.Cookie;
@@ -18,6 +20,7 @@ import java.util.Random;
 public class EmailService {
 
     private final JavaMailSender emailSender;
+    private final UserRepository userRepository;
 
     @Value("${spring.mail.username}")
     private String setFrom;    // 보내는 사람
@@ -90,18 +93,6 @@ public class EmailService {
     //실제 메일 전송
     public String sendEmail(String email, HttpServletResponse response) throws MessagingException, UnsupportedEncodingException {
 
-//        //메일전송에 필요한 정보 설정
-//        MimeMessage emailForm = createEmailForm(email);
-//        // 생성된 인증 코드를 쿠키에 저장
-//        String verificationCode = createCode();
-//        Cookie cookie = new Cookie("verificationCode", verificationCode);
-//        cookie.setMaxAge(5 * 60); // 쿠키의 유효 시간을 5분으로 설정
-//        response.addCookie(cookie);
-//
-//        //실제 메일 전송
-//        emailSender.send(emailForm);
-//
-//        return "정상적으로 보냄"; //인증 코드 반환
         // 인증 코드 생성
         String verificationCode = createCode();
 
@@ -118,6 +109,30 @@ public class EmailService {
 
         return "정상적으로 보냄"; // 인증 코드 반환
     }
+
+    public String sendEmail2(String email, HttpServletResponse response) throws MessagingException, UnsupportedEncodingException {
+    // 이메일이 데이터베이스에 존재하는지 확인
+    User user = userRepository.findByEmail(email);
+    if (user == null) {
+        throw new UserException(ErrorCode.NOTFOUNDUSER);
+    }
+
+    // 인증 코드 생성
+    String verificationCode = createCode();
+
+    // 메일전송에 필요한 정보 설정
+    MimeMessage emailForm = createEmailForm(email, verificationCode);
+
+    // 생성된 인증 코드를 쿠키에 저장
+    Cookie cookie = new Cookie("verificationCode", verificationCode);
+    cookie.setMaxAge(3 * 60); // 쿠키의 유효 시간을 3분으로 설정
+    response.addCookie(cookie);
+
+    // 실제 메일 전송
+    emailSender.send(emailForm);
+
+    return "정상적으로 보냄"; // 인증 코드 반환
+}
 
 
 }

@@ -104,6 +104,8 @@ public class CustomService {
         return customMenus;
     }
 
+
+
     @Transactional
     public void removeFromCustom(CustomDeleteDto customDeleteDto, User user) {
         // 현재 인증된 사용자의 커스텀 메뉴를 가져옵니다.
@@ -112,19 +114,16 @@ public class CustomService {
 
         // 커스텀 메뉴에서 해당 항목을 찾습니다.
         CustomMenu customMenu = custom.getCustomMenusList().stream()
-                .filter(cm -> cm.getMyname().equals(customDeleteDto.getMyname()))
+                .filter(cm -> cm.getMyname() != null && cm.getMyname().equals(customDeleteDto.getMyname()))
                 .findFirst()
                 .orElseThrow(() -> new EntityNotFoundException("Menu not found in custom: " + customDeleteDto.getMyname()));
 
+        // myname 필드의 값을 출력합니다.
+        System.out.println("myname: " + customMenu.getMyname());
+
         // 커스텀 메뉴에서 해당 항목을 삭제합니다.
         custom.getCustomMenusList().remove(customMenu);
-        System.out.println(" 삭제까지 오나? -> 오는거 확인했음");
-
-        // 변경된 커스텀 메뉴를 저장합니다.
-        customRepository.save(custom);
-
         customMenuRepository.delete(customMenu);
-//        customRepository.delete(custom);
     }
 
 
