@@ -44,7 +44,7 @@ public class OrderService {
         Order order = new Order();
         order.setUser(dbUser);
         order.setStore(store);
-        order.setState(OrderState.ORDER_REQUEST);
+        order.setState(OrderState.주문요청);
 
         int total = 0;
         for (OrderReqDto orderReqDto : orderReqDtoArray) {
