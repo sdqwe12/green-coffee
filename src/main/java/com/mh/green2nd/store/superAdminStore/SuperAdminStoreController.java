@@ -28,7 +28,7 @@ public class SuperAdminStoreController {
     }
 
     //superadmin만 매장 정보 수정 가능
-    @Operation(summary = "매장 정보 수정", description = "superadmin만 매장 정보 수정 가능, name은 매장 이름(대구점, 서울점, 부산점, 인천점, 대전점)")
+    @Operation(summary = "매장 정보 수정", description = "superadmin만 매장 정보 수정 가능, name은 매장 이름(중앙로점, 종로점, 범어점, 경대점, 두류점)")
     @PatchMapping("/{name}/update")
     public ResponseEntity<String> updateStore(Authentication authentication, @PathVariable String name, @RequestBody SuperAdminStoreUpdateDto superAdminStoreUpdateDto) {
         User currentUser = (User) authentication.getPrincipal();
@@ -46,7 +46,7 @@ public class SuperAdminStoreController {
     }
 
     // Superadmin만 매장 상세 정보 조회 가능
-    @Operation(summary = "매장 상세 정보 조회", description = "superadmin만 매장 상세 정보 조회 가능, name은 매장 이름(대구점, 서울점, 부산점, 인천점, 대전점)")
+    @Operation(summary = "매장 상세 정보 조회", description = "superadmin만 매장 상세 정보 조회 가능, name은 매장 이름(중앙로점, 종로점, 범어점, 경대점, 두류점)")
     @GetMapping("/storeDetails/{name}")
     public ResponseEntity<StoreInfo> getStoreDetails(Authentication authentication, @PathVariable String name) {
         User currentUser = (User) authentication.getPrincipal();
