@@ -31,6 +31,7 @@ public class JasyptConfigTest extends JasyptConfig {
 
     @Test
     public void jasypt_encrypt_decrypt_test() {
+        // 암호할 비밀번호 applcation.yml 에서 가져오기
         String encryptKey = System.getProperty("jasypt.encryptor.password");
 
         String plainText = "plainText";

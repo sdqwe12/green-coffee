@@ -20,8 +20,7 @@ public enum ErrorCode {
     //찾기
     NOTFOUNDPHONE(HttpStatus.UNAUTHORIZED,"NOTFOUNDPHONE","해당 핸드폰번호를 가진 회원이 없습니다."),
     // 회원가입 이메일 인증
-//    MAILSENDFAILED(HttpStatus.UNAUTHORIZED,"MAILSENDFAILED","메일 인증 하는거 실패"),
-
+    //    MAILSENDFAILED(HttpStatus.UNAUTHORIZED,"MAILSENDFAILED","메일 인증 하는거 실패"),
      //
     TOKENEXPIRED(HttpStatus.UNAUTHORIZED, "TOKENEXPIRED", "JWT 토큰 만료 여기까지는 오나"),
 

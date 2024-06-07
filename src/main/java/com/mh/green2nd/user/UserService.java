@@ -51,7 +51,8 @@ public class UserService {
             throw new UserException(ErrorCode.LOGINFAILED1);
         } else if (loginuser.get().getResign().equals(Resign.Y)) {
             LocalDateTime resignDate = loginuser.get().getResignDate();
-            throw new RuntimeException("이미 탈퇴한 계정입니다. 재가입은 한달 뒤에 가능합니다. 탈퇴한 날짜: " + resignDate);
+            String formattedResignDate = resignDate.toLocalDate().toString(); // 날짜 형식 변경
+            throw new RuntimeException("이미 탈퇴한 계정입니다. 재가입은 한달 뒤에 가능합니다. 탈퇴한 날짜: " + formattedResignDate);
         } else {
             return loginuser.get();
         }
@@ -297,8 +298,6 @@ public class UserService {
 
         return tempPassword;
     }
-
-
 
 
 }
