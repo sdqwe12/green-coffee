@@ -8,7 +8,6 @@ import com.mh.green2nd.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +62,18 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderState state;
 
+    public String getOrderItemsSummary() {
+        if (orderItems.isEmpty()) {
+            return "No items ordered";
+        }
+
+        OrderMenu firstItem = orderItems.get(0);
+        if (orderItems.size() == 1) {
+            return firstItem.getMenu().getName();
+        }
+
+        return firstItem.getMenu().getName() + " 외 " + (orderItems.size() - 1) + "건";
+    }
 
 
 }

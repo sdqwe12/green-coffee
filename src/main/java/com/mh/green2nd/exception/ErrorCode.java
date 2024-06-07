@@ -21,6 +21,10 @@ public enum ErrorCode {
     NOTFOUNDPHONE(HttpStatus.UNAUTHORIZED,"NOTFOUNDPHONE","해당 핸드폰번호를 가진 회원이 없습니다."),
     // 회원가입 이메일 인증
 //    MAILSENDFAILED(HttpStatus.UNAUTHORIZED,"MAILSENDFAILED","메일 인증 하는거 실패"),
+
+     //
+    TOKENEXPIRED(HttpStatus.UNAUTHORIZED, "TOKENEXPIRED", "JWT 토큰 만료 여기까지는 오나"),
+
     NOTMAIL(HttpStatus.UNAUTHORIZED,"NOTMAIL","유효한 코드가 없습니다 코드의 유효시간은 1분입니다."),
     NOEQULMAIL(HttpStatus.UNAUTHORIZED,"NOEQULMAIL","코드가 일치하지 않습니다."),
     VERIFYMAIL(HttpStatus.UNAUTHORIZED,"VERIFYMAIL","코드가 일치하는 것을 확인했습니다"),
@@ -29,6 +33,9 @@ public enum ErrorCode {
     NOTFOUND(HttpStatus.NOT_FOUND,"NOTFOUND","해당해는 내용이없습니다."),
     TEST(HttpStatus.BAD_GATEWAY,"TEST","TEST입니다."),
     NOTUPDATEEMAIL(HttpStatus.NOT_FOUND,"NOTUPDATE","수정할이메일이없습니다."),
+    NOTFOUNDUSER(HttpStatus.NOT_FOUND,"NOTFOUNDUSER","해당하는 유저가 없습니다."),
+
+
 
     ;
 

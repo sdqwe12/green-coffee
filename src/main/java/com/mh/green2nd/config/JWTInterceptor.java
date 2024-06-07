@@ -1,11 +1,14 @@
 package com.mh.green2nd.config;
 
+import com.mh.green2nd.exception.ErrorCode;
+import com.mh.green2nd.exception.JwtGreenException;
 import com.mh.green2nd.jwt.TokenManager;
 import com.mh.green2nd.user.Role;
 import com.mh.green2nd.user.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jws;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -64,11 +67,11 @@ public class JWTInterceptor implements HandlerInterceptor {
                 SecurityContextHolder.getContext().setAuthentication(authentication);
             } catch (ExpiredJwtException e) {
                 System.out.println("토큰 만료");
-                throw new RuntimeException("JWT 토큰 만료");
+                throw new JwtGreenException(ErrorCode.TOKENEXPIRED);
             } catch (Exception e) {
                 System.out.println("토큰 검증 실패");
                 e.printStackTrace();
-                throw new RuntimeException("JWT 토큰 검증 실패");
+                throw new JwtGreenException(ErrorCode.TOKENEXPIRED);
             }
             return true;
         }

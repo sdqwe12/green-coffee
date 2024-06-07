@@ -41,6 +41,7 @@ public class OrderMenu {
         this.subPrice = (menuPrice + optionPrice) * quantity;
     }
 
+    private int size;
     private int ice;
     private int shot;
     private int cream;

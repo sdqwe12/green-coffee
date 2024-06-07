@@ -11,7 +11,6 @@ import com.mh.green2nd.orders.orderitem.OrderMenuRepository;
 import com.mh.green2nd.orders.orderitem.OrderMenuService;
 import com.mh.green2nd.store.Store;
 import com.mh.green2nd.store.StoreRepository;
-import com.mh.green2nd.user.Role;
 import com.mh.green2nd.user.User;
 import com.mh.green2nd.user.UserRepository;
 import jakarta.transaction.Transactional;
@@ -20,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -44,7 +44,7 @@ public class OrderService {
         Order order = new Order();
         order.setUser(dbUser);
         order.setStore(store);
-        order.setState(OrderState.주문요청);
+        order.setState(OrderState.ORDER_REQUEST);
 
         int total = 0;
         for (OrderReqDto orderReqDto : orderReqDtoArray) {
@@ -58,11 +58,13 @@ public class OrderService {
             orderMenu.setMenu(menu);
             orderMenu.setQuantity(orderReqDto.getQuantity());
 
+            orderMenu.setSize(orderReqDto.getSize());
             orderMenu.setIce(orderReqDto.getIce());
             orderMenu.setShot(orderReqDto.getShot());
             orderMenu.setCream(orderReqDto.getCream());
 
-            double extraPrice = orderReqDto.getShot() * menu.getPrice_shot() +
+            double extraPrice = orderReqDto.getSize()* menu.getPrice_size() +
+                    orderReqDto.getShot() * menu.getPrice_shot() +
                     orderReqDto.getCream() * menu.getPrice_cream();
             total += (extraPrice + menu.getMenu_price()) * orderReqDto.getQuantity();
 
@@ -101,6 +103,14 @@ public class OrderService {
         return totalOrderPrice;
     }
 
+    // 주문내역 간략보기
+    @Transactional
+    public List<String> getOrderSummaries(User jwtUser) {
+        List<Order> orderList = orderRepository.findByUserIdWithUser(jwtUser.getUser_id());
+        return orderList.stream()
+                .map(Order::getOrderItemsSummary)
+                .collect(Collectors.toList());
+    }
 
 
 

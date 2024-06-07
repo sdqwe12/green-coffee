@@ -29,7 +29,8 @@ public class TokenManager {
                 .claim("nickname", user.getNickname())
                 .claim("email", user.getEmail())
                 .claim("role", user.getRole())
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30)) // 1 minute
+//                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 30)) // 30분
                 .signWith(hmacShaKeyFor(accessToken.getBytes()))
                 .compact();
     }

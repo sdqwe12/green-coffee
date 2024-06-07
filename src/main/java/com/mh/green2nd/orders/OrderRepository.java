@@ -1,7 +1,6 @@
 package com.mh.green2nd.orders;
 
 import com.mh.green2nd.store.Store;
-import com.mh.green2nd.user.User;
 import feign.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

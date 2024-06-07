@@ -17,12 +17,12 @@ import java.util.Arrays;
 
 @OpenAPIDefinition(
         info = @Info(title = "그린컴2차 그린커피 프로젝트",
-                description = " :･ﾟ✧(=✪ ᆺ ✪=)*:･ﾟ✧ 마지막으로 수정한 날짜20240522 14:35 ♡(ᐢ ᴥ ᐢし)",
+                description = " :･ﾟ✧(=✪ ᆺ ✪=)*:･ﾟ✧ 마지막으로 수정한 날짜20240606 11:35 ♡(ᐢ ᴥ ᐢし)",
                 version = "v6.5.2"
         )
 
-//       ,
-//        servers = {@Server(url = "https://back.green-coffee.shop", description = "Default Server URL")}
+       ,
+        servers = {@Server(url = "https://back.green-coffee.shop", description = "Default Server URL")}
 
 
 )

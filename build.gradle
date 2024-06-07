@@ -58,6 +58,8 @@ dependencies {
 
 //    implementation 'com.kakao.sdk:v2-user:2.8.0' // 카카오 SDK
 
+    implementation group: 'com.github.ulisesbocchio', name: 'jasypt-spring-boot-starter', version: '3.0.5'
+
 
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
@@ -76,4 +78,10 @@ dependencyManagement {
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+//systemProperty "jasypt.encryptor.password", System.getProperties().get("jasypt.encryptor.password")
+
+test {
+    useJUnitPlatform()
+    systemProperty "jasypt.encryptor.password", System.getProperty("jasypt.encryptor.password")
 }

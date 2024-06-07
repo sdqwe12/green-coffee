@@ -68,10 +68,6 @@ public class UserController {
     })
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody LoginDto loginDto) {
-//        User loginUser = userService.login(loginDto.getEmail(), loginDto.getPassword());
-//        String token = tokenManager.generateToken(loginUser);
-//        loginUser.setToken(token);
-//        return ResponseEntity.status(HttpStatus.CREATED).body(loginUser);
 
         User loginUser = userService.login(loginDto.getEmail(), loginDto.getPassword());
         String token = tokenManager.generateToken(loginUser);
@@ -122,16 +118,71 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(email);
     }
 
-    @Operation(summary = "비밀번호찾기 입력값 = 폰번호")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "성공하면"),
-            @ApiResponse(responseCode = "400", description = "그런 유저가 없을 때")
-    })
-    @PostMapping("/findpw")
-    public ResponseEntity<String> findfw(@RequestBody FindPwDto findPwDto) {
-        String password = userService.findpw(findPwDto.getPhone());
+//    @Operation(summary = "비밀번호찾기 -> 이메일인증으로")
+//    @ApiResponses({
+//            @ApiResponse(responseCode = "200", description = "성공하면"),
+//            @ApiResponse(responseCode = "400", description = "그런 유저가 없을 때")
+//    })
+//    @PostMapping("/findpw")
+//    public ResponseEntity<String> findfw(@RequestBody FindPwDto findPwDto) {
+//        String password = userService.findpw(findPwDto.getPhone());
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(password);
+//    }
+//    @PostMapping("/findpw")
+//    public ResponseEntity<String> findPassword(@RequestBody VerificationDto verificationDto) {
+//        boolean isVerified = userService.verifyEmailForPasswordReset(verificationDto.getEmail(), verificationDto.getCode());
+//        if (isVerified) {
+//            userService.resetPassword(verificationDto.getEmail(), verificationDto.getNewPassword());
+//            return ResponseEntity.ok("비밀번호가 성공적으로 재설정되었습니다.");
+//        } else {
+//            return ResponseEntity.badRequest().body("인증 코드가 잘못되었습니다. 다시 시도해주세요.");
+//        }
+//    }
 
-        return ResponseEntity.status(HttpStatus.OK).body(password);
+    @Operation(summary = "비밀번호 찾기", description = "이메일을 입력받아 인증 코드를 전송하고, 인증 코드를 검증한 후 임시 비밀번호를 발급합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "인증 코드 전송 성공"),
+            @ApiResponse(responseCode = "400", description = "인증 코드 전송 실패")
+    })
+    @PostMapping("/findPassword")
+    public ResponseEntity<String> findPassword(@RequestBody EmailCheckReq emailCheckReq, HttpServletResponse response) {
+        try {
+            // 이메일 인증 코드 전송
+            emailService.sendEmail2(emailCheckReq.getEmail(), response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("해당 이메일로 가입한 회원이 없습니다.");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("인증 코드가 이메일로 전송되었습니다.");
+    }
+
+    @Operation(summary = " 비밀번호 찾을 때 인증 코드 검증", description = "이메일로 받은 인증 코드를 검증하고, 인증 코드가 일치하면 임시 비밀번호를 발급합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "인증 코드 검증 성공 및 임시 비밀번호 발급"),
+            @ApiResponse(responseCode = "400", description = "인증 코드 검증 실패")
+    })
+    @PostMapping("/verifyCodeForPassword")
+    public ResponseEntity<String> verifyCodeForPasswordReset(@RequestBody VerificationDto verificationDto, HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        String verificationCode = null;
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("verificationCode")) {
+                    verificationCode = cookie.getValue();
+                    break;
+                }
+            }
+        }
+
+        if (verificationCode == null || !verificationCode.equals(verificationDto.getCode())) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("인증 코드가 일치하지 않습니다.");
+        } else {
+            // 임시 비밀번호 생성
+            String tempPassword = userService.createTempPassword(verificationDto.getEmail());
+            return ResponseEntity.status(HttpStatus.OK).body("인증 코드가 확인되었습니다. 임시 비밀번호: " + tempPassword);
+        }
     }
 
 
@@ -149,21 +200,22 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(updatedUser);
     }
 
-    @Operation(summary = "회원탈퇴 입력값 \"email\": \"aaa@naver.com\"", description = "회원정보 삭제하지 않고 탈퇴여부만 N에서 Y로 변경")
+    @Operation(summary = "회원탈퇴 입력값 없음", description = "회원정보 삭제하지 않고 탈퇴여부만 N에서 Y로 변경 탈퇴한 날짜 저장해서 탈퇴한 아이디로 로그인하면 탈퇴한 날짜 보여줌")
     @ApiResponses({
             @ApiResponse(responseCode = "202", description = "회원탈퇴완료 되었을 때 나오는코드"),
             @ApiResponse(responseCode = "400", description = "이메일 못찾은경우")
     })
-    @PutMapping("/resign")
-    public ResponseEntity<String> resgin(@RequestBody User user) {
-        String result = userService.resignuser(user.getEmail());
-        return ResponseEntity.status(HttpStatus.ACCEPTED).body(result);
-    }
 //    @PutMapping("/resign")
-//    public ResponseEntity<String> resgin(Authentication authentication){
+//    public ResponseEntity<String> resgin(@RequestBody User user) {
 //        String result = userService.resignuser(user.getEmail());
 //        return ResponseEntity.status(HttpStatus.ACCEPTED).body(result);
 //    }
+    @PutMapping("/resign")
+    public ResponseEntity<String> resgin(Authentication authentication) {
+        User user = (User) authentication.getPrincipal();
+        String result = userService.resignuser(user.getEmail());
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(result);
+    }
 
 
     // 비밀번호체크 api
@@ -181,6 +233,7 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
+
     //logout api
     @Operation(summary = "로그아웃", description = "로그아웃할 때는 토큰을 가지고 있어야함")
     @ApiResponses({
@@ -196,7 +249,7 @@ public class UserController {
 
     //------------------------------------------------------------------------------------------------
     @ResponseBody
-    @Operation(summary = "이메일 인증코드 전송", description = "이메일 인증코드 전송")
+    @Operation(summary = "회원가입할 때 이메일 인증코드 전송", description = "이메일 인증코드 전송")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "정상적으로 보냈을 때"),
             @ApiResponse(responseCode = "500", description = "메일 보내기 실패했을 경우")
@@ -214,7 +267,7 @@ public class UserController {
     }
 //-----------------------------------------------------------------------------------------------
 
-    @Operation(summary = "이메일 인증코드 확인", description = "이메일 인증코드 확인")
+    @Operation(summary = "회원가입할 때 이메일 인증코드 확인", description = "이메일 인증코드 확인")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "인증 코드가 일치할 때"),
             @ApiResponse(responseCode = "400", description = "인증 코드가 일치하지 않을 때")
