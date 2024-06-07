@@ -9,6 +9,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -31,14 +32,21 @@ public class CustomController {
             @ApiResponse(responseCode = "200", description = "정상 작동"),
             @ApiResponse(responseCode = "500", description = "오류 발생")
     })
+//    @GetMapping("/search")
+//    public ResponseEntity<List<CustomMenu>> searchToCustom(Authentication authentication) {
+//        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        List<CustomMenu> customMenus = customService.searchToCustom(user);
+//
+//        return ResponseEntity.status(HttpStatus.OK).body(customMenus);
+//
+////        return ResponseEntity.ok("조회");
+//    }
+
     @GetMapping("/search")
-    public ResponseEntity<List<CustomMenu>> searchToCustom(Authentication authentication) {
+    public ResponseEntity<org.springframework.data.domain.Page<CustomMenu>> searchToCustom(@RequestParam int page, @RequestParam int size, Authentication authentication) {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<CustomMenu> customMenus = customService.searchToCustom(user);
-
-        return ResponseEntity.status(HttpStatus.OK).body(customMenus);
-
-//        return ResponseEntity.ok("조회");
+        Page<CustomMenu> result = customService.searchToCustom(user, page, size);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
 

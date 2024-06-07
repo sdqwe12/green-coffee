@@ -49,9 +49,14 @@ spring:
   sql:
     init:
       mode: always
+#jasypt:
+#  encryptor:
+#    password: mh1234
 jasypt:
   encryptor:
-    password: mh1234
+#    bean: jasyptEncryptor
+    bean: jasyptStringEncryptor
+    password: ${ENCRYPT_KEY}
 mh:
   jwt:
     accessToken: mh1234mh1234mh1234mh1234mh1234mh1234mh1234

@@ -22,6 +22,11 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
+
 @Data
 @Service
 @RequiredArgsConstructor
@@ -36,6 +41,7 @@ public class CustomService {
     private final CartMenuService cartMenuService;
     private final TokenManager tokenManager;
     private final CustomMenuRepository customMenuRepository;
+
 
     public CustomResDto addToCustom(CustomReqDto customReqDto, User user) {
         User customUser = userRepository.findById(user.getUser_id())
@@ -83,26 +89,31 @@ public class CustomService {
         return customResDto;
     }
 
-    public List<CustomMenu> searchToCustom(User user) {
-        // 사용자의 이메일로 사용자 정보를 가져옵니다.
-        User customUser = userRepository.findByEmail(user.getEmail());
+//    public List<CustomMenu> searchToCustom(User user) {
+//        // 사용자의 이메일로 사용자 정보를 가져옵니다.
+//        User customUser = userRepository.findByEmail(user.getEmail());
+//
+//        // 사용자의 ID를 기반으로 해당 사용자의 장바구니 아이템을 조회합니다.
+//        Optional<Custom> optionalCustom = customRepository.findByUser(customUser);
+//
+//        // 만약 optionalCart가 비어있다면 빈 리스트를 반환합니다.
+//        if (optionalCustom.isEmpty()) {
+//            return Collections.emptyList();
+//        }
+//
+//        // Optional에서 Cart 객체를 가져옵니다.
+//        Custom custom = optionalCustom.get();
+//
+//        // Cart 객체에서 장바구니 아이템 목록을 가져옵니다.
+//        List<CustomMenu> customMenus = custom.getCustomMenus();
+//
+//        return customMenus;
+//    }
 
-        // 사용자의 ID를 기반으로 해당 사용자의 장바구니 아이템을 조회합니다.
-        Optional<Custom> optionalCustom = customRepository.findByUser(customUser);
-
-        // 만약 optionalCart가 비어있다면 빈 리스트를 반환합니다.
-        if (optionalCustom.isEmpty()) {
-            return Collections.emptyList();
-        }
-
-        // Optional에서 Cart 객체를 가져옵니다.
-        Custom custom = optionalCustom.get();
-
-        // Cart 객체에서 장바구니 아이템 목록을 가져옵니다.
-        List<CustomMenu> customMenus = custom.getCustomMenus();
-
-        return customMenus;
-    }
+    public Page<CustomMenu> searchToCustom(User user, int page, int size) {
+    Pageable pageable = PageRequest.of(page, size);
+    return customMenuRepository.findByCustom_User(user, pageable);
+}
 
 
 
