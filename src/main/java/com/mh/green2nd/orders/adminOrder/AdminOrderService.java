@@ -30,7 +30,7 @@ public class AdminOrderService {
         Store store = storeRepository.findByName(storeName)
                 .orElseThrow(() -> new RuntimeException("Store not found"));
 
-        return orderRepository.findFirstByStoreAndStateOrderByCreatedAtAsc(store, OrderState.주문요청)
+        return orderRepository.findFirstByStoreAndStateOrderByCreatedAtAsc(store, OrderState.ORDER_REQUEST)
                 .orElseThrow(() -> new RuntimeException("No completed orders found for this store"));
     }
 
