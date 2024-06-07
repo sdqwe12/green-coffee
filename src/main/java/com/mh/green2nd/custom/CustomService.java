@@ -111,10 +111,9 @@ public class CustomService {
 //    }
 
     public Page<CustomMenu> searchToCustom(User user, int page, int size) {
-    Pageable pageable = PageRequest.of(page, size);
-    return customMenuRepository.findByCustom_User(user, pageable);
-}
-
+        Pageable pageable = PageRequest.of(page, size);
+        return customMenuRepository.findByCustom_User(user, pageable);
+    }
 
 
     @Transactional
